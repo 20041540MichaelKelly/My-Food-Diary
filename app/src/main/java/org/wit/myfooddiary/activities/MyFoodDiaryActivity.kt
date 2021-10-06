@@ -4,25 +4,30 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.google.android.material.snackbar.Snackbar
 import org.wit.myfooddiary.databinding.ActivityMyfooddiaryBinding
-import timber.log.Timber
+import org.wit.myfooddiary.main.MainApp
+import org.wit.myfooddiary.models.FoodModel
 import timber.log.Timber.i
 
 class MyFoodDiaryActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMyfooddiaryBinding
+    var foodItem = FoodModel()
+    lateinit var app : MainApp
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(binding.root)
-
-        Timber.plant(Timber.DebugTree())
-
-        Timber.i("Placemark Activity started..")
         binding = ActivityMyfooddiaryBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        app = application as MainApp
+        i("Placemark Activity started...")
         binding.btnAdd.setOnClickListener() {
-            val placemarkTitle = binding.placemarkTitle.text.toString()
-            if (placemarkTitle.isNotEmpty()) {
-                i("add Button Pressed: $placemarkTitle")
+            foodItem.title = binding.foodTitle.text.toString()
+            foodItem.description = binding.description.text.toString()
+            if (foodItem.title.isNotEmpty()) {
+                app.foodItems.add(foodItem.copy())
+                i("add Button Pressed: ${foodItem}")
+                for (i in app.foodItems.indices)
+                { i("FoodItem[$i]:${this.app.foodItems[i]}") }
             }
             else {
                 Snackbar
