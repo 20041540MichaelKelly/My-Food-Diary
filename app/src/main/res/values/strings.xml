@@ -3,4 +3,6 @@
     <string name="button_addFood">Add Food</string>
     <string name="hint_foodTitle">Food Title</string>
     <string name="hint_foodDescription">Description </string>
+    <string name="menu_addFoodItem">Add</string>
+    <string name="menu_cancelFoodItem">Cancel</string>
 </resources>
