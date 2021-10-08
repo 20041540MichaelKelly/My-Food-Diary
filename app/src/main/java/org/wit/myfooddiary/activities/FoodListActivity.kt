@@ -29,7 +29,7 @@ class FoodListActivity : AppCompatActivity(), FoodItemListener {
 
         val layoutManager = LinearLayoutManager(this)
         binding.recyclerView.layoutManager = layoutManager
-        binding.recyclerView.adapter = MyFoodDiaryAdapter(app.foodItems.findAll())
+        binding.recyclerView.adapter = MyFoodDiaryAdapter(app.foodItems.findAll(),this)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -49,6 +49,12 @@ class FoodListActivity : AppCompatActivity(), FoodItemListener {
 
     override fun onFoodItemClick(foodItem: FoodModel) {
         val launcherIntent = Intent(this, MyFoodDiaryActivity::class.java)
+        launcherIntent.putExtra("fooditem_edit", foodItem)
         startActivityForResult(launcherIntent,0)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        binding.recyclerView.adapter?.notifyDataSetChanged()
+        super.onActivityResult(requestCode, resultCode, data)
     }
 }

@@ -5,4 +5,8 @@
     <string name="hint_foodDescription">Description </string>
     <string name="menu_addFoodItem">Add</string>
     <string name="menu_cancelFoodItem">Cancel</string>
+    <string name="enter_fooditem_title"> Please enter a Food Item Title </string>
+    <string name="save_fooditem"> Save Food Item </string>
+    <string name="button_addImage"> Add Image </string>
+    <string name="select_fooditem_image">Select food item image</string>
 </resources>

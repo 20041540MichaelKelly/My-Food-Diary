@@ -10,7 +10,8 @@ interface FoodItemListener {
     fun onFoodItemClick(foodItem: FoodModel)
 }
 
-class MyFoodDiaryAdapter constructor(private var foodItems: List<FoodModel>, private val listener: FoodItemListener) :
+class MyFoodDiaryAdapter constructor(private var foodItems: List<FoodModel>,
+                                     private val listener: FoodItemListener) :
     RecyclerView.Adapter<MyFoodDiaryAdapter.MainHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainHolder {
@@ -29,9 +30,9 @@ class MyFoodDiaryAdapter constructor(private var foodItems: List<FoodModel>, pri
     class MainHolder(private val binding : CardFoodBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(fundItem: FoodModel) {
-            binding.foodTitle.text = fundItem.title
-            binding.description.text = fundItem.description
+        fun bind(foodItem: FoodModel, listener: FoodItemListener) {
+            binding.foodTitle.text = foodItem.title
+            binding.description.text = foodItem.description
             binding.root.setOnClickListener { listener.onFoodItemClick(foodItem) }
         }
     }
