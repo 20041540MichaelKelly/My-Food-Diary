@@ -9,4 +9,14 @@
     <string name="save_fooditem"> Save Food Item </string>
     <string name="button_addImage"> Add Image </string>
     <string name="select_fooditem_image">Select food item image</string>
+    <string name="save_user"> Save User </string>
+    <string name="enter_user_name"> Please enter name </string>
+    <string name="button_addUser">Add User</string>
+    <string name="hint_userEmail">Email</string>
+    <string name="hint_username">Name</string>
+    <string name="menu_signup">Signup</string>
+    <string name="password_hint">Password</string>
+    <string name="hint_userFirstName">fist name</string>
+    <string name="hint_userLastName">last name</string>
+    <string name="login_user">Login</string>
 </resources>

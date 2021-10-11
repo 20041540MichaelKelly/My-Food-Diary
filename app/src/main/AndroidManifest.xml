@@ -10,15 +10,25 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyFoodDiary">
-        <activity android:name=".activities.FoodListActivity"
+        <activity
+            android:name=".activities.SignupActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activities.LoginsActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activities.SplashScreen"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.MyFoodDiaryActivity">
-        </activity>
+        <activity
+            android:name=".activities.FoodListActivity"
+            android:exported="true" />
+        <activity android:name=".activities.MyFoodDiaryActivity" />
     </application>
 
 </manifest>
