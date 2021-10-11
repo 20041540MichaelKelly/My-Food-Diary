@@ -14,4 +14,9 @@
     <string name="button_addUser">Add User</string>
     <string name="hint_userEmail">Email</string>
     <string name="hint_username">Name</string>
+    <string name="menu_signup">Signup</string>
+    <string name="password_hint">Password</string>
+    <string name="hint_userFirstName">fist name</string>
+    <string name="hint_userLastName">last name</string>
+    <string name="login_user">Login</string>
 </resources>

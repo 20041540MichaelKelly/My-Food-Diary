@@ -11,6 +11,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyFoodDiary">
         <activity
+            android:name=".activities.SignupActivity"
+            android:exported="true" />
+        <activity
             android:name=".activities.LoginsActivity"
             android:exported="true" />
         <activity
@@ -24,7 +27,7 @@
         </activity>
         <activity
             android:name=".activities.FoodListActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity android:name=".activities.MyFoodDiaryActivity" />
     </application>
 
