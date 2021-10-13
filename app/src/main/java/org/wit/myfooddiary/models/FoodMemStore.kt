@@ -26,6 +26,7 @@ class FoodMemStore : FoodItemStore {
         if (foundFoodItem != null) {
             foundFoodItem.title = foodItem.title
             foundFoodItem.description = foodItem.description
+            foundFoodItem.image = foodItem.image
             logAll()
         }
     }

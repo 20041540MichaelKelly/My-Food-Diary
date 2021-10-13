@@ -28,27 +28,25 @@ class SignupActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbarAdd)
 
         app = application as MainApp
-        /*if (intent.hasExtra("user_edit")) {
-            edit = true
-            user = intent.extras?.getParcelable("user_edit")!!
-
-            binding.lastName.setText(user.lastName)
-            binding.firstName.setText(user.firstName)
-            binding.password.setText(user.password)
-            binding.email.setText(user.email)
-            binding.btnConfirm.setText(R.string.save_user)
-
-        }*/
 
         binding.btnConfirm.setOnClickListener() {
             user.firstName = binding.firstName.text.toString()
             user.lastName = binding.lastName.text.toString()
             user.password = binding.password.text.toString()
             user.email = binding.email.text.toString()
-            if (user.password.isEmpty()) {
+            if (user.firstName.isEmpty()) {
                 Snackbar.make(it, R.string.enter_user_name, Snackbar.LENGTH_LONG)
                     .show()
-            } else {
+            } else if(user.lastName.isEmpty()) {
+                Snackbar.make(it, R.string.enter_last_name, Snackbar.LENGTH_LONG)
+                    .show()
+            } else if(user.email.isEmpty()) {
+                Snackbar.make(it, R.string.enter_email, Snackbar.LENGTH_LONG)
+                    .show()
+            } else if(user.password.isEmpty()) {
+                Snackbar.make(it, R.string.enter_password, Snackbar.LENGTH_LONG)
+                    .show()
+            } else{
                 app.users.create(user.copy())
                 val intent = Intent(this, MyFoodDiaryActivity::class.java)
                 startActivity(intent)

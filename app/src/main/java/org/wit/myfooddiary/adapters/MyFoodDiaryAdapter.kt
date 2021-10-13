@@ -3,6 +3,7 @@ package org.wit.myfooddiary.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.squareup.picasso.Picasso
 import org.wit.myfooddiary.databinding.CardFoodBinding
 import org.wit.myfooddiary.models.FoodModel
 
@@ -33,6 +34,7 @@ class MyFoodDiaryAdapter constructor(private var foodItems: List<FoodModel>,
         fun bind(foodItem: FoodModel, listener: FoodItemListener) {
             binding.foodTitle.text = foodItem.title
             binding.description.text = foodItem.description
+            Picasso.get().load(foodItem.image).resize(200,200).into(binding.imageIcon)
             binding.root.setOnClickListener { listener.onFoodItemClick(foodItem) }
         }
     }

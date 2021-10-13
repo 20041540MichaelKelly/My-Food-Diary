@@ -1,6 +1,7 @@
 package org.wit.myfooddiary.activities
 
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -21,6 +22,7 @@ class MyFoodDiaryActivity : AppCompatActivity() {
     var foodItem = FoodModel()
     lateinit var app: MainApp
     private lateinit var imageIntentLauncher : ActivityResultLauncher<Intent>
+    private lateinit var mapIntentLauncher : ActivityResultLauncher<Intent>
     val IMAGE_REQUEST = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,6 +44,13 @@ class MyFoodDiaryActivity : AppCompatActivity() {
             Picasso.get()
                 .load(foodItem.image)
                 .into(binding.foodImage)
+            if (foodItem.image != Uri.EMPTY) {
+                binding.chooseImage.setText(R.string.change_food_image)
+            }
+        }
+
+        binding.foodItemLocation.setOnClickListener {
+            i ("Set Location Pressed")
         }
 
         binding.btnAdd.setOnClickListener() {
@@ -61,11 +70,18 @@ class MyFoodDiaryActivity : AppCompatActivity() {
             setResult(RESULT_OK)
             finish()
         }
+
         binding.chooseImage.setOnClickListener {
             showImagePicker(imageIntentLauncher)
         }
 
+        binding.foodItemLocation.setOnClickListener {
+            val launcherIntent = Intent(this, MapActivity::class.java)
+            mapIntentLauncher.launch(launcherIntent)
+        }
+
         registerImagePickerCallback()
+        registerMapCallback()
     }
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_fooditem, menu)
@@ -93,11 +109,18 @@ class MyFoodDiaryActivity : AppCompatActivity() {
                             Picasso.get()
                                 .load(foodItem.image)
                                 .into(binding.foodImage)
+                            binding.chooseImage.setText(R.string.change_food_image)
                         } // end of if
                     }
                     RESULT_CANCELED -> { } else -> { }
                 }
             }
+    }
+
+    private fun registerMapCallback() {
+        mapIntentLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult())
+            { i("Map Loaded") }
     }
 }
 
