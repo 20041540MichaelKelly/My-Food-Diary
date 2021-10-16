@@ -5,15 +5,19 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import com.google.android.material.snackbar.Snackbar
 import org.wit.myfooddiary.R
 import org.wit.myfooddiary.databinding.ActivitySignupBinding
 import org.wit.myfooddiary.main.MainApp
+import org.wit.myfooddiary.models.FoodModel
 import org.wit.myfooddiary.models.UserModel
 import timber.log.Timber
 
 class SignupActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySignupBinding
+    private lateinit var refreshIntentLauncher : ActivityResultLauncher<Intent>
     var user = UserModel()
     private lateinit var app: MainApp
     val IMAGE_REQUEST = 1
@@ -48,18 +52,18 @@ class SignupActivity : AppCompatActivity() {
                     .show()
             } else{
                 app.users.create(user.copy())
-                val intent = Intent(this, MyFoodDiaryActivity::class.java)
-                startActivity(intent)
-                finish()
-
+                val launcherIntent = Intent(this, LandingPageActivity::class.java)
+                launcherIntent.putExtra("user_signup", user)
+                refreshIntentLauncher.launch(launcherIntent)
             }
 
             Timber.i("add User Button Pressed: $user")
             setResult(RESULT_OK)
-
+            finish()
         }
-    }
 
+       // registerRefreshCallback()
+    }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_fooditem, menu)
@@ -74,4 +78,10 @@ class SignupActivity : AppCompatActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
+/*private fun registerRefreshCallback() {
+    refreshIntentLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult())
+        { binding.scro.adapter?.notifyDataSetChanged() }
+}*/
 }
+

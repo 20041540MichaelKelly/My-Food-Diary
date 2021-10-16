@@ -2,7 +2,6 @@ package org.wit.myfooddiary.main
 
 import android.app.Application
 import org.jetbrains.anko.AnkoLogger
-import org.wit.myfooddiary.models.FoodItemJSONStore
 import org.wit.myfooddiary.models.FoodItemStore
 import org.wit.myfooddiary.models.FoodMemStore
 import org.wit.myfooddiary.models.UserMemStore
