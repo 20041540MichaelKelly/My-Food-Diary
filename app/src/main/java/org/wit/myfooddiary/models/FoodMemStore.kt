@@ -27,9 +27,7 @@ class FoodMemStore : FoodItemStore {
             foundFoodItem.title = foodItem.title
             foundFoodItem.description = foodItem.description
             foundFoodItem.image = foodItem.image
-            foundFoodItem.lat = foodItem.lat
-            foundFoodItem.lng = foodItem.lng
-            foundFoodItem.zoom = foodItem.zoom
+
             logAll()
         }
     }

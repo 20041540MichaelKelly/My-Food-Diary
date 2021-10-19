@@ -41,28 +41,31 @@ class SignupActivity : AppCompatActivity() {
             if (user.firstName.isEmpty()) {
                 Snackbar.make(it, R.string.enter_user_name, Snackbar.LENGTH_LONG)
                     .show()
-            } else if(user.lastName.isEmpty()) {
+            }
+            if(user.lastName.isEmpty()) {
                 Snackbar.make(it, R.string.enter_last_name, Snackbar.LENGTH_LONG)
                     .show()
-            } else if(user.email.isEmpty()) {
+            }
+            if(user.email.isEmpty()) {
                 Snackbar.make(it, R.string.enter_email, Snackbar.LENGTH_LONG)
                     .show()
-            } else if(user.password.isEmpty()) {
+            }
+            if(user.password.isEmpty()) {
                 Snackbar.make(it, R.string.enter_password, Snackbar.LENGTH_LONG)
                     .show()
-            } else{
-                app.users.create(user.copy())
-                val launcherIntent = Intent(this, LandingPageActivity::class.java)
-                launcherIntent.putExtra("user_signup", user)
-                refreshIntentLauncher.launch(launcherIntent)
             }
+                app.users.create(user.copy())
+                val intent = Intent(this, LandingPageActivity::class.java).apply {
+                    putExtra("user_signup", user)
+                }
+                startActivity(intent)
+
 
             Timber.i("add User Button Pressed: $user")
             setResult(RESULT_OK)
             finish()
         }
 
-       // registerRefreshCallback()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -78,10 +81,5 @@ class SignupActivity : AppCompatActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
-/*private fun registerRefreshCallback() {
-    refreshIntentLauncher =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult())
-        { binding.scro.adapter?.notifyDataSetChanged() }
-}*/
 }
 
