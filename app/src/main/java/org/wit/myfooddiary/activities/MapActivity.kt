@@ -15,7 +15,9 @@ import com.google.android.gms.maps.model.MarkerOptions
 import org.wit.myfooddiary.R
 import org.wit.myfooddiary.models.Location
 
-class MapActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMarkerDragListener{
+class MapActivity : AppCompatActivity(), OnMapReadyCallback,
+    GoogleMap.OnMarkerDragListener,
+    GoogleMap.OnMarkerClickListener {
 
     private lateinit var map: GoogleMap
     var location = Location()
@@ -41,6 +43,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMarkerDr
             .snippet("GPS : $loc")
             .draggable(true)
             .position(loc)
+        map.setOnMarkerClickListener(this)
         map.addMarker(options)
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, location.zoom))
         map.setOnMarkerDragListener(this)
@@ -50,6 +53,12 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.OnMarkerDr
     }
 
     override fun onMarkerDrag(p0: Marker?) {
+    }
+
+    override fun onMarkerClick(marker: Marker): Boolean {
+        val loc = LatLng(location.lat, location.lng)
+        marker.snippet = "GPS : $loc"
+        return false
     }
 
     override fun onMarkerDragEnd(marker: Marker) {

@@ -1,7 +1,7 @@
 package org.wit.myfooddiary.activities
 
 import android.content.Intent
-import android.location.Location
+
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -16,6 +16,7 @@ import org.wit.myfooddiary.databinding.ActivityMyfooddiaryBinding
 import org.wit.myfooddiary.helpers.showImagePicker
 import org.wit.myfooddiary.main.MainApp
 import org.wit.myfooddiary.models.FoodModel
+import org.wit.myfooddiary.models.Location
 import timber.log.Timber.i
 
 class MyFoodDiaryActivity : AppCompatActivity() {
@@ -25,7 +26,6 @@ class MyFoodDiaryActivity : AppCompatActivity() {
     private lateinit var imageIntentLauncher : ActivityResultLauncher<Intent>
     private lateinit var mapIntentLauncher : ActivityResultLauncher<Intent>
     val IMAGE_REQUEST = 1
-    var location = org.wit.myfooddiary.models.Location(52.245696, -7.139102, 15f)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -84,6 +84,18 @@ class MyFoodDiaryActivity : AppCompatActivity() {
             mapIntentLauncher.launch(launcherIntent)
         }
 
+        binding.foodItemLocation.setOnClickListener {
+            val location = Location(52.245696, -7.139102, 15f)
+            if (foodItem.zoom != 0f) {
+                location.lat =  foodItem.lat
+                location.lng = foodItem.lng
+                location.zoom = foodItem.zoom
+            }
+            val launcherIntent = Intent(this, MapActivity::class.java)
+                .putExtra("location", location)
+            mapIntentLauncher.launch(launcherIntent)
+        }
+
         registerImagePickerCallback()
         registerMapCallback()
     }
@@ -129,14 +141,14 @@ class MyFoodDiaryActivity : AppCompatActivity() {
                     RESULT_OK -> {
                         if (result.data != null) {
                             i("Got Location ${result.data.toString()}")
-                            location = result.data!!.extras?.getParcelable("location")!!
+                            val location = result.data!!.extras?.getParcelable<Location>("location")!!
                             i("Location == $location")
+                            foodItem.lat = location.lat
+                            foodItem.lng = location.lng
+                            foodItem.zoom = location.zoom
                         } // end of if
                     }
-                    RESULT_CANCELED -> {
-                    }
-                    else -> {
-                    }
+                    RESULT_CANCELED -> { } else -> { }
                 }
             }
     }

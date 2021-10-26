@@ -2,6 +2,12 @@ package org.wit.myfooddiary.models
 
 import timber.log.Timber.i
 
+var lastUId = 0L
+
+internal fun getUId(): Long {
+    return lastUId++
+}
+
 class UserMemStore : UserStore {
     val users = ArrayList<UserModel>()
 
@@ -10,9 +16,14 @@ class UserMemStore : UserStore {
     }
 
     override fun create(user: UserModel) {
-        user.id = getId()
+        user.id = getUId()
         users.add(user)
         logAll()
+    }
+
+    override fun findOne(id: Long) : UserModel? {
+        var foundUser: UserModel? = users.find { p -> p.id == id }
+        return foundUser
     }
 
     override fun update(user: UserModel) {
