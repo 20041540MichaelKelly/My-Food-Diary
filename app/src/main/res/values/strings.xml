@@ -36,4 +36,8 @@
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="wrong_password">Wrong Password</string>
+    <string name="button_Login">Login</string>
+    <string name="action_remove">remove</string>
+    <string name="deleted_foodItem">Food Item Deleted</string>
 </resources>

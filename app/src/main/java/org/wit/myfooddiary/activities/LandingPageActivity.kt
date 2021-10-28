@@ -1,19 +1,15 @@
 package org.wit.myfooddiary.activities
 
-import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.squareup.picasso.Picasso
 import org.wit.myfooddiary.R
 import org.wit.myfooddiary.databinding.ActivityLandingPageBinding
-import org.wit.myfooddiary.databinding.ActivityMyfooddiaryBinding
-import org.wit.myfooddiary.helpers.showImagePicker
 import org.wit.myfooddiary.main.MainApp
-import org.wit.myfooddiary.models.UserModel
+import org.wit.myfooddiary.models.FoodModel
 
 class LandingPageActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLandingPageBinding
-    var user = UserModel()
+    var foodItem = FoodModel()
     lateinit var app: MainApp
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,7 +24,7 @@ class LandingPageActivity : AppCompatActivity() {
 
         app = application as MainApp
 
-        if (intent.hasExtra("user_signup")) {
+        if (intent.hasExtra("foodItem_create")) {
             signedUp = true
 
 //            // Get the Intent that started this activity and extract the string
@@ -38,8 +34,8 @@ class LandingPageActivity : AppCompatActivity() {
 //            val textView = findViewById<TextView>(R.id.textView).apply {
 //                text = message
 //            }
-            user = intent.extras?.getParcelable("user_signup")!!
-            binding.welcomeMessage.setText("Welcome " + user.firstName)
+            foodItem = intent.extras?.getParcelable("foodItem_create")!!
+            binding.welcomeMessage.setText("Welcome " + foodItem.firstName)
         }
 
         binding.button1.setOnClickListener {

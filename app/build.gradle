@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId "org.wit.myfooddiary"
-        minSdk 29
+        minSdk 28
         targetSdk 29
         versionCode 1
         versionName "1.1"
@@ -49,6 +49,7 @@ dependencies {
     implementation "com.google.code.gson:gson:2.8.6"
     implementation "org.jetbrains.anko:anko-commons:0.10.5"
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
+    implementation 'de.hdodenhof:circleimageview:2.2.0'
     //navigation
     implementation "androidx.navigation:navigation-fragment-ktx:2.3.5"
     implementation "androidx.navigation:navigation-ui-ktx:2.3.5"

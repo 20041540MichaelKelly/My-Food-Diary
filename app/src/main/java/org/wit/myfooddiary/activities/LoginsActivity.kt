@@ -5,17 +5,16 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
 import com.google.android.material.snackbar.Snackbar
 import org.wit.myfooddiary.R
 import org.wit.myfooddiary.databinding.ActivityLoginsBinding
 import org.wit.myfooddiary.main.MainApp
-import org.wit.myfooddiary.models.UserModel
+import org.wit.myfooddiary.models.FoodModel
 import timber.log.Timber
 
 class LoginsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginsBinding
-    var user = UserModel()
+    var foodItem = FoodModel()
     lateinit var app: MainApp
     val IMAGE_REQUEST = 1
 
@@ -29,34 +28,45 @@ class LoginsActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbarAdd)
 
         app = application as MainApp
-        if (intent.hasExtra("user_edit")) {
+        if (intent.hasExtra("foodItem_edit")) {
             edit = true
-            user = intent.extras?.getParcelable("user_edit")!!
-            binding.password.setText(user.password)
-            binding.email.setText(user.email)
+            foodItem = intent.extras?.getParcelable("foodItem_edit")!!
+            binding.password.setText(foodItem.password)
+            binding.email.setText(foodItem.email)
             binding.btnLogin.setText(R.string.login_user)
 
         }
 
         binding.btnLogin.setOnClickListener() {
-            user.password = binding.password.text.toString()
-            user.email = binding.email.text.toString()
-            if (user.password.isEmpty()) {
-                Snackbar.make(it,R.string.enter_user_name, Snackbar.LENGTH_LONG)
+            foodItem.password = binding.password.text.toString()
+            foodItem.email = binding.email.text.toString()
+
+            if (foodItem.password.isEmpty()) {
+                Snackbar.make(it, R.string.enter_password, Snackbar.LENGTH_LONG)
                     .show()
+
             } else {
                 if (edit) {
-                    app.users.update(user.copy())
+                    app.foodItems.updateUser(foodItem.copy())
                 } else {
-                    var ans = app.users.checkCredientials(user.copy())
-                    if(!ans) {
-                        app.users.create(user.copy())
+                    var ans = app.foodItems.checkCredientials(foodItem.copy())
+                    if (ans == null) {
+                        Snackbar.make(it, R.string.wrong_password, Snackbar.LENGTH_LONG)
+                            .show()
+                    } else {
+                        // app.users.createUser(user.copy())
+//                        var result = app.foodItems.findOneUser(ans.Uid)
+                        val intent = Intent(this, FoodListActivity::class.java).apply {
+                            putExtra("foodItem_signup", ans)
+                        }
+                        startActivity(intent)
+                        finish()
                     }
                 }
             }
-            Timber.i("add Button Pressed: $user")
+            Timber.i("add Button Pressed: $foodItem")
             setResult(RESULT_OK)
-            finish()
+
         }
 
     }

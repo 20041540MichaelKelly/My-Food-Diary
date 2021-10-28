@@ -51,5 +51,21 @@
             app:layout_constraintTop_toBottomOf="@id/foodTitle"
             tools:text="A Description" />
 
+        <ImageView
+            android:src="@drawable/ic_action_delete"
+            android:id="@+id/action_remove"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="4dp"
+            android:textAlignment="viewStart"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.70"
+            app:layout_constraintStart_toEndOf="@+id/foodTitle"
+            app:layout_constraintTop_toTopOf="parent"
+            android:title="@string/action_remove"
+            app:showAsAction="ifRoom"
+            android:contentDescription="cancel button" />
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

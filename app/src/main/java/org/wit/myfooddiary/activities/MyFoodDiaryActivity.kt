@@ -51,11 +51,12 @@ class MyFoodDiaryActivity : AppCompatActivity() {
             }
         }
 
-        binding.foodItemLocation.setOnClickListener {
-            val launcherIntent = Intent(this, MapActivity::class.java)
-                .putExtra("location", location)
-            mapIntentLauncher.launch(launcherIntent)
+        if (intent.hasExtra("foodItem_create")) {
+            // signedUp = true
+
+            foodItem = intent.extras?.getParcelable("foodItem_create")!!
         }
+
 
         binding.btnAdd.setOnClickListener() {
             foodItem.title = binding.foodTitle.text.toString()
@@ -67,7 +68,7 @@ class MyFoodDiaryActivity : AppCompatActivity() {
                 if (edit) {
                     app.foodItems.update(foodItem.copy())
                 } else {
-                    app.foodItems.create(foodItem.copy())
+                    var ans = app.foodItems.create(foodItem.copy())
                 }
             }
             i("add Button Pressed: $foodItem")
@@ -95,6 +96,7 @@ class MyFoodDiaryActivity : AppCompatActivity() {
                 .putExtra("location", location)
             mapIntentLauncher.launch(launcherIntent)
         }
+
 
         registerImagePickerCallback()
         registerMapCallback()
