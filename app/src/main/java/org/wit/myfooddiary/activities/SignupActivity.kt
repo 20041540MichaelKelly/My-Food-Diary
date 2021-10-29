@@ -12,12 +12,13 @@ import org.wit.myfooddiary.R
 import org.wit.myfooddiary.databinding.ActivitySignupBinding
 import org.wit.myfooddiary.main.MainApp
 import org.wit.myfooddiary.models.FoodModel
+import org.wit.myfooddiary.models.UserModel
 import timber.log.Timber
 
 class SignupActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySignupBinding
     private lateinit var refreshIntentLauncher : ActivityResultLauncher<Intent>
-    var foodItem = FoodModel()
+    var user = UserModel()
     private lateinit var app: MainApp
     val IMAGE_REQUEST = 1
 
@@ -33,34 +34,34 @@ class SignupActivity : AppCompatActivity() {
         app = application as MainApp
 
         binding.btnConfirm.setOnClickListener() {
-            foodItem.firstName = binding.firstName.text.toString()
-            foodItem.lastName = binding.lastName.text.toString()
-            foodItem.password = binding.password.text.toString()
-            foodItem.email = binding.email.text.toString()
-            if (foodItem.firstName.isEmpty()) {
+            user.firstName = binding.firstName.text.toString()
+            user.lastName = binding.lastName.text.toString()
+            user.password = binding.password.text.toString()
+            user.email = binding.email.text.toString()
+            if (user.firstName.isEmpty()) {
                 Snackbar.make(it, R.string.enter_user_name, Snackbar.LENGTH_LONG)
                     .show()
             }
-            if(foodItem.lastName.isEmpty()) {
+            if(user.lastName.isEmpty()) {
                 Snackbar.make(it, R.string.enter_last_name, Snackbar.LENGTH_LONG)
                     .show()
             }
-            if(foodItem.email.isEmpty()) {
+            if(user.email.isEmpty()) {
                 Snackbar.make(it, R.string.enter_email, Snackbar.LENGTH_LONG)
                     .show()
             }
-            if(foodItem.password.isEmpty()) {
+            if(user.password.isEmpty()) {
                 Snackbar.make(it, R.string.enter_password, Snackbar.LENGTH_LONG)
                     .show()
             }
-                app.foodItems.createUser(foodItem.copy())
+                var ans = app.users.createUser(user.copy())
                 val intent = Intent(this, FoodListActivity::class.java).apply {
-                    putExtra("foodItem_signup", foodItem)
+                    putExtra("user_signup", ans)
                 }
                 startActivity(intent)
 
 
-            Timber.i("add User Button Pressed: $foodItem")
+            Timber.i("add User Button Pressed: $user")
             setResult(RESULT_OK)
             finish()
         }

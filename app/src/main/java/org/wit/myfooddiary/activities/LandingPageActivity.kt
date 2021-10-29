@@ -6,10 +6,11 @@ import org.wit.myfooddiary.R
 import org.wit.myfooddiary.databinding.ActivityLandingPageBinding
 import org.wit.myfooddiary.main.MainApp
 import org.wit.myfooddiary.models.FoodModel
+import org.wit.myfooddiary.models.UserModel
 
 class LandingPageActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLandingPageBinding
-    var foodItem = FoodModel()
+    var user = UserModel()
     lateinit var app: MainApp
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,8 +35,8 @@ class LandingPageActivity : AppCompatActivity() {
 //            val textView = findViewById<TextView>(R.id.textView).apply {
 //                text = message
 //            }
-            foodItem = intent.extras?.getParcelable("foodItem_create")!!
-            binding.welcomeMessage.setText("Welcome " + foodItem.firstName)
+            user = intent.extras?.getParcelable("foodItem_create")!!
+            binding.welcomeMessage.setText("Welcome " + user.firstName)
         }
 
         binding.button1.setOnClickListener {

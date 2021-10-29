@@ -17,11 +17,13 @@ import org.wit.myfooddiary.helpers.showImagePicker
 import org.wit.myfooddiary.main.MainApp
 import org.wit.myfooddiary.models.FoodModel
 import org.wit.myfooddiary.models.Location
+import org.wit.myfooddiary.models.UserModel
 import timber.log.Timber.i
 
 class MyFoodDiaryActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMyfooddiaryBinding
     var foodItem = FoodModel()
+    var user = UserModel()
     lateinit var app: MainApp
     private lateinit var imageIntentLauncher : ActivityResultLauncher<Intent>
     private lateinit var mapIntentLauncher : ActivityResultLauncher<Intent>
@@ -54,11 +56,12 @@ class MyFoodDiaryActivity : AppCompatActivity() {
         if (intent.hasExtra("foodItem_create")) {
             // signedUp = true
 
-            foodItem = intent.extras?.getParcelable("foodItem_create")!!
+            user = intent.extras?.getParcelable("foodItem_create")!!
         }
 
 
         binding.btnAdd.setOnClickListener() {
+            foodItem.fUid = user.Uid
             foodItem.title = binding.foodTitle.text.toString()
             foodItem.description = binding.description.text.toString()
             if (foodItem.title.isEmpty()) {
@@ -68,7 +71,7 @@ class MyFoodDiaryActivity : AppCompatActivity() {
                 if (edit) {
                     app.foodItems.update(foodItem.copy())
                 } else {
-                    var ans = app.foodItems.create(foodItem.copy())
+                    app.foodItems.create(foodItem.copy(), user)
                 }
             }
             i("add Button Pressed: $foodItem")
