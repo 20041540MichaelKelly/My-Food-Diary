@@ -9,7 +9,6 @@ import com.google.android.material.snackbar.Snackbar
 import org.wit.myfooddiary.R
 import org.wit.myfooddiary.databinding.ActivityLoginsBinding
 import org.wit.myfooddiary.main.MainApp
-import org.wit.myfooddiary.models.FoodModel
 import org.wit.myfooddiary.models.UserModel
 import timber.log.Timber
 
@@ -50,7 +49,7 @@ class LoginsActivity : AppCompatActivity() {
                 if (edit) {
                     app.users.updateUser(user.copy())
                 } else {
-                    var ans = app.users.checkCredientials(user.copy())
+                    val ans = app.users.checkCredientials(user.copy())
                     if (ans == null) {
                         Snackbar.make(it, R.string.wrong_password, Snackbar.LENGTH_LONG)
                             .show()

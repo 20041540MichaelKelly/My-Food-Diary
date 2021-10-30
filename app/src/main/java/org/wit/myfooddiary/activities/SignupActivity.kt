@@ -6,12 +6,10 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
 import com.google.android.material.snackbar.Snackbar
 import org.wit.myfooddiary.R
 import org.wit.myfooddiary.databinding.ActivitySignupBinding
 import org.wit.myfooddiary.main.MainApp
-import org.wit.myfooddiary.models.FoodModel
 import org.wit.myfooddiary.models.UserModel
 import timber.log.Timber
 

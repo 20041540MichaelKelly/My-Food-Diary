@@ -5,7 +5,6 @@ import android.os.Bundle
 import org.wit.myfooddiary.R
 import org.wit.myfooddiary.databinding.ActivityLandingPageBinding
 import org.wit.myfooddiary.main.MainApp
-import org.wit.myfooddiary.models.FoodModel
 import org.wit.myfooddiary.models.UserModel
 
 class LandingPageActivity : AppCompatActivity() {

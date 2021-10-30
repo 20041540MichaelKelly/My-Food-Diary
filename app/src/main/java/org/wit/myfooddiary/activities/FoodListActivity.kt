@@ -18,6 +18,7 @@ import org.wit.myfooddiary.main.MainApp
 import org.wit.myfooddiary.models.FoodModel
 import org.wit.myfooddiary.models.UserModel
 
+
 class FoodListActivity : AppCompatActivity(), FoodItemListener {
 
     lateinit var app: MainApp

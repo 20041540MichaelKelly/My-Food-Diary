@@ -4,7 +4,6 @@ import android.content.Context
 import android.net.Uri
 import com.google.gson.*
 import com.google.gson.reflect.TypeToken
-import kotlinx.coroutines.flow.merge
 import org.wit.myfooddiary.helpers.exists
 import org.wit.myfooddiary.helpers.read
 import org.wit.myfooddiary.helpers.write
@@ -12,28 +11,27 @@ import timber.log.Timber
 import java.lang.reflect.Type
 import java.util.*
 
-const val JSON_FILE = "food.json"
-val gsonBuilder: Gson = GsonBuilder().setPrettyPrinting()
+const val JSON_FILE_FOOD = "fooditems.json"
+val gsonBuilderFood: Gson = GsonBuilder().setPrettyPrinting()
     .registerTypeAdapter(Uri::class.java, UriParser())
     .create()
-val listType: Type = object : TypeToken<ArrayList<FoodModel>>() {}.type
-val listTypeUser: Type = object : TypeToken<ArrayList<UserModel>>() {}.type
+val listTypeFood: Type = object : TypeToken<ArrayList<FoodModel>>() {}.type
 
 
 
-fun generateRandomId(): Long {
+fun generateRandomFId(): Long {
     return Random().nextLong()
 }
 
-class FoodItemJSONStore(private val context: Context) : FoodItemStore, UserStore {
+class FoodItemJSONStore(private val context: Context) : FoodItemStore {
 
 
     var foodItems = mutableListOf<FoodModel>()
     var users = mutableListOf<UserModel>()
-    val list = concatenate(users, foodItems)
+
 
     init {
-        if (exists(context, JSON_FILE)) {
+        if (exists(context, JSON_FILE_FOOD)) {
             deserialize()
 
         }
@@ -45,7 +43,7 @@ class FoodItemJSONStore(private val context: Context) : FoodItemStore, UserStore
     }
 
     override fun create(foodItem: FoodModel, user: UserModel) {
-        foodItem.id = generateRandomId()
+        foodItem.id = generateRandomUId()
         //foodItem.fUid = user.Uid
         user.foodObject.add(foodItem )
         foodItems.add(foodItem)
@@ -70,10 +68,6 @@ class FoodItemJSONStore(private val context: Context) : FoodItemStore, UserStore
         serialize()
     }
 
-    override fun deleteUser(user: UserModel) {
-        users.remove(user)
-        serialize()
-    }
 
 
     override fun update(foodItem: FoodModel) {
@@ -92,68 +86,20 @@ class FoodItemJSONStore(private val context: Context) : FoodItemStore, UserStore
 
     }
 
-    override fun findAllUsers(): List<UserModel> {
-        TODO("Not yet implemented")
-    }
-
-    override fun findOneUser(id: Long):UserModel? {
-        var foundUser: UserModel? = users.find { p -> p.Uid == id }
-        return foundUser
-    }
-
-    override fun createUser(user: UserModel):UserModel {
-        user.Uid = generateRandomId()
-        users.add(user)
-        serializeUser()
-        return user
-    }
-
-
-    override fun updateUser(user: UserModel) {
-        // todo
-    }
-
-    override fun checkCredientials(user: UserModel): UserModel? {
-        var foundUser: UserModel? = users.find { p ->
-            p.password == user.password &&
-                    p.email == user.email
-        }
-        return foundUser
-
-    }
 
     private fun serialize() {
-        val jsonString = gsonBuilder.toJson(foodItems, listType)
+        val jsonString = gsonBuilderFood.toJson(foodItems, listTypeFood)
 
-        val jsonString1 = gsonBuilder.toJson(users, listTypeUser)
 
-        write(context, JSON_FILE, jsonString + jsonString1)
+        write(context, JSON_FILE_FOOD, jsonString)
     }
 
     private fun deserialize() {
-        val jsonString = read(context, JSON_FILE)
-        foodItems = gsonBuilder.fromJson(jsonString, listType)
-        val jsonString1 = read(context, JSON_FILE)
-
-        users = gsonBuilder.fromJson(jsonString1, listTypeUser)
-
-    }
-
-    private fun serializeUser() {
-        val jsonString1 = gsonBuilder.toJson(users, listTypeUser)
-
-        write(context, JSON_FILE, jsonString1)
-
-    }
-
-    private fun deserializeUser() {
-        val jsonString = read(context, JSON_FILE)
-
-        users = gsonBuilder.fromJson(jsonString, listTypeUser)
+        val jsonString = read(context, JSON_FILE_FOOD)
+        foodItems = gsonBuilderFood.fromJson(jsonString, listTypeFood)
 
 
     }
-
 
     private fun logAll() {
         foodItems.forEach { Timber.i("$it") }
