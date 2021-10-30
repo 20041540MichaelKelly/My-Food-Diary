@@ -19,26 +19,19 @@ val gsonBuilder: Gson = GsonBuilder().setPrettyPrinting()
     .create()
 val listType: Type = object : TypeToken<ArrayList<UserModel>>() {}.type
 
-
-
 fun generateRandomUId(): Long {
     return Random().nextLong()
 }
 
 class UserJSONStore(private val context: Context) : UserStore {
 
-
-    var foodItems = mutableListOf<FoodModel>()
     var users = mutableListOf<UserModel>()
-
 
     init {
         if (exists(context, JSON_FILE)) {
             deserialize()
-
         }
     }
-
 
     override fun deleteUser(user: UserModel) {
         users.remove(user)
@@ -70,8 +63,6 @@ class UserJSONStore(private val context: Context) : UserStore {
         var foundUser: UserModel? = users.find { p ->
             p.password == user.password &&
                     p.email == user.email
-//                    &&
-//                        isValidEmail(user.email)
         }
         return foundUser
 
@@ -79,16 +70,12 @@ class UserJSONStore(private val context: Context) : UserStore {
 
     private fun serialize() {
         val jsonString = gsonBuilder.toJson(users, listType)
-
-
         write(context, JSON_FILE, jsonString)
     }
 
     private fun deserialize() {
         val jsonString = read(context, JSON_FILE)
         users = gsonBuilder.fromJson(jsonString, listType)
-
-
     }
 
     private fun logAll() {

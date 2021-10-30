@@ -31,4 +31,5 @@
     <string name="button_Login">Login</string>
     <string name="remove">remove</string>
     <string name="deleted_foodItem">Food Item Deleted</string>
+    <string name="no_search_result">No Result for the search</string>
 </resources>

@@ -25,10 +25,8 @@ fun generateRandomId(): Long {
 
 class FoodItemJSONStore(private val context: Context) : FoodItemStore {
 
-
     var foodItems = mutableListOf<FoodModel>()
     var users = mutableListOf<UserModel>()
-
 
     init {
         if (exists(context, JSON_FILE_FOOD)) {
@@ -85,7 +83,15 @@ class FoodItemJSONStore(private val context: Context) : FoodItemStore {
         serialize()
     }
 
-
+   override fun findAllBySearchValue(searchValue: String): List<FoodModel>? {
+       val iList = ArrayList<FoodModel>()
+       for (f in foodItems) {
+           if (f.title == searchValue) {
+               iList.add(f)
+           }
+       }
+       return iList
+   }
 
     override fun findAllById(id: Long): List<FoodModel> {
         val iList = ArrayList<FoodModel>()
