@@ -3,6 +3,7 @@ package org.wit.myfooddiary.activities
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Patterns
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.result.ActivityResultLauncher
@@ -44,7 +45,7 @@ class SignupActivity : AppCompatActivity() {
                 Snackbar.make(it, R.string.enter_last_name, Snackbar.LENGTH_LONG)
                     .show()
             }
-            if(user.email.isEmpty()) {
+            if(user.email.isEmpty() || user.email.isEmailValid()) {
                 Snackbar.make(it, R.string.enter_email, Snackbar.LENGTH_LONG)
                     .show()
             }
@@ -58,12 +59,15 @@ class SignupActivity : AppCompatActivity() {
                 }
                 startActivity(intent)
 
-
             Timber.i("add User Button Pressed: $user")
             setResult(RESULT_OK)
             finish()
         }
 
+    }
+
+    fun String.isEmailValid(): Boolean {
+        return !Patterns.EMAIL_ADDRESS.matcher(this).matches()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

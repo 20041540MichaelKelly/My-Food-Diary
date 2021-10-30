@@ -2,6 +2,8 @@ package org.wit.myfooddiary.models
 
 import android.content.Context
 import android.net.Uri
+import android.text.TextUtils
+import android.util.Patterns
 import com.google.gson.*
 import com.google.gson.reflect.TypeToken
 import org.wit.myfooddiary.helpers.exists
@@ -47,17 +49,16 @@ class UserJSONStore(private val context: Context) : UserStore {
         TODO("Not yet implemented")
     }
 
-    override fun findOneUser(id: Long):UserModel? {
+    override fun findOneUser(id: Long): UserModel? {
         var foundUser: UserModel? = users.find { p -> p.Uid == id }
         return foundUser
     }
 
-    override fun createUser(user: UserModel):UserModel {
+    override fun createUser(user: UserModel): UserModel {
         user.Uid = generateRandomUId()
         users.add(user)
         serialize()
         return user
-
     }
 
 
@@ -69,6 +70,8 @@ class UserJSONStore(private val context: Context) : UserStore {
         var foundUser: UserModel? = users.find { p ->
             p.password == user.password &&
                     p.email == user.email
+//                    &&
+//                        isValidEmail(user.email)
         }
         return foundUser
 
@@ -88,28 +91,25 @@ class UserJSONStore(private val context: Context) : UserStore {
 
     }
 
-
     private fun logAll() {
         users.forEach { Timber.i("$it") }
     }
-}
 
-//class UriParser : JsonDeserializer<Uri>,JsonSerializer<Uri> {
-//    override fun deserialize(
-//        json: JsonElement?,
-//        typeOfT: Type?,
-//        context: JsonDeserializationContext?
-//    ): Uri {
-//        return Uri.parse(json?.asString)
-//    }
-//
-//    override fun serialize(
-//        src: Uri?,
-//        typeOfSrc: Type?,
-//        context: JsonSerializationContext?
-//    ): JsonElement {
-//        return JsonPrimitive(src.toString())
-//    }
-//
-//
-//}
+    class UriParser : JsonDeserializer<Uri>, JsonSerializer<Uri> {
+        override fun deserialize(
+            json: JsonElement?,
+            typeOfT: Type?,
+            context: JsonDeserializationContext?
+        ): Uri {
+            return Uri.parse(json?.asString)
+        }
+
+        override fun serialize(
+            src: Uri?,
+            typeOfSrc: Type?,
+            context: JsonSerializationContext?
+        ): JsonElement {
+            return JsonPrimitive(src.toString())
+        }
+    }
+}

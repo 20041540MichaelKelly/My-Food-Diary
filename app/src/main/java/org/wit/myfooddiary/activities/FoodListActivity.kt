@@ -84,7 +84,7 @@ class FoodListActivity : AppCompatActivity(), FoodItemListener {
 
     override fun onFoodItemDelete(foodItem: FoodModel) {
         app.foodItems.deleteItem(foodItem)
-        registerRefreshCallback()
+        loadFoodItems(user.Uid)
     }
 
 

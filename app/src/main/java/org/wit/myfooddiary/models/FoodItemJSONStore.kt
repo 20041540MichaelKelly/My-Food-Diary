@@ -11,7 +11,7 @@ import timber.log.Timber
 import java.lang.reflect.Type
 import java.util.*
 
-const val JSON_FILE_FOOD = "fooditems.json"
+const val JSON_FILE_FOOD = "preciousFood.json"
 val gsonBuilderFood: Gson = GsonBuilder().setPrettyPrinting()
     .registerTypeAdapter(Uri::class.java, UriParser())
     .create()
@@ -122,6 +122,5 @@ class UriParser : JsonDeserializer<Uri>,JsonSerializer<Uri> {
     ): JsonElement {
         return JsonPrimitive(src.toString())
     }
-
 
 }

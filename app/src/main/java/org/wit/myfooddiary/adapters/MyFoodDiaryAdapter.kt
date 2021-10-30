@@ -39,20 +39,18 @@ class MyFoodDiaryAdapter constructor(private var foodItems: List<FoodModel>,
 
     class MainHolder (private val binding : CardFoodBinding) :
         RecyclerView.ViewHolder(binding.root) {
-//        fun findIndex(foodItems: List<FoodModel>, foodItem: FoodModel): Int {
-//            return foodItems.indexOf(foodItem)
-//        }
+
         fun bind(foodItem: FoodModel, listener: FoodItemListener) {
 
             binding.foodTitle.text = foodItem.title
             binding.description.text = foodItem.description
             Picasso.get().load(foodItem.image).resize(200, 200).into(binding.imageIcon)
+            binding.displayCals.text = foodItem.amountOfCals.toString()
+            binding.dateTime.text = foodItem.timeForFood
             binding.actionRemove.setOnClickListener {
                 Snackbar.make(it, R.string.deleted_foodItem, Snackbar.LENGTH_LONG)
                     .show()
                 listener.onFoodItemDelete(foodItem)
-//                val iIndexOfFoodItem = findIndex(foodItems, foodItem)
-//               foodItems.drop(iIndexOfFoodItem)
                 true
             }
             binding.root.setOnClickListener {

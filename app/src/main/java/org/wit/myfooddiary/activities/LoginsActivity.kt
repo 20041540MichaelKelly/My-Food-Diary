@@ -3,6 +3,8 @@ package org.wit.myfooddiary.activities
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.TextUtils
+import android.util.Patterns
 import android.view.Menu
 import android.view.MenuItem
 import com.google.android.material.snackbar.Snackbar
@@ -41,10 +43,13 @@ class LoginsActivity : AppCompatActivity() {
             user.password = binding.password.text.toString()
             user.email = binding.email.text.toString()
 
-            if (user.password.isEmpty()) {
-                Snackbar.make(it, R.string.enter_password, Snackbar.LENGTH_LONG)
+            if (user.email.isEmailValid() || user.email.isEmpty()) {
+                Snackbar.make(it, R.string.enter_email, Snackbar.LENGTH_LONG)
                     .show()
 
+            } else if(user.password.isEmpty()){
+                Snackbar.make(it, R.string.enter_password, Snackbar.LENGTH_LONG)
+                    .show()
             } else {
                 if (edit) {
                     app.users.updateUser(user.copy())
@@ -54,8 +59,6 @@ class LoginsActivity : AppCompatActivity() {
                         Snackbar.make(it, R.string.wrong_password, Snackbar.LENGTH_LONG)
                             .show()
                     } else {
-                        // app.users.createUser(user.copy())
-//                        var result = app.users.findOneUser(ans.Uid)
                         val intent = Intent(this, FoodListActivity::class.java).apply {
                             putExtra("user_signup", ans)
                         }
@@ -69,6 +72,9 @@ class LoginsActivity : AppCompatActivity() {
 
         }
 
+    }
+    fun String.isEmailValid(): Boolean {
+        return !Patterns.EMAIL_ADDRESS.matcher(this).matches()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -85,4 +91,5 @@ class LoginsActivity : AppCompatActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
+
 }

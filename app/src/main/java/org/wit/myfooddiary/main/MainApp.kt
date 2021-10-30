@@ -1,6 +1,8 @@
 package org.wit.myfooddiary.main
 
 import android.app.Application
+import android.text.TextUtils
+import android.util.Patterns
 import org.jetbrains.anko.AnkoLogger
 import org.wit.myfooddiary.models.*
 import timber.log.Timber
@@ -27,4 +29,5 @@ class MainApp : Application() {
         i("Placemark started")
 
     }
+
 }

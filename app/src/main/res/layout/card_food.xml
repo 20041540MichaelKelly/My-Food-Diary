@@ -51,10 +51,33 @@
             app:layout_constraintTop_toBottomOf="@id/foodTitle"
             tools:text="A Description" />
 
+        <TextView
+            android:id="@+id/display_cals"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textAlignment="viewStart"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.052"
+            app:layout_constraintStart_toEndOf="@+id/imageIcon"
+            app:layout_constraintTop_toBottomOf="@id/description"
+            tools:text="calories" />
+
+        <TextView
+            android:id="@+id/date_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textAlignment="viewStart"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.052"
+            app:layout_constraintTop_toBottomOf="@id/display_cals"
+            tools:text="A Description" />
+
         <ImageView
             android:id="@+id/actionRemove"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:layout_marginTop="4dp"
             android:textAlignment="viewStart"
             android:title="@string/remove"
