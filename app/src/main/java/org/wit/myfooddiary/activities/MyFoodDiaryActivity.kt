@@ -69,7 +69,6 @@ class MyFoodDiaryActivity : AppCompatActivity() {
         }
 
         binding.btnAdd.setOnClickListener() {
-            foodItem.fUid = user.Uid
             foodItem.title = binding.foodTitle.text.toString()
             foodItem.description = binding.description.text.toString()
             foodItem.timeForFood = LocalDateTime.now().format(DateTimeFormatter.ofPattern("M/d/y H:m:ss"))
@@ -81,6 +80,7 @@ class MyFoodDiaryActivity : AppCompatActivity() {
                 if (edit) {
                     app.foodItems.update(foodItem.copy())
                 } else {
+                    foodItem.fUid = user.Uid
                     app.foodItems.create(foodItem.copy(), user)
                 }
             }

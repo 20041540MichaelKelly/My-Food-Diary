@@ -19,7 +19,7 @@ val listTypeFood: Type = object : TypeToken<ArrayList<FoodModel>>() {}.type
 
 
 
-fun generateRandomFId(): Long {
+fun generateRandomId(): Long {
     return Random().nextLong()
 }
 
@@ -43,7 +43,7 @@ class FoodItemJSONStore(private val context: Context) : FoodItemStore {
     }
 
     override fun create(foodItem: FoodModel, user: UserModel) {
-        foodItem.id = generateRandomUId()
+        foodItem.id = generateRandomId()
         //foodItem.fUid = user.Uid
         user.foodObject.add(foodItem )
         foodItems.add(foodItem)
@@ -69,9 +69,20 @@ class FoodItemJSONStore(private val context: Context) : FoodItemStore {
     }
 
 
-
     override fun update(foodItem: FoodModel) {
-        // todo
+        val foodItemList = findAll() as ArrayList<FoodModel>
+        var foundFoundItem: FoodModel? = foodItemList.find { p -> p.id == foodItem.id }
+        if (foundFoundItem != null) {
+            foundFoundItem.fUid = foodItem.fUid
+            foundFoundItem.title = foodItem.title
+            foundFoundItem.description = foodItem.description
+            foundFoundItem.amountOfCals = foodItem.amountOfCals
+            foundFoundItem.image = foodItem.image
+            foundFoundItem.lat = foodItem.lat
+            foundFoundItem.lng = foodItem.lng
+            foundFoundItem.zoom = foodItem.zoom
+        }
+        serialize()
     }
 
 
@@ -89,16 +100,12 @@ class FoodItemJSONStore(private val context: Context) : FoodItemStore {
 
     private fun serialize() {
         val jsonString = gsonBuilderFood.toJson(foodItems, listTypeFood)
-
-
         write(context, JSON_FILE_FOOD, jsonString)
     }
 
     private fun deserialize() {
         val jsonString = read(context, JSON_FILE_FOOD)
         foodItems = gsonBuilderFood.fromJson(jsonString, listTypeFood)
-
-
     }
 
     private fun logAll() {

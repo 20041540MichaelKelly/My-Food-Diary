@@ -41,11 +41,11 @@ class MyFoodDiaryAdapter constructor(private var foodItems: List<FoodModel>,
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(foodItem: FoodModel, listener: FoodItemListener) {
-
+            val aCals = foodItem.amountOfCals.toString() +"ckals"
             binding.foodTitle.text = foodItem.title
             binding.description.text = foodItem.description
             Picasso.get().load(foodItem.image).resize(200, 200).into(binding.imageIcon)
-            binding.displayCals.text = foodItem.amountOfCals.toString()
+            binding.displayCals.text = aCals
             binding.dateTime.text = foodItem.timeForFood
             binding.actionRemove.setOnClickListener {
                 Snackbar.make(it, R.string.deleted_foodItem, Snackbar.LENGTH_LONG)

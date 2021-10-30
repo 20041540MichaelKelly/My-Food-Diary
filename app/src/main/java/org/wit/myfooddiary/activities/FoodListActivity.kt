@@ -3,10 +3,8 @@ package org.wit.myfooddiary.activities
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -40,18 +38,8 @@ class FoodListActivity : AppCompatActivity(), FoodItemListener {
         if (intent.hasExtra("user_signup")) {
             signedUp = true
 
-//            // Get the Intent that started this activity and extract the string
-//            val message = intent.extras?.getParcelable("user_signup")!!
-//
-//            // Capture the layout's TextView and set the string as its text
-//            val textView = findViewById<TextView>(R.id.textView).apply {
-//                text = message
-//            }
             user = intent.extras?.getParcelable("user_signup")!!
-           // binding.welcomeMessage.setText("Welcome " + foodItem.firstName)
         }
-
-
 
         val layoutManager = LinearLayoutManager(this)
         binding.recyclerView.layoutManager = layoutManager
@@ -77,16 +65,16 @@ class FoodListActivity : AppCompatActivity(), FoodItemListener {
     }
 
     override fun onFoodItemClick(foodItem: FoodModel) {
-            val launcherIntent = Intent(this, MyFoodDiaryActivity::class.java)
-            launcherIntent.putExtra("fooditem_edit", foodItem)
-            refreshIntentLauncher.launch(launcherIntent)
+        foodItem.fUid = user.Uid
+        val launcherIntent = Intent(this, MyFoodDiaryActivity::class.java)
+        launcherIntent.putExtra("fooditem_edit", foodItem)
+        refreshIntentLauncher.launch(launcherIntent)
     }
 
     override fun onFoodItemDelete(foodItem: FoodModel) {
         app.foodItems.deleteItem(foodItem)
         loadFoodItems(user.Uid)
     }
-
 
     private fun registerRefreshCallback() {
         refreshIntentLauncher =
@@ -95,7 +83,7 @@ class FoodListActivity : AppCompatActivity(), FoodItemListener {
     }
 
     private fun loadFoodItems(id: Long) {
-        var ans = app.foodItems.findAllById(id)
+        val ans = app.foodItems.findAllById(id)
         showFoodItems(ans)
     }
 
