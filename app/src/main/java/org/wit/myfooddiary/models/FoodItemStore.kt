@@ -1,5 +1,7 @@
 package org.wit.myfooddiary.models
 
+import android.net.Uri
+
 interface FoodItemStore {
     fun findAll(): List<FoodModel>
     fun create(foodItem: FoodModel, user: UserModel)

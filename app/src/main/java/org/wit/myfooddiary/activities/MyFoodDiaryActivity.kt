@@ -127,6 +127,13 @@ class MyFoodDiaryActivity : AppCompatActivity() {
             }
         }
         when (item.itemId){
+            R.id.item_gallery -> {
+                val intent = Intent(this, GalleryActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
+        }
+        when (item.itemId){
             R.id.item_logout -> {
                 val intent = Intent(this, LoginsActivity::class.java)
                 startActivity(intent)

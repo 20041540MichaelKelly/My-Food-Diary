@@ -26,7 +26,6 @@ fun generateRandomId(): Long {
 class FoodItemJSONStore(private val context: Context) : FoodItemStore {
 
     var foodItems = mutableListOf<FoodModel>()
-    var users = mutableListOf<UserModel>()
 
     init {
         if (exists(context, JSON_FILE_FOOD)) {

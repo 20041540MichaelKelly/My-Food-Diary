@@ -1,5 +1,6 @@
 package org.wit.myfooddiary.adapters
 
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
@@ -32,11 +33,6 @@ class MyFoodDiaryAdapter constructor(private var foodItems: List<FoodModel>,
 
     override fun getItemCount(): Int = foodItems.size
 
-//    fun findIndex(foodItems: List<FoodModel>, foodItem: FoodModel): Int {
-//        return foodItems.indexOf(foodItem)
-//    }
-
-
     class MainHolder (private val binding : CardFoodBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
@@ -44,7 +40,11 @@ class MyFoodDiaryAdapter constructor(private var foodItems: List<FoodModel>,
             val aCals = foodItem.amountOfCals.toString() +"ckals"
             binding.foodTitle.text = foodItem.title
             binding.description.text = foodItem.description
-            Picasso.get().load(foodItem.image).resize(200, 200).into(binding.imageIcon)
+            if(foodItem.image == Uri.EMPTY){
+                Picasso.get().load("content://com.android.providers.media.documents/document/image%3A5589").resize(200, 200).into(binding.imageIcon)
+            }else{
+                Picasso.get().load(foodItem.image).resize(200, 200).into(binding.imageIcon)
+            }
             binding.displayCals.text = aCals
             binding.dateTime.text = foodItem.timeForFood
             binding.actionRemove.setOnClickListener {

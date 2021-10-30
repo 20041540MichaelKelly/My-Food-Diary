@@ -9,7 +9,6 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.snackbar.Snackbar
 import org.wit.myfooddiary.R
 import org.wit.myfooddiary.adapters.FoodItemListener
 import org.wit.myfooddiary.adapters.MyFoodDiaryAdapter
@@ -38,7 +37,6 @@ class FoodListActivity : AppCompatActivity(), FoodItemListener {
 
         if (intent.hasExtra("user_signup")) {
             signedUp = true
-
             user = intent.extras?.getParcelable("user_signup")!!
         }
 
@@ -91,11 +89,6 @@ class FoodListActivity : AppCompatActivity(), FoodItemListener {
     private fun loadFoodItems(id: Long) {
         val ans = app.foodItems.findAllById(id)
         showFoodItems(ans)
-    }
-
-    private fun seacrhItems(searchValue: String){
-//        var ans = app.foodItems.filter(searchValue)
-
     }
 
     fun showFoodItems (foodItems: List<FoodModel>) {
