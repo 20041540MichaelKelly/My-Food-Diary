@@ -6,4 +6,16 @@
         android:id="@+id/item_cancel"
         android:title="@string/menu_cancelFoodItem"
         app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/item_updateuser"
+        android:icon="@drawable/ic_baseline_edit_attributes_24"
+        android:iconTint="#5D64E2"
+        android:title="@string/menu_cancelFoodItem"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/item_logout"
+        android:icon="@drawable/ic_baseline_exit_to_app_24"
+        android:title="@string/menu_cancelFoodItem"
+        app:showAsAction="always" />
 </menu>

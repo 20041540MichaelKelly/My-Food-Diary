@@ -5,9 +5,12 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class UserModel(var id: Long = 0,
+data class UserModel(var Uid: Long = 0,
                      var firstName: String = "",
                      var lastName: String = "",
                      var email: String = "",
                      var password: String = "",
-                     var image: Uri = Uri.EMPTY) : Parcelable
+                     var foodObject: ArrayList<FoodModel> = ArrayList(),
+                     var Uimage: Uri = Uri.EMPTY) : Parcelable
+
+

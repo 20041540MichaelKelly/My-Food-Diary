@@ -3,15 +3,14 @@ package org.wit.myfooddiary.activities
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Patterns
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
 import com.google.android.material.snackbar.Snackbar
 import org.wit.myfooddiary.R
 import org.wit.myfooddiary.databinding.ActivitySignupBinding
 import org.wit.myfooddiary.main.MainApp
-import org.wit.myfooddiary.models.FoodModel
 import org.wit.myfooddiary.models.UserModel
 import timber.log.Timber
 
@@ -46,7 +45,7 @@ class SignupActivity : AppCompatActivity() {
                 Snackbar.make(it, R.string.enter_last_name, Snackbar.LENGTH_LONG)
                     .show()
             }
-            if(user.email.isEmpty()) {
+            if(user.email.isEmpty() || user.email.isEmailValid()) {
                 Snackbar.make(it, R.string.enter_email, Snackbar.LENGTH_LONG)
                     .show()
             }
@@ -54,18 +53,21 @@ class SignupActivity : AppCompatActivity() {
                 Snackbar.make(it, R.string.enter_password, Snackbar.LENGTH_LONG)
                     .show()
             }
-                app.users.create(user.copy())
-                val intent = Intent(this, LandingPageActivity::class.java).apply {
-                    putExtra("user_signup", user)
+                var ans = app.users.createUser(user.copy())
+                val intent = Intent(this, FoodListActivity::class.java).apply {
+                    putExtra("user_signup", ans)
                 }
                 startActivity(intent)
-
 
             Timber.i("add User Button Pressed: $user")
             setResult(RESULT_OK)
             finish()
         }
 
+    }
+
+    fun String.isEmailValid(): Boolean {
+        return !Patterns.EMAIL_ADDRESS.matcher(this).matches()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

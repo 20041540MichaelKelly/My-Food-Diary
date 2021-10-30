@@ -3,9 +3,10 @@ package org.wit.myfooddiary.activities
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.TextUtils
+import android.util.Patterns
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
 import com.google.android.material.snackbar.Snackbar
 import org.wit.myfooddiary.R
 import org.wit.myfooddiary.databinding.ActivityLoginsBinding
@@ -41,24 +42,39 @@ class LoginsActivity : AppCompatActivity() {
         binding.btnLogin.setOnClickListener() {
             user.password = binding.password.text.toString()
             user.email = binding.email.text.toString()
-            if (user.password.isEmpty()) {
-                Snackbar.make(it,R.string.enter_user_name, Snackbar.LENGTH_LONG)
+
+            if (user.email.isEmailValid() || user.email.isEmpty()) {
+                Snackbar.make(it, R.string.enter_email, Snackbar.LENGTH_LONG)
+                    .show()
+
+            } else if(user.password.isEmpty()){
+                Snackbar.make(it, R.string.enter_password, Snackbar.LENGTH_LONG)
                     .show()
             } else {
                 if (edit) {
-                    app.users.update(user.copy())
+                    app.users.updateUser(user.copy())
                 } else {
-                    var ans = app.users.checkCredientials(user.copy())
-                    if(!ans) {
-                        app.users.create(user.copy())
+                    val ans = app.users.checkCredientials(user.copy())
+                    if (ans == null) {
+                        Snackbar.make(it, R.string.wrong_password, Snackbar.LENGTH_LONG)
+                            .show()
+                    } else {
+                        val intent = Intent(this, FoodListActivity::class.java).apply {
+                            putExtra("user_signup", ans)
+                        }
+                        startActivity(intent)
+                        finish()
                     }
                 }
             }
             Timber.i("add Button Pressed: $user")
             setResult(RESULT_OK)
-            finish()
+
         }
 
+    }
+    fun String.isEmailValid(): Boolean {
+        return !Patterns.EMAIL_ADDRESS.matcher(this).matches()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -75,4 +91,5 @@ class LoginsActivity : AppCompatActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
+
 }

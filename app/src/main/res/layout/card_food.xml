@@ -17,7 +17,7 @@
         <ImageView
             android:id="@+id/imageIcon"
             android:layout_width="64dp"
-            android:layout_height="64dp"
+            android:layout_height="90dp"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="16dp"
             android:contentDescription="@string/change_food_image"
@@ -50,6 +50,43 @@
             app:layout_constraintStart_toEndOf="@+id/imageIcon"
             app:layout_constraintTop_toBottomOf="@id/foodTitle"
             tools:text="A Description" />
+
+        <TextView
+            android:id="@+id/display_cals"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textAlignment="viewStart"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.052"
+            app:layout_constraintStart_toEndOf="@+id/imageIcon"
+            app:layout_constraintTop_toBottomOf="@id/description"
+            tools:text="calories" />
+
+        <TextView
+            android:id="@+id/date_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textAlignment="viewStart"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.052"
+            app:layout_constraintTop_toBottomOf="@id/display_cals"
+            tools:text="A Description" />
+
+        <ImageView
+            android:id="@+id/actionRemove"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginTop="4dp"
+            android:textAlignment="viewStart"
+            android:title="@string/remove"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.81"
+            app:layout_constraintStart_toEndOf="@+id/foodTitle"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@android:drawable/ic_delete" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

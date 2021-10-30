@@ -14,12 +14,17 @@ import org.wit.myfooddiary.adapters.MyFoodDiaryAdapter
 import org.wit.myfooddiary.databinding.ActivityFoodListBinding
 import org.wit.myfooddiary.main.MainApp
 import org.wit.myfooddiary.models.FoodModel
+import org.wit.myfooddiary.models.UserModel
+
 
 class FoodListActivity : AppCompatActivity(), FoodItemListener {
 
     lateinit var app: MainApp
     private lateinit var binding: ActivityFoodListBinding
     private lateinit var refreshIntentLauncher : ActivityResultLauncher<Intent>
+    var signedUp = false
+    var foodItem = FoodModel()
+    var user = UserModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,10 +35,15 @@ class FoodListActivity : AppCompatActivity(), FoodItemListener {
 
         app = application as MainApp
 
+        if (intent.hasExtra("user_signup")) {
+            signedUp = true
+
+            user = intent.extras?.getParcelable("user_signup")!!
+        }
+
         val layoutManager = LinearLayoutManager(this)
         binding.recyclerView.layoutManager = layoutManager
-        binding.recyclerView.adapter = MyFoodDiaryAdapter(app.foodItems.findAll(),this)
-
+        loadFoodItems(user.Uid)
         registerRefreshCallback()
     }
 
@@ -45,7 +55,9 @@ class FoodListActivity : AppCompatActivity(), FoodItemListener {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.item_add -> {
-                val launcherIntent = Intent(this, MyFoodDiaryActivity::class.java)
+                val launcherIntent = Intent(this, MyFoodDiaryActivity::class.java).apply {
+                    putExtra("foodItem_create", user)
+                }
                 refreshIntentLauncher.launch(launcherIntent)
             }
         }
@@ -53,14 +65,30 @@ class FoodListActivity : AppCompatActivity(), FoodItemListener {
     }
 
     override fun onFoodItemClick(foodItem: FoodModel) {
+        foodItem.fUid = user.Uid
         val launcherIntent = Intent(this, MyFoodDiaryActivity::class.java)
         launcherIntent.putExtra("fooditem_edit", foodItem)
         refreshIntentLauncher.launch(launcherIntent)
     }
 
+    override fun onFoodItemDelete(foodItem: FoodModel) {
+        app.foodItems.deleteItem(foodItem)
+        loadFoodItems(user.Uid)
+    }
+
     private fun registerRefreshCallback() {
         refreshIntentLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult())
-            { binding.recyclerView.adapter?.notifyDataSetChanged() }
+            { loadFoodItems(user.Uid) }
+    }
+
+    private fun loadFoodItems(id: Long) {
+        val ans = app.foodItems.findAllById(id)
+        showFoodItems(ans)
+    }
+
+    fun showFoodItems (foodItems: List<FoodModel>) {
+        binding.recyclerView.adapter = MyFoodDiaryAdapter(foodItems, this)
+        binding.recyclerView.adapter?.notifyDataSetChanged()
     }
 }
