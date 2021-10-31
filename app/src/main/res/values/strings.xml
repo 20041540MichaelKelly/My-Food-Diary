@@ -31,4 +31,11 @@
     <string name="button_Login">Login</string>
     <string name="remove">remove</string>
     <string name="deleted_foodItem">Food Item Deleted</string>
+    <string name="no_search_result">No Result for the search</string>
+    <string name="menu_update_user">update user</string>
+    <string name="menu_gallery">gallery</string>
+    <string name="menu_logout">logout</string>
+    <string name="food_image">Image of food</string>
+    <string name="email_exists">This email exists</string>
+    <string name="user_updated">User Updated</string>
 </resources>

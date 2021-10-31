@@ -17,18 +17,13 @@ val gsonBuilderFood: Gson = GsonBuilder().setPrettyPrinting()
     .create()
 val listTypeFood: Type = object : TypeToken<ArrayList<FoodModel>>() {}.type
 
-
-
 fun generateRandomId(): Long {
     return Random().nextLong()
 }
 
 class FoodItemJSONStore(private val context: Context) : FoodItemStore {
 
-
     var foodItems = mutableListOf<FoodModel>()
-    var users = mutableListOf<UserModel>()
-
 
     init {
         if (exists(context, JSON_FILE_FOOD)) {
@@ -44,7 +39,6 @@ class FoodItemJSONStore(private val context: Context) : FoodItemStore {
 
     override fun create(foodItem: FoodModel, user: UserModel) {
         foodItem.id = generateRandomId()
-        //foodItem.fUid = user.Uid
         user.foodObject.add(foodItem )
         foodItems.add(foodItem)
         serialize()
@@ -68,7 +62,6 @@ class FoodItemJSONStore(private val context: Context) : FoodItemStore {
         serialize()
     }
 
-
     override fun update(foodItem: FoodModel) {
         val foodItemList = findAll() as ArrayList<FoodModel>
         var foundFoundItem: FoodModel? = foodItemList.find { p -> p.id == foodItem.id }
@@ -85,7 +78,15 @@ class FoodItemJSONStore(private val context: Context) : FoodItemStore {
         serialize()
     }
 
-
+   override fun findAllBySearchValue(searchValue: String): List<FoodModel>? {
+       val iList = ArrayList<FoodModel>()
+       for (f in foodItems) {
+           if (f.title == searchValue) {
+               iList.add(f)
+           }
+       }
+       return iList
+   }
 
     override fun findAllById(id: Long): List<FoodModel> {
         val iList = ArrayList<FoodModel>()
@@ -96,7 +97,6 @@ class FoodItemJSONStore(private val context: Context) : FoodItemStore {
         return iList
 
     }
-
 
     private fun serialize() {
         val jsonString = gsonBuilderFood.toJson(foodItems, listTypeFood)

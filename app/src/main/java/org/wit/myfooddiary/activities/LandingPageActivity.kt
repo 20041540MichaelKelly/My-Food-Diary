@@ -26,14 +26,6 @@ class LandingPageActivity : AppCompatActivity() {
 
         if (intent.hasExtra("foodItem_create")) {
             signedUp = true
-
-//            // Get the Intent that started this activity and extract the string
-//            val message = intent.extras?.getParcelable("user_signup")!!
-//
-//            // Capture the layout's TextView and set the string as its text
-//            val textView = findViewById<TextView>(R.id.textView).apply {
-//                text = message
-//            }
             user = intent.extras?.getParcelable("foodItem_create")!!
             binding.welcomeMessage.setText("Welcome " + user.firstName)
         }

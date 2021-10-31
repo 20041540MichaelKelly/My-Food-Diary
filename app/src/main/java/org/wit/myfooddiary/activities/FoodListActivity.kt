@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,15 +17,14 @@ import org.wit.myfooddiary.main.MainApp
 import org.wit.myfooddiary.models.FoodModel
 import org.wit.myfooddiary.models.UserModel
 
-
 class FoodListActivity : AppCompatActivity(), FoodItemListener {
 
     lateinit var app: MainApp
     private lateinit var binding: ActivityFoodListBinding
     private lateinit var refreshIntentLauncher : ActivityResultLauncher<Intent>
     var signedUp = false
-    var foodItem = FoodModel()
     var user = UserModel()
+    var searchReq = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,8 +37,12 @@ class FoodListActivity : AppCompatActivity(), FoodItemListener {
 
         if (intent.hasExtra("user_signup")) {
             signedUp = true
-
             user = intent.extras?.getParcelable("user_signup")!!
+        }
+
+        binding.searchButton.setOnClickListener(){
+            searchReq = binding.searchValue.text.toString()
+            onSearchItem(searchReq)
         }
 
         val layoutManager = LinearLayoutManager(this)
@@ -90,5 +94,14 @@ class FoodListActivity : AppCompatActivity(), FoodItemListener {
     fun showFoodItems (foodItems: List<FoodModel>) {
         binding.recyclerView.adapter = MyFoodDiaryAdapter(foodItems, this)
         binding.recyclerView.adapter?.notifyDataSetChanged()
+    }
+
+    fun onSearchItem(searchValue: String){
+        val iSearchVal = app.foodItems.findAllBySearchValue(searchValue)
+        if (iSearchVal == null){
+            Toast.makeText(this, "No result for search value", Toast.LENGTH_LONG).show()
+        }else{
+            showFoodItems(iSearchVal)
+        }
     }
 }

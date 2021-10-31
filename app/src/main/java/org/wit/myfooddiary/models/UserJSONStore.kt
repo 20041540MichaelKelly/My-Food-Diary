@@ -19,26 +19,19 @@ val gsonBuilder: Gson = GsonBuilder().setPrettyPrinting()
     .create()
 val listType: Type = object : TypeToken<ArrayList<UserModel>>() {}.type
 
-
-
 fun generateRandomUId(): Long {
     return Random().nextLong()
 }
 
 class UserJSONStore(private val context: Context) : UserStore {
 
-
-    var foodItems = mutableListOf<FoodModel>()
     var users = mutableListOf<UserModel>()
-
 
     init {
         if (exists(context, JSON_FILE)) {
             deserialize()
-
         }
     }
-
 
     override fun deleteUser(user: UserModel) {
         users.remove(user)
@@ -46,32 +39,45 @@ class UserJSONStore(private val context: Context) : UserStore {
     }
 
     override fun findAllUsers(): List<UserModel> {
-        TODO("Not yet implemented")
+        logAll()
+        return users
     }
 
     override fun findOneUser(id: Long): UserModel? {
-        var foundUser: UserModel? = users.find { p -> p.Uid == id }
+        val foundUser: UserModel? = users.find { p -> p.Uid == id }
         return foundUser
     }
 
-    override fun createUser(user: UserModel): UserModel {
-        user.Uid = generateRandomUId()
-        users.add(user)
-        serialize()
-        return user
+    override fun createUser(user: UserModel): UserModel? {
+        val userList = findAllUsers() as ArrayList<UserModel>
+        val foundUser: UserModel? = userList.find { p -> p.email == user.email }
+        if(foundUser != null){
+            return null
+        }else {
+            user.Uid = generateRandomUId()
+            users.add(user)
+            serialize()
+            return user
+        }
     }
 
-
     override fun updateUser(user: UserModel) {
-        // todo
+        val userList = findAllUsers() as ArrayList<UserModel>
+        val foundUser: UserModel? = userList.find { p -> p.Uid == user.Uid }
+        if (foundUser != null) {
+            foundUser.Uid = user.Uid
+            foundUser.firstName = user.firstName
+            foundUser.lastName = user.lastName
+            foundUser.email = user.email
+            foundUser.password = user.password
+        }
+        serialize()
     }
 
     override fun checkCredientials(user: UserModel): UserModel? {
-        var foundUser: UserModel? = users.find { p ->
+        val foundUser: UserModel? = users.find { p ->
             p.password == user.password &&
                     p.email == user.email
-//                    &&
-//                        isValidEmail(user.email)
         }
         return foundUser
 
@@ -79,16 +85,12 @@ class UserJSONStore(private val context: Context) : UserStore {
 
     private fun serialize() {
         val jsonString = gsonBuilder.toJson(users, listType)
-
-
         write(context, JSON_FILE, jsonString)
     }
 
     private fun deserialize() {
         val jsonString = read(context, JSON_FILE)
         users = gsonBuilder.fromJson(jsonString, listType)
-
-
     }
 
     private fun logAll() {

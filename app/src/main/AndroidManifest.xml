@@ -13,6 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyFoodDiary">
         <activity
+            android:name=".activities.GalleryActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.LandingPageActivity"
             android:exported="true" />
 
