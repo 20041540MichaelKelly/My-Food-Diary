@@ -63,7 +63,7 @@ class SignupActivity : AppCompatActivity() {
                 app.users.updateUser(user.copy())
                 Snackbar.make(it, R.string.user_updated, Snackbar.LENGTH_LONG)
                     .show()
-                val intent = Intent(this, FoodListActivity::class.java)
+                val intent = Intent(this, MyFoodDiaryActivity::class.java)
                 startActivity(intent)
                 finish()
             } else {
