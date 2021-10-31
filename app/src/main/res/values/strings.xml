@@ -35,4 +35,7 @@
     <string name="menu_update_user">update user</string>
     <string name="menu_gallery">gallery</string>
     <string name="menu_logout">logout</string>
+    <string name="food_image">Image of food</string>
+    <string name="email_exists">This email exists</string>
+    <string name="user_updated">User Updated</string>
 </resources>

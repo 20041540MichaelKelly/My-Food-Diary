@@ -66,36 +66,33 @@
                     android:padding="8dp"
                     android:textColor="@color/colorPrimaryDark"
                     android:textSize="14sp" />
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-                <NumberPicker
-                    android:id="@+id/amountOfCals"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.973"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.333" />
+                    <NumberPicker
+                        android:id="@+id/amountOfCals"
+                        android:layout_width="124dp"
+                        android:layout_height="188dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginBottom="8dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.973"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.333" />
 
-                <TextClock
-                    android:id="@+id/timeOfFood"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignRight="@+id/amountOfCals"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.973"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.333" />
+                    <TextClock
+                        android:id="@+id/timeOfFood"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="168dp" />
+                </RelativeLayout>
 
 <!--                <TimePicker-->
 <!--                    android:id="@+id/timePickerForFood"-->
@@ -113,17 +110,17 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"
                     android:background="@color/colorAccent"
-                    android:paddingBottom="8dp"
                     android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
                     android:text="@string/button_addImage"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="16sp"/>
+                    android:textColor="#455A64"
+                    android:textSize="16sp" />
 
                 <ImageView
                     android:id="@+id/foodImage"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:srcCompat="@mipmap/ic_launcher"/>
+                    app:srcCompat="@drawable/ic_baseline_image_24" />
 
                 <Button
                     android:id="@+id/foodItemLocation"

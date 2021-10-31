@@ -58,4 +58,6 @@ class MyFoodDiaryAdapter constructor(private var foodItems: List<FoodModel>,
             }
         }
     }
+
+
 }

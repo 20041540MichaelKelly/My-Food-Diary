@@ -5,17 +5,22 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.squareup.picasso.Picasso
 import org.wit.myfooddiary.R
+import org.wit.myfooddiary.adapters.FoodItemListener
+import org.wit.myfooddiary.adapters.GalleryAdapter
 import org.wit.myfooddiary.databinding.ActivityGalleryBinding
 import org.wit.myfooddiary.main.MainApp
 import org.wit.myfooddiary.models.FoodModel
 
-class GalleryActivity : AppCompatActivity() {
+class GalleryActivity : AppCompatActivity(), FoodItemListener {
     lateinit var app: MainApp
     private lateinit var binding: ActivityGalleryBinding
-    var foodItem = FoodModel()
+    private lateinit var refreshIntentLauncher : ActivityResultLauncher<Intent>
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,7 +30,11 @@ class GalleryActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbar)
 
         app = application as MainApp
+
+        val layoutManager = LinearLayoutManager(this)
+        binding.recyclerView.layoutManager = layoutManager
         loadPictures()
+        registerRefreshCallback()
     }
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_fooditem, menu)
@@ -56,14 +65,26 @@ class GalleryActivity : AppCompatActivity() {
     }
 
     private fun loadPictures() {
-        val receivePics =  app.foodItems.findAll()
+        val receivePics = app.foodItems.findAll()
         showPictures(receivePics)
     }
 
-    private fun showPictures(foodItems: List<FoodModel>) {
-        for (f in foodItems) {
-            Picasso.get().load(f.image).resize(200, 200).into(binding.imageIcon)
-        }
+    private fun registerRefreshCallback() {
+        refreshIntentLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult())
+            { loadPictures() }
+    }
 
+    private fun showPictures(foodItems: List<FoodModel>) {
+        binding.recyclerView.adapter = GalleryAdapter(foodItems, this)
+        binding.recyclerView.adapter?.notifyDataSetChanged()
+    }
+
+    override fun onFoodItemClick(foodItem: FoodModel) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onFoodItemDelete(foodItem: FoodModel) {
+        TODO("Not yet implemented")
     }
 }

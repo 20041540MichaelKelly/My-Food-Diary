@@ -121,7 +121,9 @@ class MyFoodDiaryActivity : AppCompatActivity() {
         }
         when (item.itemId){
             R.id.item_updateuser -> {
-                val intent = Intent(this, SignupActivity::class.java)
+                val intent = Intent(this, SignupActivity::class.java).apply {
+                    putExtra("user_edit", user)
+                }
                 startActivity(intent)
                 finish()
             }
