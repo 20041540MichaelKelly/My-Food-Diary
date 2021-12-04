@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/myFoodDiaryFragment"
-        android:name="org.wit.myfooddiary.MyFoodDiaryFragment"
+        android:name="org.wit.myfooddiary.fragments.MyFoodDiaryFragment"
         android:label="fragment_my_food_diary"
         tools:layout="@layout/fragment_my_food_diary" >
         <action
@@ -18,7 +18,7 @@
     </fragment>
     <fragment
         android:id="@+id/myFoodListFragment"
-        android:name="org.wit.myfooddiary.MyFoodListFragment"
+        android:name="org.wit.myfooddiary.fragments.MyFoodListFragment"
         android:label="fragment_my_food_list"
         tools:layout="@layout/fragment_my_food_list" />
 </navigation>

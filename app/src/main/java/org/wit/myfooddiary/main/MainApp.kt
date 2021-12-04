@@ -23,6 +23,7 @@ class MainApp : Application() {
         super.onCreate()
         Timber.plant(Timber.DebugTree())
         foodItems = FoodItemJSONStore(applicationContext)
+
         users = UserJSONStore(applicationContext)
 
         // users = UserJSONStore(applicationContext)

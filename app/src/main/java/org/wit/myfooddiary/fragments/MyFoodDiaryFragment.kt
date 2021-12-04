@@ -1,4 +1,4 @@
-package org.wit.myfooddiary
+package org.wit.myfooddiary.fragments
 
 import android.content.Intent
 import android.net.Uri
@@ -12,6 +12,8 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
+import org.wit.myfooddiary.R
+import org.wit.myfooddiary.activities.MapActivity
 import org.wit.myfooddiary.databinding.FragmentMyFoodDiaryBinding
 import org.wit.myfooddiary.helpers.showImagePicker
 import org.wit.myfooddiary.main.MainApp
@@ -69,13 +71,21 @@ class MyFoodDiaryFragment : Fragment() {
             }
         }
 
-//        if (activity?.intent?.hasExtra("foodItem_create") != null) {
-//            user = activity?.intent?.extras?.getParcelable("foodItem_create")!!
-//        }
+        if (getActivity()?.intent?.hasExtra("foodItem_create") != null) {
+            user = activity?.intent?.extras?.getParcelable("foodItem_create")!!
+        }
 
         setButtonListener(fragBinding)
 
         return root;
+    }
+
+    companion object {
+        @JvmStatic
+        fun newInstance() =
+            MyFoodDiaryFragment().apply {
+                arguments = Bundle().apply {}
+            }
     }
 
     override fun onDestroyView() {
@@ -90,12 +100,12 @@ class MyFoodDiaryFragment : Fragment() {
 
     fun setButtonListener(layout: FragmentMyFoodDiaryBinding) {
         layout.btnAdd.setOnClickListener() {
-            foodItem.title = fragBinding.foodTitle.text.toString()
-            foodItem.description = fragBinding.description.text.toString()
+            foodItem.title = layout.foodTitle.text.toString()
+            foodItem.description = layout.description.text.toString()
             foodItem.timeForFood = LocalDateTime.now().format(DateTimeFormatter.ofPattern("M/d/y H:m:ss"))
-            foodItem.amountOfCals = fragBinding.amountOfCals.value
+            foodItem.amountOfCals = layout.amountOfCals.value
             if (foodItem.title.isEmpty()) {
-                Snackbar.make(it,R.string.enter_fooditem_title, Snackbar.LENGTH_LONG)
+                Snackbar.make(it, R.string.enter_fooditem_title, Snackbar.LENGTH_LONG)
                     .show()
             } else {
                 if (edit) {
@@ -106,8 +116,8 @@ class MyFoodDiaryFragment : Fragment() {
                 }
             }
             Timber.i("add Button Pressed: $foodItem")
-            //setResult(AppCompatActivity.RESULT_OK)
-            //finish()
+            getActivity()?.setResult(AppCompatActivity.RESULT_OK);
+            getActivity()?.finish();
         }
 
         layout.chooseImage.setOnClickListener {
@@ -121,6 +131,9 @@ class MyFoodDiaryFragment : Fragment() {
                 location.lng = foodItem.lng
                 location.zoom = foodItem.zoom
             }
+            val launcherIntent = Intent(getActivity(), MapActivity::class.java)
+                .putExtra("location", location)
+            mapIntentLauncher.launch(launcherIntent)
 
         }
         registerImagePickerCallback()
@@ -133,10 +146,8 @@ class MyFoodDiaryFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return NavigationUI.onNavDestinationSelected(
-            item,
-            requireView().findNavController()
-        ) || super.onOptionsItemSelected(item)
+        return NavigationUI.onNavDestinationSelected(item,
+            requireView().findNavController()) || super.onOptionsItemSelected(item)
     }
 
     private fun registerImagePickerCallback() {
