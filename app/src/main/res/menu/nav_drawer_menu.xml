@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/myFoodDiaryFragment"
+            android:icon="@drawable/ic_baseline_food_bank_24"
+            android:title="@string/action_myfooddiary" />
+        <item
+            android:id="@+id/myFoodListFragment"
+            android:icon="@drawable/ic_baseline_list_24"
+            android:title="@string/action_myfoodlist" />
+    </group>
+
+    <item android:title="@string/group_communicate">
+        <menu>
+            <item
+                android:id="@+id/nav_share"
+                android:icon="@drawable/ic_baseline_share_24"
+                android:title="@string/action_share" />
+            <item
+                android:id="@+id/nav_send"
+                android:icon="@drawable/ic_baseline_send_24"
+                android:title="@string/action_send" />
+        </menu>
+    </item>
+</menu>

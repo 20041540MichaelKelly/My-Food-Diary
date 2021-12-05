@@ -20,5 +20,9 @@
         android:id="@+id/myFoodListFragment"
         android:name="org.wit.myfooddiary.fragments.MyFoodListFragment"
         android:label="fragment_my_food_list"
-        tools:layout="@layout/fragment_my_food_list" />
+        tools:layout="@layout/fragment_my_food_list" >
+        <action
+            android:id="@+id/action_myFoodListFragment_to_myFoodDiaryFragment"
+            app:destination="@id/myFoodDiaryFragment" />
+    </fragment>
 </navigation>
