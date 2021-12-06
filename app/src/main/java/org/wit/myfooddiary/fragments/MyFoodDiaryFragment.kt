@@ -71,9 +71,7 @@ class MyFoodDiaryFragment : Fragment() {
             }
         }
 
-        if (getActivity()?.intent?.hasExtra("foodItem_create") != null) {
-            user = activity?.intent?.extras?.getParcelable("foodItem_create")!!
-        }
+
 
         setButtonListener(fragBinding)
 
@@ -143,6 +141,7 @@ class MyFoodDiaryFragment : Fragment() {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_myfooddiary, menu)
+        super.onCreateOptionsMenu(menu, inflater)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
