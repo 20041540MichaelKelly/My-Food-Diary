@@ -1,4 +1,4 @@
-package org.wit.myfooddiary.fragments
+package org.wit.myfooddiary.ui.fooddiary
 
 import android.content.Intent
 import android.net.Uri

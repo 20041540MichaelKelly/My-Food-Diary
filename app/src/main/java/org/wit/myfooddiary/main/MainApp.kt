@@ -22,8 +22,8 @@ class MainApp : Application() {
     override fun onCreate() {
         super.onCreate()
         Timber.plant(Timber.DebugTree())
-        foodItems = FoodItemJSONStore(applicationContext)
-
+        //foodItems = FoodItemJSONStore(applicationContext)
+        //foodItems = FoodManager()
         users = UserJSONStore(applicationContext)
 
         // users = UserJSONStore(applicationContext)
