@@ -37,13 +37,17 @@ class FoodItemJSONStore(private val context: Context) : FoodItemStore {
         return foodItems
     }
 
-    override fun create(foodItem: FoodModel, user: UserModel) {
-        foodItem.id = generateRandomId()
-        user.foodObject.add(foodItem )
-        foodItems.add(foodItem)
-        serialize()
-
+    override fun create(foodItem: FoodModel) {
+        TODO("Not yet implemented")
     }
+
+//    override fun create(foodItem: FoodModel, user: UserModel) {
+//        foodItem.id = generateRandomId()
+//        user.foodObject.add(foodItem )
+//        foodItems.add(foodItem)
+//        serialize()
+//
+//    }
 
     override fun removeItem(foodItem: FoodModel) {
         foodItem.id = 0L

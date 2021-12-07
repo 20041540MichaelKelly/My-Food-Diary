@@ -28,7 +28,8 @@ class MyFoodDiaryAdapter constructor(private var foodItems: List<FoodModel>,
 
     override fun onBindViewHolder(holder: MainHolder, position: Int) {
         val foodItem = foodItems[holder.adapterPosition]
-        holder.bind(foodItem, listener)
+       // holder.bind(foodItem, listener)
+        holder.bind(foodItem)
     }
 
     override fun getItemCount(): Int = foodItems.size
@@ -36,27 +37,37 @@ class MyFoodDiaryAdapter constructor(private var foodItems: List<FoodModel>,
     class MainHolder (private val binding : CardFoodBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(foodItem: FoodModel, listener: FoodItemListener) {
-            val aCals = foodItem.amountOfCals.toString() +"ckals"
-            binding.foodTitle.text = foodItem.title
-            binding.description.text = foodItem.description
-            if(foodItem.image == Uri.EMPTY){
-                Picasso.get().load("content://com.android.providers.media.documents/document/image%3A5589").resize(200, 200).into(binding.imageIcon)
-            }else{
-                Picasso.get().load(foodItem.image).resize(200, 200).into(binding.imageIcon)
-            }
-            binding.displayCals.text = aCals
-            binding.dateTime.text = foodItem.timeForFood
-            binding.actionRemove.setOnClickListener {
-                Snackbar.make(it, R.string.deleted_foodItem, Snackbar.LENGTH_LONG)
-                    .show()
-                listener.onFoodItemDelete(foodItem)
-                true
-            }
-            binding.root.setOnClickListener {
-                listener.onFoodItemClick(foodItem)
-            }
+        fun bind(foodItem: FoodModel) {
+            //binding.paymentamount.text = donation.amount.toString()
+            //binding.paymentmethod.text = donation.paymentmethod
+
+            binding.foodItem = foodItem
+            binding.imageIcon.setImageResource(R.mipmap.ic_launcher_round)
+            //Include this call to force the bindings to happen immediately
+            binding.executePendingBindings()
         }
+
+//        fun bind(foodItem: FoodModel, listener: FoodItemListener) {
+//            val aCals = foodItem.amountOfCals.toString() +"ckals"
+//            binding.foodTitle.text = foodItem.title
+//            binding.description.text = foodItem.description
+//            if(foodItem.image == Uri.EMPTY){
+//                Picasso.get().load("content://com.android.providers.media.documents/document/image%3A5589").resize(200, 200).into(binding.imageIcon)
+//            }else{
+//                Picasso.get().load(foodItem.image).resize(200, 200).into(binding.imageIcon)
+//            }
+//            binding.displayCals.text = aCals
+//            binding.dateTime.text = foodItem.timeForFood
+//            binding.actionRemove.setOnClickListener {
+//                Snackbar.make(it, R.string.deleted_foodItem, Snackbar.LENGTH_LONG)
+//                    .show()
+//                listener.onFoodItemDelete(foodItem)
+//                true
+//            }
+//            binding.root.setOnClickListener {
+//                listener.onFoodItemClick(foodItem)
+//            }
+//        }
     }
 
 

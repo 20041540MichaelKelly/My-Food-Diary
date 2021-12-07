@@ -4,10 +4,13 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.google.android.material.snackbar.Snackbar
@@ -29,7 +32,8 @@ class MyFoodDiaryFragment : Fragment() {
     private val fragBinding get() = _fragBinding!!
     var foodItem = FoodModel()
     var user = UserModel()
-    lateinit var app: MainApp
+   // lateinit var app: MainApp
+   private lateinit var myFoodDiaryViewModel: MyFoodDiaryViewModel
     private lateinit var imageIntentLauncher : ActivityResultLauncher<Intent>
     private lateinit var mapIntentLauncher : ActivityResultLauncher<Intent>
     val IMAGE_REQUEST = 1
@@ -37,7 +41,7 @@ class MyFoodDiaryFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        app = activity?.application as MainApp
+//        app = activity?.application as MainApp
         setHasOptionsMenu(true)
     }
 
@@ -47,7 +51,12 @@ class MyFoodDiaryFragment : Fragment() {
     ): View? {
         _fragBinding = FragmentMyFoodDiaryBinding.inflate(inflater, container, false)
         val root = fragBinding.root
-        activity?.title = getString(R.string.action_myfooddiary)
+       // activity?.title = getString(R.string.action_myfooddiary)
+
+        myFoodDiaryViewModel = ViewModelProvider(this).get(MyFoodDiaryViewModel::class.java)
+        myFoodDiaryViewModel.observableStatus.observe(viewLifecycleOwner, Observer {
+                status -> status?.let { render(status) }
+        })
 
         fragBinding.amountOfCals.minValue = 1
         fragBinding.amountOfCals.maxValue = 1000
@@ -57,43 +66,36 @@ class MyFoodDiaryFragment : Fragment() {
             // donateLayout.paymentAmount.setText("$newVal")
             foodItem.amountOfCals = newVal
         }
-        if (getActivity()?.getIntent()?.getExtras()?.getString("fooditem_edit") != null) {
-            edit = true
-            foodItem = activity?.intent?.extras?.getParcelable("fooditem_edit")!!
-            fragBinding.foodTitle.setText(foodItem.title)
-            fragBinding.description.setText(foodItem.description)
-            fragBinding.btnAdd.setText(R.string.save_fooditem)
-            Picasso.get()
-                .load(foodItem.image)
-                .into(fragBinding.foodImage)
-            if (foodItem.image != Uri.EMPTY) {
-                fragBinding.chooseImage.setText(R.string.change_food_image)
-            }
-        }
-
-
+//        if (getActivity()?.getIntent()?.getExtras()?.getString("fooditem_edit") != null) {
+//            edit = true
+//            foodItem = activity?.intent?.extras?.getParcelable("fooditem_edit")!!
+//            fragBinding.foodTitle.setText(foodItem.title)
+//            fragBinding.description.setText(foodItem.description)
+//            fragBinding.btnAdd.setText(R.string.save_fooditem)
+//            Picasso.get()
+//                .load(foodItem.image)
+//                .into(fragBinding.foodImage)
+//            if (foodItem.image != Uri.EMPTY) {
+//                fragBinding.chooseImage.setText(R.string.change_food_image)
+//            }
+//        }
 
         setButtonListener(fragBinding)
 
         return root;
     }
 
-    companion object {
-        @JvmStatic
-        fun newInstance() =
-            MyFoodDiaryFragment().apply {
-                arguments = Bundle().apply {}
+    private fun render(status: Boolean) {
+        when (status) {
+            true -> {
+                view?.let {
+                    //Uncomment this if you want to immediately return to Report
+                    //findNavController().popBackStack()
+                }
             }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _fragBinding = null
-    }
-
-    override fun onResume() {
-        super.onResume()
-
+            false -> Toast.makeText(context, getString(R.string.foodItemError), Toast.LENGTH_LONG)
+                .show()
+        }
     }
 
     fun setButtonListener(layout: FragmentMyFoodDiaryBinding) {
@@ -102,20 +104,23 @@ class MyFoodDiaryFragment : Fragment() {
             foodItem.description = layout.description.text.toString()
             foodItem.timeForFood = LocalDateTime.now().format(DateTimeFormatter.ofPattern("M/d/y H:m:ss"))
             foodItem.amountOfCals = layout.amountOfCals.value
-            if (foodItem.title.isEmpty()) {
+            if (foodItem.description.isEmpty()) {
                 Snackbar.make(it, R.string.enter_fooditem_title, Snackbar.LENGTH_LONG)
                     .show()
-            } else {
-                if (edit) {
-                    app.foodItems.update(foodItem.copy())
-                } else {
-                    foodItem.fUid = user.Uid
-                    app.foodItems.create(foodItem.copy(), user)
-                }
             }
-            Timber.i("add Button Pressed: $foodItem")
-            getActivity()?.setResult(AppCompatActivity.RESULT_OK);
-            getActivity()?.finish();
+            myFoodDiaryViewModel.addFoodItem(foodItem.copy())
+//            } else {
+//                if (edit) {
+//                    layout.foodItems.update(foodItem.copy())
+//                } else {
+//                    foodItem.fUid = user.Uid
+//                 //   app.foodItems.create(foodItem.copy(), user)
+//                    app.foodItems.create(foodItem.copy())
+//                }
+//            }
+//            Timber.i("add Button Pressed: $foodItem")
+//            getActivity()?.setResult(AppCompatActivity.RESULT_OK);
+//            getActivity()?.finish();
         }
 
         layout.chooseImage.setOnClickListener {
@@ -187,5 +192,10 @@ class MyFoodDiaryFragment : Fragment() {
                     AppCompatActivity.RESULT_CANCELED -> { } else -> { }
                 }
             }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _fragBinding = null
     }
 }

@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
+<layout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="foodItem"
+            type="org.wit.myfooddiary.models.FoodModel" />
+    </data>
+<androidx.cardview.widget.CardView
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -37,7 +43,7 @@
             app:layout_constraintHorizontal_bias="0.048"
             app:layout_constraintStart_toEndOf="@+id/imageIcon"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="A Title" />
+            tools:text="@{foodItem.title}" />
 
         <TextView
             android:id="@+id/description"
@@ -49,7 +55,7 @@
             app:layout_constraintHorizontal_bias="0.052"
             app:layout_constraintStart_toEndOf="@+id/imageIcon"
             app:layout_constraintTop_toBottomOf="@id/foodTitle"
-            tools:text="A Description" />
+            tools:text="@{foodItem.description}" />
 
         <TextView
             android:id="@+id/display_cals"
@@ -61,7 +67,7 @@
             app:layout_constraintHorizontal_bias="0.052"
             app:layout_constraintStart_toEndOf="@+id/imageIcon"
             app:layout_constraintTop_toBottomOf="@id/description"
-            tools:text="calories" />
+            android:text="@{Integer.toString(foodItem.amountOfCals)}" />
 
         <TextView
             android:id="@+id/date_time"
@@ -72,7 +78,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.052"
             app:layout_constraintTop_toBottomOf="@id/display_cals"
-            tools:text="A Description" />
+            android:text="@{foodItem.timeForFood}" />
 
         <ImageView
             android:id="@+id/actionRemove"
@@ -90,3 +96,4 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>
+</layout>

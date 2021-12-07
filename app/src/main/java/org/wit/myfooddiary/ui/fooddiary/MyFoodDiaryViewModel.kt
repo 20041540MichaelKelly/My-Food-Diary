@@ -8,16 +8,17 @@ import org.wit.myfooddiary.models.FoodModel
 
 class MyFoodDiaryViewModel : ViewModel() {
 
-    private val myFoodList = MutableLiveData<List<FoodModel>>()
+    private val status = MutableLiveData<Boolean>()
 
-    val observableDonationsList: LiveData<List<FoodModel>>
-        get() = myFoodList
+    val observableStatus: LiveData<Boolean>
+        get() = status
 
-    init {
-        load()
-    }
-
-    fun load() {
-        myFoodList.value = FoodManager.findAll()
+    fun addFoodItem(foodItem: FoodModel) {
+        status.value = try {
+            FoodManager.create(foodItem)
+            true
+        } catch (e: IllegalArgumentException) {
+            false
+        }
     }
 }

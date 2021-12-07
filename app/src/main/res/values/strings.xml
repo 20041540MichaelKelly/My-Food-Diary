@@ -48,5 +48,7 @@
     <string name="nav_header_title">My Food Diary</string>
     <string name="nav_header_subtitle">mikelly1988@gmail.com</string>
     <string name="nav_header_desc">Navigation header</string>
-    <string name="foodItemsNotFound">No Food Logged Yet...\nGo Go Enjoy Some!</string>
+    <string name="foodItemsNotFound">No Food Logged Yet…\nGo Go Enjoy Some!</string>
+    <string name="foodItemError">Error : Couldn\'t Make a Donation…</string>
+
 </resources>

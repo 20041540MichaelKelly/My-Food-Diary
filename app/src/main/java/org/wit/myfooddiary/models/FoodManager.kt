@@ -11,11 +11,16 @@ object FoodManager : FoodItemStore {
         return foodItems
     }
 
-    override fun create(foodItem: FoodModel, user: UserModel) {
-        foodItem.id = generateRandomId()
-        user.foodObject.add(foodItem )
-        foodItems.add(foodItem)
+//    override fun create(foodItem: FoodModel, user: UserModel) {
+//        foodItem.id = generateRandomId()
+//        user.foodObject.add(foodItem )
+//        foodItems.add(foodItem)
+//
+//    }
 
+        override fun create(foodItem: FoodModel) {
+        foodItem.id = generateRandomId()
+        foodItems.add(foodItem)
     }
 
     override fun removeItem(foodItem: FoodModel) {
