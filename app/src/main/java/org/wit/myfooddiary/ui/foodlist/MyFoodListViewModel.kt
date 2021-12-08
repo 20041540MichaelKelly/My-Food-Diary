@@ -10,7 +10,7 @@ class MyFoodListViewModel : ViewModel() {
 
     private val myFoodList = MutableLiveData<List<FoodModel>>()
 
-    val observableDonationsList: LiveData<List<FoodModel>>
+    val observableFoodItemsList: LiveData<List<FoodModel>>
         get() = myFoodList
 
     init {

@@ -23,13 +23,14 @@ class MyFoodDiaryAdapter constructor(private var foodItems: List<FoodModel>,
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainHolder {
         val binding = CardFoodBinding
             .inflate(LayoutInflater.from(parent.context), parent, false)
+
         return MainHolder(binding)
     }
 
     override fun onBindViewHolder(holder: MainHolder, position: Int) {
         val foodItem = foodItems[holder.adapterPosition]
-       // holder.bind(foodItem, listener)
-        holder.bind(foodItem)
+        holder.bind(foodItem, listener)
+        //holder.bind(foodItem)
     }
 
     override fun getItemCount(): Int = foodItems.size
@@ -37,12 +38,13 @@ class MyFoodDiaryAdapter constructor(private var foodItems: List<FoodModel>,
     class MainHolder (private val binding : CardFoodBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(foodItem: FoodModel) {
+        fun bind(foodItem: FoodModel, listener: FoodItemListener) {
             //binding.paymentamount.text = donation.amount.toString()
             //binding.paymentmethod.text = donation.paymentmethod
 
             binding.foodItem = foodItem
             binding.imageIcon.setImageResource(R.mipmap.ic_launcher_round)
+            binding.root.setOnClickListener { listener.onFoodItemClick(foodItem)}
             //Include this call to force the bindings to happen immediately
             binding.executePendingBindings()
         }

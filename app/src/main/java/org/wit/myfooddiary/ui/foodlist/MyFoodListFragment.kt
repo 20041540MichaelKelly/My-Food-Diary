@@ -15,6 +15,8 @@ import org.wit.myfooddiary.adapters.FoodItemListener
 import org.wit.myfooddiary.adapters.MyFoodDiaryAdapter
 import org.wit.myfooddiary.databinding.FragmentMyFoodListBinding
 import org.wit.myfooddiary.main.MainApp
+import org.wit.myfooddiary.models.FoodManager
+import org.wit.myfooddiary.models.FoodManager.foodItems
 import org.wit.myfooddiary.models.FoodModel
 import org.wit.myfooddiary.models.UserModel
 
@@ -23,13 +25,13 @@ class MyFoodListFragment : Fragment(), FoodItemListener {
     private val fragBinding get() = _fragBinding!!
     var foodItem = FoodModel()
     var user = UserModel()
-    lateinit var app: MainApp
+//    lateinit var app: MainApp
     private lateinit var myFoodListViewModel: MyFoodListViewModel
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        app = activity?.application as MainApp
+//        app = activity?.application as MainApp
         setHasOptionsMenu(true)
     }
 
@@ -39,12 +41,11 @@ class MyFoodListFragment : Fragment(), FoodItemListener {
     ): View? {
         _fragBinding = FragmentMyFoodListBinding.inflate(inflater, container, false)
         val root = fragBinding.root
-
         fragBinding.recyclerView.layoutManager = LinearLayoutManager(activity)
 
-       // activity?.title = getString(R.string.action_myfoodlist)
+//        fragBinding.title = getString(R.string.action_myfoodlist)
         myFoodListViewModel = ViewModelProvider(this).get(MyFoodListViewModel::class.java)
-        myFoodListViewModel.observableDonationsList.observe(viewLifecycleOwner, Observer {
+        myFoodListViewModel.observableFoodItemsList.observe(viewLifecycleOwner, Observer {
                 foodItems ->
             foodItems?.let { render(foodItems) }
         })
@@ -77,9 +78,9 @@ class MyFoodListFragment : Fragment(), FoodItemListener {
             requireView().findNavController()) || super.onOptionsItemSelected(item)
     }
 
-    private fun render(foodList: List<FoodModel>) {
-        fragBinding.recyclerView.adapter = MyFoodDiaryAdapter(foodList, this)
-        if (foodList.isEmpty()) {
+    private fun render(foodItems: List<FoodModel>) {
+        fragBinding.recyclerView.adapter = MyFoodDiaryAdapter(foodItems,this)
+        if (foodItems.isEmpty()) {
             fragBinding.recyclerView.visibility = View.GONE
            // fragBinding.foodItemsNotFound.visibility = View.VISIBLE
         } else {
@@ -99,7 +100,8 @@ class MyFoodListFragment : Fragment(), FoodItemListener {
     }
 
     override fun onFoodItemClick(foodItem: FoodModel) {
-        TODO("Not yet implemented")
+        val action = MyFoodListFragmentDirections.actionMyFoodListFragmentToIndividualFoodItemFragment()
+        findNavController().navigate(action)
     }
 
     override fun onFoodItemDelete(foodItem: FoodModel) {
