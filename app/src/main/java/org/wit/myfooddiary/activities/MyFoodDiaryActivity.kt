@@ -81,7 +81,7 @@ class MyFoodDiaryActivity : AppCompatActivity() {
                     app.foodItems.update(foodItem.copy())
                 } else {
                     foodItem.fUid = user.Uid
-                    app.foodItems.create(foodItem.copy(), user)
+                    //app.foodItems.create(foodItem.copy(), user)
                 }
             }
             i("add Button Pressed: $foodItem")

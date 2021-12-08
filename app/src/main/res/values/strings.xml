@@ -38,8 +38,6 @@
     <string name="food_image">Image of food</string>
     <string name="email_exists">This email exists</string>
     <string name="user_updated">User Updated</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="action_myfooddiary">My Food Diary</string>
     <string name="action_myfoodlist">Food List</string>
     <string name="action_share">Share</string>
@@ -48,4 +46,12 @@
     <string name="nav_header_title">My Food Diary</string>
     <string name="nav_header_subtitle">mikelly1988@gmail.com</string>
     <string name="nav_header_desc">Navigation header</string>
+    <string name="foodItemsNotFound">No Food Logged Yet…\nGo Go Enjoy Some!</string>
+    <string name="foodItemError">Error : Couldn\'t Make a Donation…</string>
+    <string name="donationDetails">Donation Details</string>
+    <string name="title">Title :</string>
+    <string name="description">Description :</string>
+    <string name="calories">Calories :</string>
+    <string name="time_date">Time &amp; Date :</string>
+
 </resources>
