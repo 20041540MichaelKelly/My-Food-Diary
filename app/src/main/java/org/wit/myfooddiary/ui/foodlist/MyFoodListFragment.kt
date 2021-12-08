@@ -82,10 +82,10 @@ class MyFoodListFragment : Fragment(), FoodItemListener {
         fragBinding.recyclerView.adapter = MyFoodDiaryAdapter(foodItems,this)
         if (foodItems.isEmpty()) {
             fragBinding.recyclerView.visibility = View.GONE
-           // fragBinding.foodItemsNotFound.visibility = View.VISIBLE
+                // fragBinding.foodItemsNotFound.visibility = View.VISIBLE
         } else {
             fragBinding.recyclerView.visibility = View.VISIBLE
-            //fragBinding.donationsNotFound.visibility = View.GONE
+            //getString(R.string.foodItemsNotFound).visibility = View.GONE
         }
     }
 
@@ -100,7 +100,7 @@ class MyFoodListFragment : Fragment(), FoodItemListener {
     }
 
     override fun onFoodItemClick(foodItem: FoodModel) {
-        val action = MyFoodListFragmentDirections.actionMyFoodListFragmentToIndividualFoodItemFragment()
+        val action = MyFoodListFragmentDirections.actionMyFoodListFragmentToIndividualFoodItemFragment(foodItem.id)
         findNavController().navigate(action)
     }
 

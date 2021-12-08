@@ -36,5 +36,8 @@
         <action
             android:id="@+id/action_individualFoodItemFragment_to_myFoodListFragment"
             app:destination="@id/myFoodListFragment" />
+        <argument
+            android:name="fooditemid"
+            app:argType="long" />
     </fragment>
 </navigation>

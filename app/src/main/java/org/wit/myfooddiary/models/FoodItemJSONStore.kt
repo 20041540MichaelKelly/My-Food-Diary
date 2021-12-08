@@ -92,6 +92,10 @@ class FoodItemJSONStore(private val context: Context) : FoodItemStore {
        return iList
    }
 
+    override fun findById(id: Long): FoodModel? {
+        TODO("Not yet implemented")
+    }
+
     override fun findAllById(id: Long): List<FoodModel> {
         val iList = ArrayList<FoodModel>()
         for(f in foodItems)

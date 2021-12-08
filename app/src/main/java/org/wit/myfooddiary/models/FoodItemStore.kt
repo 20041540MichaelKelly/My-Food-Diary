@@ -10,4 +10,5 @@ interface FoodItemStore {
     fun deleteItem(foodItem: FoodModel)
     fun removeItem(foodItem: FoodModel)
     fun findAllBySearchValue(searchValue: String): List<FoodModel>?
+    fun findById(id: Long): FoodModel?
 }

@@ -71,4 +71,10 @@ object FoodManager : FoodItemStore {
         return iList
 
     }
+
+    override fun findById(id: Long): FoodModel? {
+        val foundFoodItem: FoodModel? = foodItems.find { p -> p.id == id }
+        return foundFoodItem
+
+    }
 }
