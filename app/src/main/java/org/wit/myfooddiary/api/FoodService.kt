@@ -10,7 +10,7 @@ import retrofit2.http.GET
 
 interface FoodService {
 
-    @GET("recipes/findByNutrients?maxCalories=800&number=100")
+    @GET("recipes/findByNutrients?maxCalories=800&number=10")
     fun getall(): Call<List<FoodModel>>
 
     @GET("items/list/filter/{filter}")
@@ -22,8 +22,8 @@ interface FoodService {
     @DELETE("/food/{id}")
     fun delete(@Path("id") id: String): Call<FoodWraper>
 
-    @POST("/food")
-    fun post(@Body donation: FoodModel): Call<FoodWraper>
+    @POST("/recipes/findByNutrients")
+    fun post(@Body foodItem: FoodModel): Call<FoodWraper>
 
     @PUT("/food/{id}")
     fun put(@Path("id") id: String,

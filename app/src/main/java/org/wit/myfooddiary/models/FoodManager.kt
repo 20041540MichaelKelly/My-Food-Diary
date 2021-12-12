@@ -3,6 +3,7 @@ package org.wit.myfooddiary.models
 import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import org.wit.myfooddiary.api.FoodClient
+import org.wit.myfooddiary.api.FoodWraper
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -34,6 +35,27 @@ object FoodManager : FoodItemStore {
         })
     }
 
+    override fun create(foodItem: FoodModel) {
+
+        val call = FoodClient.getApi().post(foodItem)
+
+        call.enqueue(object : Callback<FoodWraper> {
+            override fun onResponse(call: Call<FoodWraper>,
+                                    response: Response<FoodWraper>
+            ) {
+                val foodWrapper = response.body()
+                if (foodWrapper != null) {
+                    Timber.i("Retrofit ${foodWrapper.message}")
+                    Timber.i("Retrofit ${foodWrapper.data.toString()}")
+                }
+            }
+
+            override fun onFailure(call: Call<FoodWraper>, t: Throwable) {
+                Timber.i("Retrofit Error : $t.message")
+            }
+        })
+    }
+
 //    override fun create(foodItem: FoodModel, user: UserModel) {
 //        foodItem.id = generateRandomId()
 //        user.foodObject.add(foodItem )
@@ -41,10 +63,10 @@ object FoodManager : FoodItemStore {
 //
 //    }
 
-        override fun create(foodItem: FoodModel) {
+//        override fun create(foodItem: FoodModel) {
 //        foodItem.id = generateRandomId()
 //        foodItems.add(foodItem)
-    }
+//   }
 
     override fun update(foodItem: FoodModel) {
         TODO("Not yet implemented")
