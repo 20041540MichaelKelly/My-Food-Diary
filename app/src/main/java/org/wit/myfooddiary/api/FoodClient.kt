@@ -3,6 +3,8 @@ package org.wit.myfooddiary.api
 import com.google.gson.GsonBuilder
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import org.wit.myfooddiary.BuildConfig
+import org.wit.myfooddiary.R
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
@@ -15,13 +17,14 @@ object FoodClient {
     val serviceURL = "https://api.spoonacular.com/"
     fun getApi() : FoodService {
         val gson = GsonBuilder().create()
+        val API_KEY = BuildConfig.APIKEY
 
 //        val okHttpClient = OkHttpClient.Builder()
 //            .connectTimeout(30, TimeUnit.SECONDS)
 //            .writeTimeout(30, TimeUnit.SECONDS)
 //            .readTimeout(30, TimeUnit.SECONDS)
 ////            .addHeader("x-rapidapi-host", "food-nutrition-information.p.rapidapi.com")
-////            .addHeader("x-rapidapi-key", "97b2457a9bmsh14c79543dc953b4p1c675ajsnf4fbbb925e6c")
+////            .addHeader("x-rapidapi-key", "")
 //            .build()
 
 //        val okHttpClient = OkHttpClient.Builder().apply {
@@ -29,7 +32,7 @@ object FoodClient {
 //                Interceptor { chain ->
 //                    val builder = chain.request().newBuilder()
 //                    builder.header("x-rapidapi-host", "food-nutrition-information.p.rapidapi.com")
-//                    builder.header("x-rapidapi-key", "97b2457a9bmsh14c79543dc953b4p1c675ajsnf4fbbb925e6c")
+//                    builder.header("x-rapidapi-key", "")
 //                    return@Interceptor chain.proceed(builder.build())
 //                }
 //            )
@@ -57,7 +60,7 @@ object FoodClient {
                 Interceptor { chain ->
                     val builder = chain.request().newBuilder()
                     val originalHttpUrl = chain.request().url()
-                    val url = originalHttpUrl.newBuilder().addQueryParameter("apiKey", "xxxxxxxxxxxxxxx").build()
+                    val url = originalHttpUrl.newBuilder().addQueryParameter("apiKey", API_KEY).build()
                     builder.url(url)
                     return@Interceptor chain.proceed(builder.build())
                 }
