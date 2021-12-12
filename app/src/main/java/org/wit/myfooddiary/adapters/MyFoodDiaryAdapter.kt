@@ -43,7 +43,18 @@ class MyFoodDiaryAdapter constructor(private var foodItems: List<FoodModel>,
             //binding.paymentmethod.text = donation.paymentmethod
 
             binding.foodItem = foodItem
-            binding.imageIcon.setImageResource(R.mipmap.ic_launcher_round)
+            binding.imageIcon.setImageURI(Uri.parse(foodItem.description))
+//            if(foodItem.image == Uri.EMPTY){
+//                Picasso.get().load("content://com.android.providers.media.documents/document/image%3A5589").resize(200, 200).into(binding.imageIcon)
+//            }else{
+
+            if(foodItem.image == ""){
+                Picasso.get().load("content://com.android.providers.media.documents/document/image%3A5589").resize(200, 200).into(binding.imageIcon)
+
+            }else{
+                Picasso.get().load(foodItem.image).resize(200, 200).into(binding.imageIcon)
+            }
+
             binding.root.setOnClickListener { listener.onFoodItemClick(foodItem)}
             //Include this call to force the bindings to happen immediately
             binding.executePendingBindings()

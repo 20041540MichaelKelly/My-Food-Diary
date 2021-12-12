@@ -1,5 +1,6 @@
 package org.wit.myfooddiary.ui.foodlist
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
@@ -14,18 +15,22 @@ import org.wit.myfooddiary.R
 import org.wit.myfooddiary.adapters.FoodItemListener
 import org.wit.myfooddiary.adapters.MyFoodDiaryAdapter
 import org.wit.myfooddiary.databinding.FragmentMyFoodListBinding
-import org.wit.myfooddiary.main.MainApp
-import org.wit.myfooddiary.models.FoodManager
-import org.wit.myfooddiary.models.FoodManager.foodItems
 import org.wit.myfooddiary.models.FoodModel
 import org.wit.myfooddiary.models.UserModel
+import org.wit.myfooddiary.utils.createLoader
+import org.wit.myfooddiary.utils.hideLoader
+import org.wit.myfooddiary.utils.showLoader
+
 
 class MyFoodListFragment : Fragment(), FoodItemListener {
     private var _fragBinding: FragmentMyFoodListBinding? = null
     private val fragBinding get() = _fragBinding!!
     var foodItem = FoodModel()
     var user = UserModel()
+//    lateinit var loader : AlertDialog
 //    lateinit var app: MainApp
+    lateinit var loader : AlertDialog
+
     private lateinit var myFoodListViewModel: MyFoodListViewModel
 
 
@@ -42,12 +47,16 @@ class MyFoodListFragment : Fragment(), FoodItemListener {
         _fragBinding = FragmentMyFoodListBinding.inflate(inflater, container, false)
         val root = fragBinding.root
         fragBinding.recyclerView.layoutManager = LinearLayoutManager(activity)
-
+        loader = createLoader(requireActivity())
 //        fragBinding.title = getString(R.string.action_myfoodlist)
         myFoodListViewModel = ViewModelProvider(this).get(MyFoodListViewModel::class.java)
+        showLoader(loader,"Downloading Food")
         myFoodListViewModel.observableFoodItemsList.observe(viewLifecycleOwner, Observer {
                 foodItems ->
-            foodItems?.let { render(foodItems) }
+                foodItems?.let {
+                render(foodItems)
+                hideLoader(loader)
+            }
         })
 
         val fab: FloatingActionButton = fragBinding.fab

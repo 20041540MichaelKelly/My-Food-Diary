@@ -1,14 +1,37 @@
 package org.wit.myfooddiary.models
 
 import android.net.Uri
-import java.util.ArrayList
+import androidx.lifecycle.MutableLiveData
+import org.wit.myfooddiary.api.FoodClient
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import timber.log.Timber
+import kotlin.collections.ArrayList
 
 object FoodManager : FoodItemStore {
     val foodItems = ArrayList<FoodModel>()
 
 
-    override fun findAll(): List<FoodModel> {
-        return foodItems
+//    override fun findAll(): List<FoodModel> {
+//        return foodItems
+//    }
+
+    override fun findAll(myFoodList: MutableLiveData<List<FoodModel>>) {
+        val call = FoodClient.getApi().getall()
+
+        call.enqueue(object : Callback<List<FoodModel>> {
+            override fun onResponse(call: Call<List<FoodModel>>, response: Response <List<FoodModel>>) {
+                    myFoodList.value = response.body() as List<FoodModel>
+                    Timber.i("Retrofit JSON = ${response.body()}"
+                )
+            }
+
+            override fun onFailure(call: Call<List<FoodModel>>, t: Throwable) {
+                Timber.i("Retrofit Error : $t.message $call.data")
+            }
+
+        })
     }
 
 //    override fun create(foodItem: FoodModel, user: UserModel) {
@@ -19,38 +42,42 @@ object FoodManager : FoodItemStore {
 //    }
 
         override fun create(foodItem: FoodModel) {
-        foodItem.id = generateRandomId()
-        foodItems.add(foodItem)
-    }
-
-    override fun removeItem(foodItem: FoodModel) {
-        foodItem.id = 0L
-        foodItem.title = ""
-        foodItem.description = ""
-        foodItem.image = Uri.EMPTY
-        foodItem.lat= 0.0
-        foodItem.lng= 0.0
-        foodItem.zoom = 0f
-    }
-
-    override fun deleteItem(foodItem: FoodModel) {
-        foodItems.remove(foodItem)
+//        foodItem.id = generateRandomId()
+//        foodItems.add(foodItem)
     }
 
     override fun update(foodItem: FoodModel) {
-        val foodItemList = findAll() as ArrayList<FoodModel>
-        var foundFoundItem: FoodModel? = foodItemList.find { p -> p.id == foodItem.id }
-        if (foundFoundItem != null) {
-            foundFoundItem.fUid = foodItem.fUid
-            foundFoundItem.title = foodItem.title
-            foundFoundItem.description = foodItem.description
-            foundFoundItem.amountOfCals = foodItem.amountOfCals
-            foundFoundItem.image = foodItem.image
-            foundFoundItem.lat = foodItem.lat
-            foundFoundItem.lng = foodItem.lng
-            foundFoundItem.zoom = foodItem.zoom
-        }
+        TODO("Not yet implemented")
     }
+
+    override fun removeItem(foodItem: FoodModel) {
+//        foodItem.id = 0L
+//        foodItem.title = ""
+//        foodItem.description = ""
+//        foodItem.image = Uri.EMPTY
+//        foodItem.lat= 0.0
+//        foodItem.lng= 0.0
+//        foodItem.zoom = 0f
+    }
+
+    override fun deleteItem(foodItem: FoodModel) {
+//        foodItems.remove(foodItem)
+    }
+
+//    override fun update(foodItem: FoodModel) {
+//        val foodItemList = findAll() as ArrayList<FoodModel>
+//        var foundFoundItem: FoodModel? = foodItemList.find { p -> p.id == foodItem.id }
+//        if (foundFoundItem != null) {
+//            foundFoundItem.fUid = foodItem.fUid
+//            foundFoundItem.title = foodItem.title
+//            foundFoundItem.description = foodItem.description
+//            foundFoundItem.amountOfCals = foodItem.amountOfCals
+//            foundFoundItem.image = foodItem.image
+//            foundFoundItem.lat = foodItem.lat
+//            foundFoundItem.lng = foodItem.lng
+//            foundFoundItem.zoom = foodItem.zoom
+//        }
+//    }
 
     override fun findAllBySearchValue(searchValue: String): List<FoodModel>? {
         val iList = ArrayList<FoodModel>()

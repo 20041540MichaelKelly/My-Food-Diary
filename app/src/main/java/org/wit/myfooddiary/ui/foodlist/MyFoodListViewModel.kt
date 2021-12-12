@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import org.wit.myfooddiary.models.FoodManager
 import org.wit.myfooddiary.models.FoodModel
+import timber.log.Timber
 
 class MyFoodListViewModel : ViewModel() {
 
@@ -18,6 +19,12 @@ class MyFoodListViewModel : ViewModel() {
     }
 
     fun load() {
-        myFoodList.value = FoodManager.findAll()
+        try {
+            FoodManager.findAll(myFoodList)
+            Timber.i("Retrofit Success : $myFoodList.value")
+        }
+        catch (e: Exception) {
+            Timber.i("Retrofit Error : $e.message")
+        }
     }
 }

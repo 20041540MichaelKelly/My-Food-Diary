@@ -53,5 +53,7 @@
     <string name="description">Description :</string>
     <string name="calories">Calories :</string>
     <string name="time_date">Time &amp; Date :</string>
+    <string name="messageLoading">Please Wait while the FoodItems are Loading…</string>
+
 
 </resources>
