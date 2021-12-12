@@ -57,7 +57,7 @@ object FoodClient {
                 Interceptor { chain ->
                     val builder = chain.request().newBuilder()
                     val originalHttpUrl = chain.request().url()
-                    val url = originalHttpUrl.newBuilder().addQueryParameter("apiKey", "eb212366afda4bab814a962eb3ea1904").build()
+                    val url = originalHttpUrl.newBuilder().addQueryParameter("apiKey", "xxxxxxxxxxxxxxx").build()
                     builder.url(url)
                     return@Interceptor chain.proceed(builder.build())
                 }
