@@ -1,7 +1,6 @@
 package org.wit.myfooddiary.ui.fooddiary
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
@@ -12,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
@@ -90,7 +90,7 @@ class MyFoodDiaryFragment : Fragment() {
             true -> {
                 view?.let {
                     //Uncomment this if you want to immediately return to Report
-                    //findNavController().popBackStack()
+                    findNavController().popBackStack()
                 }
             }
             false -> Toast.makeText(context, getString(R.string.foodItemError), Toast.LENGTH_LONG)
@@ -102,7 +102,8 @@ class MyFoodDiaryFragment : Fragment() {
         layout.btnAdd.setOnClickListener() {
             foodItem.title = layout.foodTitle.text.toString()
             foodItem.description = layout.description.text.toString()
-            foodItem.timeForFood = LocalDateTime.now().format(DateTimeFormatter.ofPattern("M/d/y H:m:ss"))
+            foodItem.timeForFood =
+                LocalDateTime.now().format(DateTimeFormatter.ofPattern("M/d/y H:m:ss"))
             foodItem.amountOfCals = layout.amountOfCals.value
             if (foodItem.description.isEmpty()) {
                 Snackbar.make(it, R.string.enter_fooditem_title, Snackbar.LENGTH_LONG)
@@ -123,6 +124,8 @@ class MyFoodDiaryFragment : Fragment() {
 //            getActivity()?.finish();
         }
 
+
+
         layout.chooseImage.setOnClickListener {
             showImagePicker(imageIntentLauncher)
         }
@@ -140,7 +143,7 @@ class MyFoodDiaryFragment : Fragment() {
 
         }
         registerImagePickerCallback()
-        registerMapCallback()
+       // registerMapCallback()
 
     }
 
@@ -162,7 +165,7 @@ class MyFoodDiaryFragment : Fragment() {
                     AppCompatActivity.RESULT_OK -> {
                         if (result.data != null) {
                             Timber.i("Got Result ${result.data!!.data}")
-                            foodItem.image = result.data!!.data!!
+                            foodItem.image = result.data!!.data!!.toString()
                             Picasso.get()
                                 .load(foodItem.image)
                                 .into(fragBinding.foodImage)
@@ -173,26 +176,26 @@ class MyFoodDiaryFragment : Fragment() {
                 }
             }
     }
-
-    private fun registerMapCallback() {
-        mapIntentLauncher =
-            registerForActivityResult(ActivityResultContracts.StartActivityForResult())
-            { result ->
-                when (result.resultCode) {
-                    AppCompatActivity.RESULT_OK -> {
-                        if (result.data != null) {
-                            Timber.i("Got Location ${result.data.toString()}")
-                            val location = result.data!!.extras?.getParcelable<Location>("location")!!
-                            Timber.i("Location == $location")
-                            foodItem.lat = location.lat
-                            foodItem.lng = location.lng
-                            foodItem.zoom = location.zoom
-                        } // end of if
-                    }
-                    AppCompatActivity.RESULT_CANCELED -> { } else -> { }
-                }
-            }
-    }
+//
+//    private fun registerMapCallback() {
+//        mapIntentLauncher =
+//            registerForActivityResult(ActivityResultContracts.StartActivityForResult())
+//            { result ->
+//                when (result.resultCode) {
+//                    AppCompatActivity.RESULT_OK -> {
+//                        if (result.data != null) {
+//                            Timber.i("Got Location ${result.data.toString()}")
+//                            val location = result.data!!.extras?.getParcelable<Location>("location")!!
+//                            Timber.i("Location == $location")
+//                            foodItem.lat = location.lat
+//                            foodItem.lng = location.lng
+//                            foodItem.zoom = location.zoom
+//                        } // end of if
+//                    }
+//                    AppCompatActivity.RESULT_CANCELED -> { } else -> { }
+//                }
+//            }
+//    }
 
     override fun onDestroyView() {
         super.onDestroyView()

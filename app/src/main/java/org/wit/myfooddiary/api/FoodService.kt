@@ -3,22 +3,31 @@ package org.wit.myfooddiary.api
 import org.wit.myfooddiary.models.FoodModel
 import retrofit2.Call
 import retrofit2.http.*
+import retrofit2.http.GET
+
+
+
 
 interface FoodService {
-    @GET("/fooditems")
+
+    @GET("recipes/findByNutrients?maxCalories=800&number=10")
     fun getall(): Call<List<FoodModel>>
 
-    @GET("/fooditems/{id}")
+    @GET("items/list/filter/{filter}")
+    fun getItems(@Path(value = "filter") filter: String?): Call<FoodModel?>?
+
+    @GET("/food/{id}")
     fun get(@Path("id") id: String): Call<FoodModel>
 
-    @DELETE("/fooditems/{id}")
+    @DELETE("/food/{id}")
     fun delete(@Path("id") id: String): Call<FoodWraper>
 
-    @POST("/fooditems")
-    fun post(@Body donation: FoodModel): Call<FoodWraper>
+    @POST("/recipes/findByNutrients")
+    fun post(@Body foodItem: FoodModel): Call<FoodWraper>
 
-    @PUT("/fooditems/{id}")
+    @PUT("/food/{id}")
     fun put(@Path("id") id: String,
             @Body foodItem: FoodModel
     ): Call<FoodWraper>
+
 }

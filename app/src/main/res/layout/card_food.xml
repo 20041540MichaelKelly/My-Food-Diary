@@ -30,7 +30,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            />
 
         <TextView
             android:id="@+id/foodTitle"
@@ -54,8 +55,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.052"
             app:layout_constraintStart_toEndOf="@+id/imageIcon"
-            app:layout_constraintTop_toBottomOf="@id/foodTitle"
-            tools:text="@{foodItem.description}" />
+            app:layout_constraintTop_toBottomOf="@id/foodTitle" />
+            <!--tools:text="@{foodItem.description}"-->
 
         <TextView
             android:id="@+id/display_cals"
@@ -69,6 +70,7 @@
             app:layout_constraintTop_toBottomOf="@id/description"
             android:text="@{Integer.toString(foodItem.amountOfCals)}" />
 
+
         <TextView
             android:id="@+id/date_time"
             android:layout_width="wrap_content"
@@ -77,8 +79,8 @@
             android:textAlignment="viewStart"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.052"
-            app:layout_constraintTop_toBottomOf="@id/display_cals"
-            android:text="@{foodItem.timeForFood}" />
+            app:layout_constraintTop_toBottomOf="@id/display_cals" />
+<!--            android:text="@{foodItem.timeForFood}" />-->
 
         <ImageView
             android:id="@+id/actionRemove"

@@ -24,6 +24,7 @@ class HomeActivity : AppCompatActivity() {
         setContentView(homeBinding.root)
         drawerLayout = homeBinding.drawerLayout
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
+        toolbar.setTitle(R.string.app_name)
         setSupportActionBar(toolbar)
 
 //        val fab: FloatingActionButton = findViewById(R.id.fab)

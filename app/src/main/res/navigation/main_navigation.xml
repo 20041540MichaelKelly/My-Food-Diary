@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/myFoodDiaryFragment"
         android:name="org.wit.myfooddiary.ui.fooddiary.MyFoodDiaryFragment"
-        android:label="fragment_my_food_diary"
+        android:label="My Food Diary"
         tools:layout="@layout/fragment_my_food_diary" >
         <action
             android:id="@+id/action_myFoodDiaryFragment_to_myFoodListFragment"
@@ -19,7 +19,7 @@
     <fragment
         android:id="@+id/myFoodListFragment"
         android:name="org.wit.myfooddiary.ui.foodlist.MyFoodListFragment"
-        android:label="fragment_my_food_list"
+        android:label="My Food List"
         tools:layout="@layout/fragment_my_food_list" >
         <action
             android:id="@+id/action_myFoodListFragment_to_myFoodDiaryFragment"

@@ -24,7 +24,7 @@ class MainApp : Application() {
         Timber.plant(Timber.DebugTree())
         //foodItems = FoodItemJSONStore(applicationContext)
         //foodItems = FoodManager()
-        users = UserJSONStore(applicationContext)
+//        users = UserJSONStore(applicationContext)
 
         // users = UserJSONStore(applicationContext)
         i("Placemark started")
