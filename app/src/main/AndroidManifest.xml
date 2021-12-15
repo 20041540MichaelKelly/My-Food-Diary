@@ -15,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyFoodDiary">
         <activity
-            android:name=".activities.HomeActivity"
+            android:name=".ui.auth.Login"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,7 +27,7 @@
             android:name=".activities.GalleryActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.LandingPageActivity"
+            android:name=".ui.home.HomeActivity"
             android:exported="true" />
 
         <meta-data

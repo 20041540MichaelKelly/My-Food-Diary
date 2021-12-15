@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "367968712797",
+    "project_id": "myfooddiary",
+    "storage_bucket": "myfooddiary.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:367968712797:android:9c4e04701f49de72fa35b4",
+        "android_client_info": {
+          "package_name": "org.wit.myfooddiary"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "367968712797-lgo3inntbrp7qdn17q9l8fb0julatfdi.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "org.wit.myfooddiary",
+            "certificate_hash": "6af4a50e1785e35522eca75fd08264c31dd917e1"
+          }
+        },
+        {
+          "client_id": "367968712797-idf0ve186t75605q6ufl9pdd50go9qhv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDKlQItq68AQcW8juUaKi_LwUwJkLbDbEQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "367968712797-idf0ve186t75605q6ufl9pdd50go9qhv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
