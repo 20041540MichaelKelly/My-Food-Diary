@@ -110,6 +110,8 @@ class MyFoodDiaryFragment : Fragment() {
                     .show()
             }
             myFoodDiaryViewModel.addFoodItem(foodItem.copy())
+            myFoodDiaryViewModel.addFoodItem(foodItem.copy())
+
 //            } else {
 //                if (edit) {
 //                    layout.foodItems.update(foodItem.copy())

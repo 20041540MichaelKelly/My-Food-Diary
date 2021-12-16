@@ -39,7 +39,7 @@ class FirebaseAuthManager(application: Application) {
             })
     }
 
-    fun register(email: String?, password: String?) {
+    fun register( email: String?, password: String?) {
         firebaseAuth!!.createUserWithEmailAndPassword(email!!, password!!)
             .addOnCompleteListener(application!!.mainExecutor, { task ->
                 if (task.isSuccessful) {

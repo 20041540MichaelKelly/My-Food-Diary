@@ -33,7 +33,6 @@ class MyFoodListFragment : Fragment(), FoodItemListener {
 
     private lateinit var myFoodListViewModel: MyFoodListViewModel
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 //        app = activity?.application as MainApp

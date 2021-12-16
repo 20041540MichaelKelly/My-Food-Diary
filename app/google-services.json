@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "367968712797",
+    "firebase_url": "https://myfooddiary-default-rtdb.europe-west1.firebasedatabase.app",
     "project_id": "myfooddiary",
     "storage_bucket": "myfooddiary.appspot.com"
   },

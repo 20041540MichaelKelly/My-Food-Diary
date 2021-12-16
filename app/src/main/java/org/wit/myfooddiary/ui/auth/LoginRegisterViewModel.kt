@@ -16,6 +16,6 @@ class LoginRegisterViewModel (app: Application) : AndroidViewModel(app) {
     }
 
     fun register(email: String?, password: String?) {
-        firebaseAuthManager.register(email, password)
+        firebaseAuthManager.register( email, password)
     }
 }
