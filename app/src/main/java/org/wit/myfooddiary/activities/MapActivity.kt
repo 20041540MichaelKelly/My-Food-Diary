@@ -49,22 +49,24 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback,
         map.setOnMarkerDragListener(this)
     }
 
-    override fun onMarkerDragStart(p0: Marker?) {
-    }
-
-    override fun onMarkerDrag(p0: Marker?) {
-    }
-
     override fun onMarkerClick(marker: Marker): Boolean {
         val loc = LatLng(location.lat, location.lng)
         marker.snippet = "GPS : $loc"
         return false
     }
 
+    override fun onMarkerDrag(p0: Marker) {
+        TODO("Not yet implemented")
+    }
+
     override fun onMarkerDragEnd(marker: Marker) {
         location.lat = marker.position.latitude
         location.lng = marker.position.longitude
         location.zoom = map.cameraPosition.zoom
+    }
+
+    override fun onMarkerDragStart(p0: Marker) {
+        TODO("Not yet implemented")
     }
 
     override fun onBackPressed() {

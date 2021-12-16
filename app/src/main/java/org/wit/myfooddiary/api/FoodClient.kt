@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit
 
 object FoodClient {
 
-   // val serviceURL = "https://food-nutrition-information.p.rapidapi.com"
+//    val serviceURL = "https://food-nutrition-information.p.rapidapi.com"
 //    val serviceURL = "https://calorieninjas.p.rapidapi.com"
 //    val serviceURL = "https://donationweb-hdip-server.herokuapp.com"
     val serviceURL = "https://api.spoonacular.com/"
@@ -24,7 +24,7 @@ object FoodClient {
 //            .writeTimeout(30, TimeUnit.SECONDS)
 //            .readTimeout(30, TimeUnit.SECONDS)
 ////            .addHeader("x-rapidapi-host", "food-nutrition-information.p.rapidapi.com")
-////            .addHeader("x-rapidapi-key", "")
+////            .addHeader("x-rapidapi-key", "97b2457a9bmsh14c79543dc953b4p1c675ajsnf4fbbb925e6c")
 //            .build()
 
 //        val okHttpClient = OkHttpClient.Builder().apply {
@@ -60,7 +60,7 @@ object FoodClient {
                 Interceptor { chain ->
                     val builder = chain.request().newBuilder()
                     val originalHttpUrl = chain.request().url()
-                    val url = originalHttpUrl.newBuilder().addQueryParameter("apiKey", API_KEY).build()
+                    val url = originalHttpUrl.newBuilder().addQueryParameter("apiKey", API_KEY).build() //this is so I wont have to keep using it everytime
                     builder.url(url)
                     return@Interceptor chain.proceed(builder.build())
                 }

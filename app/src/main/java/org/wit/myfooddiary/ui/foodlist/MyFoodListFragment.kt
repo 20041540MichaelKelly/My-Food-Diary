@@ -33,7 +33,6 @@ class MyFoodListFragment : Fragment(), FoodItemListener {
 
     private lateinit var myFoodListViewModel: MyFoodListViewModel
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 //        app = activity?.application as MainApp
@@ -91,10 +90,10 @@ class MyFoodListFragment : Fragment(), FoodItemListener {
         fragBinding.recyclerView.adapter = MyFoodDiaryAdapter(foodItems,this)
         if (foodItems.isEmpty()) {
             fragBinding.recyclerView.visibility = View.GONE
-                // fragBinding.foodItemsNotFound.visibility = View.VISIBLE
+            fragBinding.foodItemsNotFound.visibility = View.VISIBLE
         } else {
             fragBinding.recyclerView.visibility = View.VISIBLE
-            //getString(R.string.foodItemsNotFound).visibility = View.GONE
+            fragBinding.foodItemsNotFound.visibility = View.GONE
         }
     }
 
@@ -115,5 +114,19 @@ class MyFoodListFragment : Fragment(), FoodItemListener {
 
     override fun onFoodItemDelete(foodItem: FoodModel) {
         TODO("Not yet implemented")
+    }
+
+    fun setSwipeRefresh() {
+        fragBinding.swiperefresh.setOnRefreshListener {
+            fragBinding.swiperefresh.isRefreshing = true
+            showLoader(loader,"Downloading Food Items")
+            //Retrieve food List again here
+
+        }
+    }
+
+    fun checkSwipeRefresh() {
+        if (fragBinding.swiperefresh.isRefreshing)
+            fragBinding.swiperefresh.isRefreshing = false
     }
 }

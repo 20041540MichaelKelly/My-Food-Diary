@@ -37,7 +37,7 @@ object FoodManager : FoodItemStore {
 
     override fun create(foodItem: FoodModel) {
 
-        val call = FoodClient.getApi().post(foodItem)
+        val call = FoodClient.getApi().create(foodItem)
 
         call.enqueue(object : Callback<FoodWraper> {
             override fun onResponse(call: Call<FoodWraper>,
