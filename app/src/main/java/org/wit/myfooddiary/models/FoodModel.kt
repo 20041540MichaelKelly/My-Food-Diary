@@ -1,27 +1,42 @@
 package org.wit.myfooddiary.models
 
-import android.net.Uri
 import android.os.Parcelable
-import com.google.gson.annotations.SerializedName
+import com.google.firebase.database.Exclude
+import com.google.firebase.database.IgnoreExtraProperties
 import kotlinx.parcelize.Parcelize
 
+@IgnoreExtraProperties
 @Parcelize
     data class FoodModel(
-    var fUid: Long = 0L,
+    var uid: String? = "",
     var id: Long = 0L,
-    @SerializedName("title")
     var title: String = "",
-    @SerializedName("description")
     var description: String = "",
     var timeForFood: String = "",
-    @SerializedName("calories")
     var amountOfCals: Int = 0,
-    @SerializedName("image")
     var image: String = "",
 //    var image: Uri = Uri.EMPTY,
     var lat: Double = 0.0,
     var lng: Double = 0.0,
     var zoom: Float = 0f
     ) : Parcelable
+{
+    @Exclude
+    fun toMap(): Map<String, Any?> {
+        return mapOf(
+            "uid" to uid,
+            "id" to id,
+            "title" to title,
+            "description" to description,
+            "timeForFood" to timeForFood,
+            "amountOfCals" to amountOfCals,
+            "image" to image,
+            "lat" to lat,
+            "lng" to lng,
+            "zoom" to zoom
+        )
+    }
+}
+
 
 
