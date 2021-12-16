@@ -27,7 +27,7 @@ object FirebaseDBManager  : FoodItemStore {
         Timber.i("Firebase DB Reference : $database")
 
         val uid = firebaseUser.value!!.uid
-        val key = database.child("donations").push().key
+        val key = database.child("food").push().key
         if (key == null) {
             Timber.i("Firebase Error : Key Empty")
             return

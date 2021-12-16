@@ -18,8 +18,9 @@ import kotlinx.parcelize.Parcelize
 //    var image: Uri = Uri.EMPTY,
     var lat: Double = 0.0,
     var lng: Double = 0.0,
-    var zoom: Float = 0f
-    ) : Parcelable
+    var zoom: Float = 0f,
+    var email: String? = "joe@bloggs.com")
+    : Parcelable
 {
     @Exclude
     fun toMap(): Map<String, Any?> {

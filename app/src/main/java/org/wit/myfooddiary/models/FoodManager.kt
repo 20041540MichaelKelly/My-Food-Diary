@@ -13,35 +13,39 @@ import kotlin.collections.ArrayList
 
 object FoodManager : FoodItemStore {
     val foodItems = ArrayList<FoodModel>()
-    override fun findAll(myFoodList: MutableLiveData<List<FoodModel>>) {
-        TODO("Not yet implemented")
-    }
+//    override fun findAll(myFoodList: MutableLiveData<List<FoodModel>>) {
+//        TODO("Not yet implemented")
+//    }
 
 
 //    override fun findAll(): List<FoodModel> {
 //        return foodItems
 //    }
 
-//    override fun findAll(myFoodList: MutableLiveData<List<FoodModel>>) {
-//        val call = FoodClient.getApi().getall()
-//
-//        call.enqueue(object : Callback<List<FoodModel>> {
-//            override fun onResponse(call: Call<List<FoodModel>>, response: Response <List<FoodModel>>) {
-//                    myFoodList.value = response.body() as List<FoodModel>
-//                    Timber.i("Retrofit JSON = ${response.body()}"
-//                )
-//            }
-//
-//            override fun onFailure(call: Call<List<FoodModel>>, t: Throwable) {
-//                Timber.i("Retrofit Error : $t.message $call.data")
-//            }
-//
-//        })
-//    }
+    override fun findAll(myFoodList: MutableLiveData<List<FoodModel>>) {
+        val call = FoodClient.getApi().getall()
+
+        call.enqueue(object : Callback<List<FoodModel>> {
+            override fun onResponse(call: Call<List<FoodModel>>, response: Response <List<FoodModel>>) {
+                    myFoodList.value = response.body() as List<FoodModel>
+                    Timber.i("Retrofit JSON = ${response.body()}"
+                )
+            }
+
+            override fun onFailure(call: Call<List<FoodModel>>, t: Throwable) {
+                Timber.i("Retrofit Error : $t.message $call.data")
+            }
+
+        })
+    }
 
     override fun findAll(userid: String, myFoodList: MutableLiveData<List<FoodModel>>) {
         TODO("Not yet implemented")
     }
+
+//    override fun findAll(userid: String, myFoodList: MutableLiveData<List<FoodModel>>) {
+//        TODO("Not yet implemented")
+//    }
 
     override fun findById(userid: String, foodid: String, fooditem: MutableLiveData<FoodModel>) {
         TODO("Not yet implemented")

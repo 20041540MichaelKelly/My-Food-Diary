@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
@@ -23,6 +24,7 @@ import org.wit.myfooddiary.main.MainApp
 import org.wit.myfooddiary.models.FoodModel
 import org.wit.myfooddiary.models.Location
 import org.wit.myfooddiary.models.UserModel
+import org.wit.myfooddiary.ui.auth.LoggedInViewModel
 import timber.log.Timber
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -33,9 +35,10 @@ class MyFoodDiaryFragment : Fragment() {
     var foodItem = FoodModel()
     var user = UserModel()
    // lateinit var app: MainApp
-   private lateinit var myFoodDiaryViewModel: MyFoodDiaryViewModel
+    private lateinit var myFoodDiaryViewModel: MyFoodDiaryViewModel
     private lateinit var imageIntentLauncher : ActivityResultLauncher<Intent>
     private lateinit var mapIntentLauncher : ActivityResultLauncher<Intent>
+    private val loggedInViewModel : LoggedInViewModel by activityViewModels()
     val IMAGE_REQUEST = 1
     var edit = false
 
@@ -80,7 +83,7 @@ class MyFoodDiaryFragment : Fragment() {
 //            }
 //        }
 
-        setButtonListener(fragBinding)
+        setButtonListener(fragBinding, loggedInViewModel)
 
         return root;
     }
@@ -98,7 +101,7 @@ class MyFoodDiaryFragment : Fragment() {
         }
     }
 
-    fun setButtonListener(layout: FragmentMyFoodDiaryBinding) {
+    fun setButtonListener(layout: FragmentMyFoodDiaryBinding, loggedInViewModel: LoggedInViewModel) {
         layout.btnAdd.setOnClickListener() {
             foodItem.title = layout.foodTitle.text.toString()
             foodItem.description = layout.description.text.toString()
@@ -109,8 +112,10 @@ class MyFoodDiaryFragment : Fragment() {
                 Snackbar.make(it, R.string.enter_fooditem_title, Snackbar.LENGTH_LONG)
                     .show()
             }
-            myFoodDiaryViewModel.addFoodItem(foodItem.copy())
-            myFoodDiaryViewModel.addFoodItem(foodItem.copy())
+
+            myFoodDiaryViewModel.addFoodItem(loggedInViewModel.liveFirebaseUser,
+                FoodModel(title = layout.foodTitle.text.toString(),description = layout.description.text.toString(),
+                    email = loggedInViewModel.liveFirebaseUser.value?.email!!))
 
 //            } else {
 //                if (edit) {
