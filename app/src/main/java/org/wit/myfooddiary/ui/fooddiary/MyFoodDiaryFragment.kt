@@ -101,7 +101,7 @@ class MyFoodDiaryFragment : Fragment() {
         }
     }
 
-    fun setButtonListener(layout: FragmentMyFoodDiaryBinding, loggedInViewModel: LoggedInViewModel) {
+    private fun setButtonListener(layout: FragmentMyFoodDiaryBinding, loggedInViewModel: LoggedInViewModel) {
         layout.btnAdd.setOnClickListener() {
             foodItem.title = layout.foodTitle.text.toString()
             foodItem.description = layout.description.text.toString()
@@ -115,7 +115,8 @@ class MyFoodDiaryFragment : Fragment() {
 
             myFoodDiaryViewModel.addFoodItem(loggedInViewModel.liveFirebaseUser,
                 FoodModel(title = layout.foodTitle.text.toString(),description = layout.description.text.toString(),
-                    email = loggedInViewModel.liveFirebaseUser.value?.email!!))
+                    amountOfCals = layout.amountOfCals.value,  timeForFood = LocalDateTime.now().format(DateTimeFormatter.ofPattern("M/d/y H:m:ss")),
+                    image = foodItem.image, email = loggedInViewModel.liveFirebaseUser.value?.email!!))
 
 //            } else {
 //                if (edit) {
@@ -130,8 +131,6 @@ class MyFoodDiaryFragment : Fragment() {
 //            getActivity()?.setResult(AppCompatActivity.RESULT_OK);
 //            getActivity()?.finish();
         }
-
-
 
         layout.chooseImage.setOnClickListener {
             showImagePicker(imageIntentLauncher)
@@ -176,6 +175,7 @@ class MyFoodDiaryFragment : Fragment() {
                             Picasso.get()
                                 .load(foodItem.image)
                                 .into(fragBinding.foodImage)
+
                             fragBinding.chooseImage.setText(R.string.change_food_image)
                         } // end of if
                     }
@@ -183,6 +183,7 @@ class MyFoodDiaryFragment : Fragment() {
                 }
             }
     }
+
 //
 //    private fun registerMapCallback() {
 //        mapIntentLauncher =

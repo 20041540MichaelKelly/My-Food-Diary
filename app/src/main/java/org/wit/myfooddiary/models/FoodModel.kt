@@ -1,5 +1,6 @@
 package org.wit.myfooddiary.models
 
+import android.net.Uri
 import android.os.Parcelable
 import com.google.firebase.database.Exclude
 import com.google.firebase.database.IgnoreExtraProperties
@@ -15,7 +16,7 @@ import kotlinx.parcelize.Parcelize
     var timeForFood: String = "",
     var amountOfCals: Int = 0,
     var image: String = "",
-//    var image: Uri = Uri.EMPTY,
+ //   var image: Uri = Uri.EMPTY,
     var lat: Double = 0.0,
     var lng: Double = 0.0,
     var zoom: Float = 0f,

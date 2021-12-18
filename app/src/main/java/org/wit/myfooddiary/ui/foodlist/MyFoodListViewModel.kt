@@ -21,16 +21,10 @@ class MyFoodListViewModel : ViewModel() {
         load()
     }
 
-    fun getByUserId(firebaseUser: FirebaseUser){
-        val userid = firebaseUser.uid
-        FirebaseDBManager.findAllByUid(userid, myFoodList)
-
-    }
-
     fun load() {
         try {
             val userid = liveFirebaseUser.value!!.uid
-            FirebaseDBManager.findAllByUid(userid.toString(), myFoodList)
+            FirebaseDBManager.findAllByUid(userid, myFoodList)
             Timber.i("Retrofit Success : ${myFoodList.value.toString()}")
         }
         catch (e: Exception) {
