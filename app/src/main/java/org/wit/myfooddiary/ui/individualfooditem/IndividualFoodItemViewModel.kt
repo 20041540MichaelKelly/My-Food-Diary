@@ -12,7 +12,7 @@ class IndividualFoodItemViewModel : ViewModel() {
     val observableIndividualFoodItem: LiveData<FoodModel>
         get() = foodItem
 
-    fun getFoodItem(id: Long) {
-        foodItem.value = FoodManager.findById(id)
+    fun getFoodItem(userid: String, foodid: String, foodItem: MutableLiveData<FoodModel>) {
+//        foodItem.value = FoodManager.findById(userid,foodid, foodItem)
     }
 }

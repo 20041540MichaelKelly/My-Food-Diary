@@ -35,7 +35,7 @@ class IndividualFoodItemFragment : Fragment() {
 
         Toast.makeText(context,"Food Item ID Selected : ${args.fooditemid}",Toast.LENGTH_LONG).show()
         individualFoodItemViewModel = ViewModelProvider(this).get(IndividualFoodItemViewModel::class.java)
-        individualFoodItemViewModel.getFoodItem(foodItem.id)
+//        individualFoodItemViewModel.getFoodItem(foodItem.uid)
 
         return view    }
 

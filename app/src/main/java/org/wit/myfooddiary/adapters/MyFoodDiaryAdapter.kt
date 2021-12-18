@@ -43,7 +43,7 @@ class MyFoodDiaryAdapter constructor(private var foodItems: List<FoodModel>,
             //binding.paymentmethod.text = donation.paymentmethod
 
             binding.foodItem = foodItem
-            binding.imageIcon.setImageURI(Uri.parse(foodItem.description))
+            binding.imageIcon.setImageURI(Uri.parse(foodItem.image))
 //            if(foodItem.image == Uri.EMPTY){
 //                Picasso.get().load("content://com.android.providers.media.documents/document/image%3A5589").resize(200, 200).into(binding.imageIcon)
 //            }else{

@@ -3,7 +3,8 @@ package org.wit.myfooddiary.ui.foodlist
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import org.wit.myfooddiary.models.FoodManager
+import com.google.firebase.auth.FirebaseUser
+import org.wit.myfooddiary.firebase.FirebaseDBManager
 import org.wit.myfooddiary.models.FoodModel
 import timber.log.Timber
 
@@ -14,14 +15,17 @@ class MyFoodListViewModel : ViewModel() {
     val observableFoodItemsList: LiveData<List<FoodModel>>
         get() = myFoodList
 
+   var liveFirebaseUser = MutableLiveData<FirebaseUser>()
+
     init {
         load()
     }
 
     fun load() {
         try {
-            FoodManager.findAll(myFoodList)
-            Timber.i("Retrofit Success : $myFoodList.value")
+            val userid = liveFirebaseUser.value!!.uid
+            FirebaseDBManager.findAllByUid(userid, myFoodList)
+            Timber.i("Retrofit Success : ${myFoodList.value.toString()}")
         }
         catch (e: Exception) {
             Timber.i("Retrofit Error : $e.message")
