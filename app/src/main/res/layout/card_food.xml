@@ -55,8 +55,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.052"
             app:layout_constraintStart_toEndOf="@+id/imageIcon"
-            app:layout_constraintTop_toBottomOf="@id/foodTitle" />
-            <!--tools:text="@{foodItem.description}"-->
+            app:layout_constraintTop_toBottomOf="@id/foodTitle"
+            tools:text="@{foodItem.description}" />
 
         <TextView
             android:id="@+id/display_cals"
@@ -79,8 +79,8 @@
             android:textAlignment="viewStart"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.052"
-            app:layout_constraintTop_toBottomOf="@id/display_cals" />
-<!--            android:text="@{foodItem.timeForFood}" />-->
+            app:layout_constraintTop_toBottomOf="@id/display_cals"
+            android:text="@{foodItem.timeForFood}" />
 
         <ImageView
             android:id="@+id/actionRemove"

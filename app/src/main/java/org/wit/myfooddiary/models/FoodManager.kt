@@ -1,10 +1,8 @@
 package org.wit.myfooddiary.models
 
-import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseUser
 import org.wit.myfooddiary.api.FoodClient
-import org.wit.myfooddiary.api.FoodWraper
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -39,13 +37,12 @@ object FoodManager : FoodItemStore {
         })
     }
 
-    override fun findAll(userid: String, myFoodList: MutableLiveData<List<FoodModel>>) {
+    override fun findAllByUid(
+        userid: String,
+        myFoodList: MutableLiveData<List<FoodModel>>
+    ) {
         TODO("Not yet implemented")
     }
-
-//    override fun findAll(userid: String, myFoodList: MutableLiveData<List<FoodModel>>) {
-//        TODO("Not yet implemented")
-//    }
 
     override fun findById(userid: String, foodid: String, fooditem: MutableLiveData<FoodModel>) {
         TODO("Not yet implemented")

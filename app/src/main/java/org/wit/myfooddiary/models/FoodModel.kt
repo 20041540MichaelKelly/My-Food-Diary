@@ -8,8 +8,8 @@ import kotlinx.parcelize.Parcelize
 @IgnoreExtraProperties
 @Parcelize
     data class FoodModel(
+    var fid: String? = "",
     var uid: String? = "",
-    var id: Long = 0L,
     var title: String = "",
     var description: String = "",
     var timeForFood: String = "",
@@ -25,8 +25,8 @@ import kotlinx.parcelize.Parcelize
     @Exclude
     fun toMap(): Map<String, Any?> {
         return mapOf(
+            "fid" to fid,
             "uid" to uid,
-            "id" to id,
             "title" to title,
             "description" to description,
             "timeForFood" to timeForFood,

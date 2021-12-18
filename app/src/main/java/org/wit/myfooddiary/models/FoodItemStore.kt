@@ -1,6 +1,5 @@
 package org.wit.myfooddiary.models
 
-import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseUser
 
@@ -18,9 +17,11 @@ import com.google.firebase.auth.FirebaseUser
 interface FoodItemStore {
     fun findAll(myFoodList:
                 MutableLiveData<List<FoodModel>>)
-    fun findAll(userid:String,
-                myFoodList:
-                MutableLiveData<List<FoodModel>>)
+    fun findAllByUid(
+        userid: String,
+        myFoodList:
+        MutableLiveData<List<FoodModel>>
+    )
     fun findById(userid:String, foodid: String,
                  fooditem: MutableLiveData<FoodModel>)
     fun create(firebaseUser: MutableLiveData<FirebaseUser>, fooditem: FoodModel)
