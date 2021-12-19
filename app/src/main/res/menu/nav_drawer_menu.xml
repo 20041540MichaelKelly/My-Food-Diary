@@ -12,6 +12,10 @@
             android:id="@+id/myFoodListFragment"
             android:icon="@drawable/ic_baseline_list_24"
             android:title="@string/action_myfoodlist" />
+        <item
+            android:id="@+id/apiMyFoodListFragment"
+            android:icon="@drawable/ic_baseline_list_24"
+            android:title="@string/action_myfoodlist" />
     </group>
 
     <item android:title="@string/group_communicate">

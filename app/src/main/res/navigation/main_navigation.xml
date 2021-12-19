@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation"
-    app:startDestination="@id/myFoodDiaryFragment">
+    app:startDestination="@id/apiMyFoodListFragment">
 
     <fragment
         android:id="@+id/myFoodDiaryFragment"
@@ -39,5 +39,11 @@
         <argument
             android:name="fooditemid"
             app:argType="long" />
+    </fragment>
+    <fragment
+        android:id="@+id/apiMyFoodListFragment"
+        android:name="org.wit.myfooddiary.ui.apifoodlist.ApiFoodListFragment"
+        android:label="API food list"
+        tools:layout="@layout/individual_food_item_fragment" >
     </fragment>
 </navigation>

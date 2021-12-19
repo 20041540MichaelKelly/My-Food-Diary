@@ -114,6 +114,18 @@
                     android:textSize="16sp" />
 
                 <Button
+                    android:id="@+id/captureImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:background="@color/colorAccent"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:text="@string/button_captureImage"
+                    android:textColor="#455A64"
+                    android:textSize="16sp" />
+
+                <Button
                     android:id="@+id/foodItemLocation"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

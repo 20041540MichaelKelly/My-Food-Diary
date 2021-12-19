@@ -20,12 +20,12 @@ object FoodManager : FoodItemStore {
 //        return foodItems
 //    }
 
-    override fun findAll(myFoodList: MutableLiveData<List<FoodModel>>) {
+    override fun findAll(myApiFoodList: MutableLiveData<List<FoodModel>>) {
         val call = FoodClient.getApi().getall()
 
         call.enqueue(object : Callback<List<FoodModel>> {
             override fun onResponse(call: Call<List<FoodModel>>, response: Response <List<FoodModel>>) {
-                    myFoodList.value = response.body() as List<FoodModel>
+                myApiFoodList.value = response.body() as List<FoodModel>
                     Timber.i("Retrofit JSON = ${response.body()}"
                 )
             }
