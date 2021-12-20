@@ -76,5 +76,7 @@
     <string name="emailpassword_title_text">Please Login Below</string>
     <string name="access_control">Access Control</string>
     <string name="button_captureImage">Take a Photo</string>
+    <string name="menu_addLocation">Map</string>
+    <string name="action_myapifoodlist">API Food List</string>
 
 </resources>

@@ -47,8 +47,10 @@ class MyFoodDiaryAdapter constructor(private var foodItems: List<FoodModel>,
 //            if(foodItem.image == Uri.EMPTY){
 //                Picasso.get().load("content://com.android.providers.media.documents/document/image%3A5589").resize(200, 200).into(binding.imageIcon)
 //            }else{
-
-            if(foodItem.image == ""){
+            if(foodItem.image.contains("content://org.wit.myfooddiary")){
+                Picasso.get().load(foodItem.image).resize(200, 200)
+                    .rotate(90F).into(binding.imageIcon)
+            } else if(foodItem.image == ""){
                 Picasso.get().load("content://com.android.providers.media.documents/document/image%3A5589").resize(200, 200).into(binding.imageIcon)
 
             }else{
