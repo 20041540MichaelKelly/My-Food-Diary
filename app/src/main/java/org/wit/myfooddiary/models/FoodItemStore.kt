@@ -15,7 +15,7 @@ import com.google.firebase.auth.FirebaseUser
 //}
 
 interface FoodItemStore {
-    fun findAll(myFoodList:
+    fun findAll(myApiFoodList:
                 MutableLiveData<List<FoodModel>>)
     fun findAllByUid(
         userid: String,

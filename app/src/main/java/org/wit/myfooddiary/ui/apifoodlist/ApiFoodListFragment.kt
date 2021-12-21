@@ -1,4 +1,4 @@
-package org.wit.myfooddiary.ui.foodlist
+package org.wit.myfooddiary.ui.apifoodlist
 
 import android.app.AlertDialog
 import android.os.Bundle
@@ -15,29 +15,23 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import org.wit.myfooddiary.R
 import org.wit.myfooddiary.adapters.FoodItemListener
 import org.wit.myfooddiary.adapters.MyFoodDiaryAdapter
-import org.wit.myfooddiary.databinding.FragmentMyFoodListBinding
-import org.wit.myfooddiary.firebase.FirebaseDBManager
+import org.wit.myfooddiary.databinding.FragmentApiMyFoodListBinding
 import org.wit.myfooddiary.models.FoodModel
-import org.wit.myfooddiary.models.UserModel
-import org.wit.myfooddiary.ui.auth.LoggedInViewModel
 import org.wit.myfooddiary.utils.createLoader
 import org.wit.myfooddiary.utils.hideLoader
 import org.wit.myfooddiary.utils.showLoader
 
 
-class MyFoodListFragment : Fragment(), FoodItemListener {
-    private var _fragBinding: FragmentMyFoodListBinding? = null
+class ApiFoodListFragment : Fragment(), FoodItemListener {
+    private var _fragBinding: FragmentApiMyFoodListBinding? = null
     private val fragBinding get() = _fragBinding!!
     var foodItem = FoodModel()
-    var user = UserModel()
     lateinit var loader : AlertDialog
-    private val loggedInViewModel : LoggedInViewModel by activityViewModels()
 
-    private lateinit var myFoodListViewModel: MyFoodListViewModel
+    private lateinit var apiFoodListViewModel: ApiFoodListViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        app = activity?.application as MainApp
         setHasOptionsMenu(true)
     }
 
@@ -45,14 +39,13 @@ class MyFoodListFragment : Fragment(), FoodItemListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _fragBinding = FragmentMyFoodListBinding.inflate(inflater, container, false)
+        _fragBinding = FragmentApiMyFoodListBinding.inflate(inflater, container, false)
         val root = fragBinding.root
         fragBinding.recyclerView.layoutManager = LinearLayoutManager(activity)
         loader = createLoader(requireActivity())
-//        fragBinding.title = getString(R.string.action_myfoodlist)
-        myFoodListViewModel = ViewModelProvider(this).get(MyFoodListViewModel::class.java)
+        apiFoodListViewModel = ViewModelProvider(this).get(ApiFoodListViewModel::class.java)
         showLoader(loader,"Downloading Food")
-        myFoodListViewModel.observableFoodItemsList.observe(viewLifecycleOwner, Observer {
+        apiFoodListViewModel.observableApiFoodItemsList.observe(viewLifecycleOwner, Observer {
                 foodItems ->
                 foodItems?.let {
                 render(foodItems)
@@ -62,20 +55,11 @@ class MyFoodListFragment : Fragment(), FoodItemListener {
 
         val fab: FloatingActionButton = fragBinding.fab
         fab.setOnClickListener {
-            val action = MyFoodListFragmentDirections.actionMyFoodListFragmentToMyFoodDiaryFragment()
-            findNavController().navigate(action)
+//            val action = MyFoodListFragmentDirections.actionMyFoodListFragmentToMyFoodDiaryFragment()
+//            findNavController().navigate(action)
         }
         return root
     }
-
-//    companion object {
-//        @JvmStatic
-//        fun newInstance() =
-//            ApiFoodListFragment().apply {
-//                arguments = Bundle().apply {
-//                }
-//            }
-//    }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_myfoodlist, menu)
@@ -101,13 +85,13 @@ class MyFoodListFragment : Fragment(), FoodItemListener {
 
     override fun onResume() {
         super.onResume()
-//        myFoodListViewModel.load()
-        loggedInViewModel.liveFirebaseUser.observe(viewLifecycleOwner, Observer { firebaseUser ->
-            if (firebaseUser != null) {
-                myFoodListViewModel.liveFirebaseUser.value = firebaseUser
-                myFoodListViewModel.load()
-            }
-        })
+        apiFoodListViewModel.load()
+//        loggedInViewModel.liveFirebaseUser.observe(viewLifecycleOwner, Observer { firebaseUser ->
+//            if (firebaseUser != null) {
+//                apiFoodListViewModel.liveFirebaseUser.value = firebaseUser
+//                apiFoodListViewModel.load()
+//            }
+        //})
     }
 
     override fun onDestroyView() {
@@ -116,9 +100,9 @@ class MyFoodListFragment : Fragment(), FoodItemListener {
     }
 
     override fun onFoodItemClick(foodItem: FoodModel) {
-        val action = MyFoodListFragmentDirections.actionMyFoodListFragmentToIndividualFoodItemFragment(
-            foodItem.fid!!.toLong())
-        findNavController().navigate(action)
+//        val action = MyFoodListFragmentDirections.actionMyFoodListFragmentToIndividualFoodItemFragment(
+//            foodItem.fid!!.toLong())
+//        findNavController().navigate(action)
     }
 
     override fun onFoodItemDelete(foodItem: FoodModel) {

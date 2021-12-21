@@ -3,8 +3,11 @@
     package="org.wit.myfooddiary">
 
     <uses-permission android:name="android.permission.INTERNET"/>
-
+    <uses-feature android:name="android.hardware.camera"
+        android:required="true" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="18" />
 
     <application
         android:name=".main.MainApp"
@@ -14,6 +17,15 @@
         android:roundIcon="@drawable/splashscreenimage"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyFoodDiary">
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="org.wit.myfooddiary.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths"></meta-data>
+        </provider>
         <activity
             android:name=".ui.auth.Login"
             android:exported="true">

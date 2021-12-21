@@ -4,6 +4,7 @@ import android.net.Uri
 import android.os.Parcelable
 import com.google.firebase.database.Exclude
 import com.google.firebase.database.IgnoreExtraProperties
+import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
 @IgnoreExtraProperties
@@ -11,10 +12,13 @@ import kotlinx.parcelize.Parcelize
     data class FoodModel(
     var fid: String? = "",
     var uid: String? = "",
+    @SerializedName("title")
     var title: String = "",
     var description: String = "",
     var timeForFood: String = "",
+    @SerializedName("calories")
     var amountOfCals: Int = 0,
+    @SerializedName("image")
     var image: String = "",
  //   var image: Uri = Uri.EMPTY,
     var lat: Double = 0.0,
