@@ -35,8 +35,37 @@ object FirebaseDBManager  : FoodItemStore {
             })
     }
 
+
+
+    override fun findCoordinatesByUid(userid: String, foodid: String, myFoodList: MutableLiveData<List<FoodModel>>) {
+        database.child("user-food").child(userid)
+            .addValueEventListener(object : ValueEventListener {
+                override fun onCancelled(error: DatabaseError) {
+                    Timber.i("Map error : ${error.message}")
+                }
+
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val foodItemLoc = FoodModel()
+                    val children = snapshot.children
+                    children.forEach {
+                        val foodItem = it.getValue(FoodModel::class.java)
+                        if (foodItem != null) {
+                            foodItemLoc.lat = foodItem.lat
+                            foodItemLoc.lat = foodItem.lat
+                            foodItemLoc.zoom = foodItem.zoom
+                        }
+                    }
+                    database.child("user-food").child(userid)
+                        .removeEventListener(this)
+
+                }
+            })
+    }
+
+
+
     override fun findById(userid: String, foodid: String, fooditem: MutableLiveData<FoodModel>) {
-        TODO("Not yet implemented")
+//        val foundCordinates: fooditem? = fooditem.find
     }
 
 

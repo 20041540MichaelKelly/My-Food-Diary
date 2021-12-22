@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/myFoodDiaryFragment"
-        android:name="org.wit.myfooddiary.ui.fooddiary.MyFoodDiaryFragment"
+        android:name="org.wit.myfooddiary.ui.fooddiary.MyFoodDiaryFragmentView"
         android:label="My Food Diary"
         tools:layout="@layout/fragment_my_food_diary" >
         <action

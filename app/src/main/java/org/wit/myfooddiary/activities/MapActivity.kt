@@ -13,7 +13,10 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import org.wit.myfooddiary.R
+import org.wit.myfooddiary.models.FoodModel
 import org.wit.myfooddiary.models.Location
+
+//import org.wit.myfooddiary.models.Location
 
 class MapActivity : AppCompatActivity(), OnMapReadyCallback,
     GoogleMap.OnMarkerDragListener,
@@ -21,6 +24,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback,
 
     private lateinit var map: GoogleMap
     var location = Location()
+    var foodItem = FoodModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,18 +59,20 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback,
         return false
     }
 
-    override fun onMarkerDrag(p0: Marker) {
-        TODO("Not yet implemented")
+    override fun onMarkerDrag(marker: Marker) {
+        foodItem.lat += marker.position.latitude
+        foodItem.lng += marker.position.longitude
+        foodItem.zoom = map.cameraPosition.zoom
     }
 
     override fun onMarkerDragEnd(marker: Marker) {
-        location.lat = marker.position.latitude
-        location.lng = marker.position.longitude
-        location.zoom = map.cameraPosition.zoom
+        foodItem.lat = marker.position.latitude
+        foodItem.lng = marker.position.longitude
+        foodItem.zoom = map.cameraPosition.zoom
     }
 
-    override fun onMarkerDragStart(p0: Marker) {
-        TODO("Not yet implemented")
+    override fun onMarkerDragStart(marker: Marker) {
+
     }
 
     override fun onBackPressed() {

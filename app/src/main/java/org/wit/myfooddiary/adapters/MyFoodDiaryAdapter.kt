@@ -51,10 +51,10 @@ class MyFoodDiaryAdapter constructor(private var foodItems: List<FoodModel>,
                 Picasso.get().load(foodItem.image).resize(200, 200)
                     .rotate(90F).into(binding.imageIcon)
             } else if(foodItem.image == ""){
-                Picasso.get().load("content://com.android.providers.media.documents/document/image%3A5589").resize(200, 200).into(binding.imageIcon)
+                Picasso.get().load("@drawable/ic_baseline_food_bank_24.xml").resize(200, 200).into(binding.imageIcon)
 
             }else{
-                Picasso.get().load(foodItem.image).resize(200, 200).into(binding.imageIcon)
+                Picasso.get().load(foodItem.image).resize(200, 200).rotate(90F).into(binding.imageIcon)
             }
 
             binding.root.setOnClickListener { listener.onFoodItemClick(foodItem)}

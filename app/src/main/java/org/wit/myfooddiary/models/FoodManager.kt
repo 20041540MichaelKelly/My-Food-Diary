@@ -48,6 +48,14 @@ object FoodManager : FoodItemStore {
         TODO("Not yet implemented")
     }
 
+    override fun findCoordinatesByUid(
+        userid: String,
+        foodid: String,
+        myFoodList: MutableLiveData<List<FoodModel>>
+    ) {
+        TODO("Not yet implemented")
+    }
+
     override fun create(firebaseUser: MutableLiveData<FirebaseUser>, fooditem: FoodModel) {
         TODO("Not yet implemented")
     }

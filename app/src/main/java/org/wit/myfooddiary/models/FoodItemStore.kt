@@ -24,6 +24,8 @@ interface FoodItemStore {
     )
     fun findById(userid:String, foodid: String,
                  fooditem: MutableLiveData<FoodModel>)
+    fun findCoordinatesByUid(userid:String, foodid: String,
+                             myFoodList: MutableLiveData<List<FoodModel>>)
     fun create(firebaseUser: MutableLiveData<FirebaseUser>, fooditem: FoodModel)
     fun delete(userid:String, foodid: String)
     fun update(userid:String, foodid: String, fooditem: FoodModel)
