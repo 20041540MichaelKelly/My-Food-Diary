@@ -185,7 +185,7 @@ class MyFoodDiaryFragmentPresenter (private val view: MyFoodDiaryFragmentView) {
                             Picasso.get()
                                 .load(foodItem.image)
                                 .rotate(90F)
-                                .into(fragBinding.foodImage)
+                                .into(view.fragBinding.foodImage)
 
                             fragBinding.chooseImage.setText(R.string.change_food_image)
                         } // end of if
@@ -256,7 +256,7 @@ class MyFoodDiaryFragmentPresenter (private val view: MyFoodDiaryFragmentView) {
                     foodItem.image = photoURI.toString()
                     Picasso.get()
                         .load(foodItem.image)
-                        .into(fragBinding.foodImage)
+                        .into(view.fragBinding.foodImage)
 
                     takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
                     view.startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)

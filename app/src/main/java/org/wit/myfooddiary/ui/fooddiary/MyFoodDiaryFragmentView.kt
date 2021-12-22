@@ -40,7 +40,7 @@ import java.util.*
 
 class MyFoodDiaryFragmentView : Fragment() {
     private var _fragBinding: FragmentMyFoodDiaryBinding? = null
-    private val fragBinding get() = _fragBinding!!
+    val fragBinding get() = _fragBinding!!
     var foodItem = FoodModel()
     var user = UserModel()
     lateinit var myFoodDiaryViewModel: MyFoodDiaryViewModel
