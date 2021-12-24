@@ -29,11 +29,11 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback,
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_map)
-        if (intent.hasExtra("location")) {
-            location = intent.extras?.getParcelable<Location>("location")!!
-        }else{
-            location = Location(52.245696, -7.139102, 15f)
-        }
+//        if (intent.hasExtra("location")) {
+//            location = intent.extras?.getParcelable<Location>("location")!!
+//        }else{
+           // foodItem = FoodModel(lat =52.245696, lng = -7.139102, zoom = 15f)
+       // }
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
@@ -41,7 +41,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback,
 
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
-        val loc = LatLng(location.lat, location.lng)
+        val loc = LatLng(foodItem.lat, foodItem.lng)
         val options = MarkerOptions()
             .title("Food")
             .snippet("GPS : $loc")
@@ -49,12 +49,12 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback,
             .position(loc)
         map.setOnMarkerClickListener(this)
         map.addMarker(options)
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, location.zoom))
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, foodItem.zoom))
         map.setOnMarkerDragListener(this)
     }
 
     override fun onMarkerClick(marker: Marker): Boolean {
-        val loc = LatLng(location.lat, location.lng)
+        val loc = LatLng(foodItem.lat, foodItem.lng)
         marker.snippet = "GPS : $loc"
         return false
     }
@@ -69,6 +69,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback,
         foodItem.lat = marker.position.latitude
         foodItem.lng = marker.position.longitude
         foodItem.zoom = map.cameraPosition.zoom
+
     }
 
     override fun onMarkerDragStart(marker: Marker) {
@@ -77,7 +78,8 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback,
 
     override fun onBackPressed() {
         val resultIntent = Intent()
-        resultIntent.putExtra("location", location)
+//        resultIntent.putExtra("location", location)
+        resultIntent.putExtra("location", foodItem)
         setResult(Activity.RESULT_OK, resultIntent)
         finish()
         super.onBackPressed()

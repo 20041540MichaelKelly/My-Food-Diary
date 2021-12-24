@@ -10,7 +10,7 @@ import timber.log.Timber
 object FirebaseDBManager  : FoodItemStore {
     var database: DatabaseReference = FirebaseDatabase.getInstance().reference
     override fun findAll(myFoodList: MutableLiveData<List<FoodModel>>) {
-        TODO("Not yet implemented")
+
     }
 
     override fun findAllByUid(userid: String, myFoodList: MutableLiveData<List<FoodModel>>) {
@@ -37,30 +37,27 @@ object FirebaseDBManager  : FoodItemStore {
 
 
 
-    override fun findCoordinatesByUid(userid: String, foodid: String, myFoodList: MutableLiveData<List<FoodModel>>) {
-        database.child("user-food").child(userid)
-            .addValueEventListener(object : ValueEventListener {
-                override fun onCancelled(error: DatabaseError) {
-                    Timber.i("Map error : ${error.message}")
-                }
-
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    val foodItemLoc = FoodModel()
-                    val children = snapshot.children
-                    children.forEach {
-                        val foodItem = it.getValue(FoodModel::class.java)
-                        if (foodItem != null) {
-                            foodItemLoc.lat = foodItem.lat
-                            foodItemLoc.lat = foodItem.lat
-                            foodItemLoc.zoom = foodItem.zoom
-                        }
-                    }
-                    database.child("user-food").child(userid)
-                        .removeEventListener(this)
-
-                }
-            })
-    }
+//    override fun findCoordinatesByUid(foodid: String, fooditem: FoodModel) {
+//        database.child("food").child(foodid)
+//            .addValueEventListener(object : ValueEventListener {
+//                override fun onCancelled(error: DatabaseError) {
+//                    Timber.i("Map error : ${error.message}")
+//                }
+//
+//                override fun onDataChange(snapshot: DataSnapshot) {
+//                    val foodItemLoc = FoodModel()
+//                    val children = snapshot.children
+//                            foodItemLoc.lat = foodItem.lat
+//                            foodItemLoc.lat = foodItem.lat
+//                            foodItemLoc.zoom = foodItem.zoom
+//                        }
+//                    }
+//                    database.child("food").child(foodid)
+//                        .removeEventListener(this)
+//
+//                }
+//            })
+//   }
 
 
 
@@ -68,6 +65,13 @@ object FirebaseDBManager  : FoodItemStore {
 //        val foundCordinates: fooditem? = fooditem.find
     }
 
+    override fun findCoordinatesByUid(
+        userid: String,
+        foodid: String,
+        myFoodList: MutableLiveData<List<FoodModel>>
+    ) {
+        TODO("Not yet implemented")
+    }
 
 
     override fun delete(userid: String, foodid: String) {

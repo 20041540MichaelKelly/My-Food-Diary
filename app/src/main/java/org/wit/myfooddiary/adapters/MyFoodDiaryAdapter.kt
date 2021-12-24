@@ -2,14 +2,17 @@ package org.wit.myfooddiary.adapters
 
 import android.net.Uri
 import android.view.LayoutInflater
+import android.view.View.inflate
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
 import org.wit.myfooddiary.R
+import org.wit.myfooddiary.databinding.ActivityFoodListBinding.inflate
 import org.wit.myfooddiary.databinding.CardFoodBinding
 import org.wit.myfooddiary.models.FoodModel
+import org.wit.myfooddiary.ui.map.FoodLocationViewModel
 
 interface FoodItemListener {
     fun onFoodItemClick(foodItem: FoodModel)
@@ -24,6 +27,7 @@ class MyFoodDiaryAdapter constructor(private var foodItems: List<FoodModel>,
         val binding = CardFoodBinding
             .inflate(LayoutInflater.from(parent.context), parent, false)
 
+
         return MainHolder(binding)
     }
 
@@ -35,7 +39,7 @@ class MyFoodDiaryAdapter constructor(private var foodItems: List<FoodModel>,
 
     override fun getItemCount(): Int = foodItems.size
 
-    class MainHolder (private val binding : CardFoodBinding) :
+    class MainHolder (private val binding : CardFoodBinding ) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(foodItem: FoodModel, listener: FoodItemListener) {

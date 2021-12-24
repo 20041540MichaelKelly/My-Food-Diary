@@ -79,6 +79,7 @@
             android:background="@color/colorAccent"
             android:text="@string/button_location"
             android:textColor="#455A64"
+            android:onClick="foodItemLoc"
             app:layout_constraintStart_toStartOf="@+id/chooseImage"
             app:layout_constraintTop_toBottomOf="@+id/chooseImage"
             />

@@ -1,7 +1,6 @@
 package org.wit.myfooddiary.ui.fooddiary
 
 import android.annotation.SuppressLint
-import android.app.PendingIntent.getActivity
 import android.content.Intent
 import android.net.Uri
 import android.os.Environment
@@ -10,20 +9,26 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.NavHostFragment.findNavController
+import androidx.navigation.fragment.findNavController
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
+
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
 import org.wit.myfooddiary.R
 import org.wit.myfooddiary.activities.MapActivity
 import org.wit.myfooddiary.databinding.FragmentMyFoodDiaryBinding
 import org.wit.myfooddiary.helpers.showImagePicker
-import org.wit.myfooddiary.main.MainApp
 import org.wit.myfooddiary.models.FoodModel
 import org.wit.myfooddiary.models.Location
 import org.wit.myfooddiary.models.UserModel
 import org.wit.myfooddiary.ui.auth.LoggedInViewModel
 import org.wit.myfooddiary.ui.camera.Camera
+import org.wit.myfooddiary.ui.foodlist.MyFoodListFragmentDirections
+import org.wit.myfooddiary.ui.map.FoodLocationFragmentView
 import timber.log.Timber
 import java.io.File
 import java.io.IOException
@@ -32,11 +37,16 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
 
+
+
+
+
 class MyFoodDiaryFragmentPresenter (private val view: MyFoodDiaryFragmentView) {
     private var _fragBinding: FragmentMyFoodDiaryBinding = FragmentMyFoodDiaryBinding.inflate(view.layoutInflater)
     private val fragBinding get() = _fragBinding!!
     var foodItem = FoodModel()
     var user = UserModel()
+    val fragmentFoodLocation = FoodLocationFragmentView()
 
     // lateinit var app: MainApp
     private lateinit var myFoodDiaryViewModel: MyFoodDiaryViewModel
@@ -129,8 +139,8 @@ class MyFoodDiaryFragmentPresenter (private val view: MyFoodDiaryFragmentView) {
                         .format(DateTimeFormatter.ofPattern("M/d/y H:m:ss")),
                     image = foodItem.image,
                     email = loggedInViewModel.liveFirebaseUser.value?.email!!,
-                    lat = 52.245696,
-                    lng = -7.139102,
+                    lat = foodItem.lat,
+                    lng = foodItem.lng,
                     zoom = 15f
                 )
             )
@@ -158,6 +168,9 @@ class MyFoodDiaryFragmentPresenter (private val view: MyFoodDiaryFragmentView) {
         }
 
         layout.foodItemLocation.setOnClickListener {
+//            val action = MyFoodDiaryFragmentViewDirections.actionMyFoodDiaryFragmentToFoodLocation()
+//            findNavController().navigate(action)
+           // view.foodItemLoc(foodItem)
             val location = Location(52.245696, -7.139102, 15f)
             if (foodItem.zoom != 0f) {
                 location.lat = foodItem.lat
@@ -166,7 +179,12 @@ class MyFoodDiaryFragmentPresenter (private val view: MyFoodDiaryFragmentView) {
             }
             val launcherIntent = Intent(view.getActivity(), MapActivity::class.java)
                 .putExtra("location", location)
+
+
             mapIntentLauncher.launch(launcherIntent)
+
+
+
         }
         registerImagePickerCallback()
         registerMapCallback()
@@ -184,7 +202,6 @@ class MyFoodDiaryFragmentPresenter (private val view: MyFoodDiaryFragmentView) {
                             foodItem.image = result.data!!.data!!.toString()
                             Picasso.get()
                                 .load(foodItem.image)
-                                .rotate(90F)
                                 .into(view.fragBinding.foodImage)
 
                             fragBinding.chooseImage.setText(R.string.change_food_image)
@@ -204,11 +221,11 @@ class MyFoodDiaryFragmentPresenter (private val view: MyFoodDiaryFragmentView) {
                     AppCompatActivity.RESULT_OK -> {
                         if (result.data != null) {
                             Timber.i("Got Location ${result.data.toString()}")
-                            val location = result.data!!.extras?.getParcelable<Location>("location")!!
-                            Timber.i("Location == $location")
-                            foodItem.lat = location.lat
-                            foodItem.lng = location.lng
-                            foodItem.zoom = location.zoom
+                            val foods = result.data!!.extras?.getParcelable<FoodModel>("location")!!
+                            Timber.i("Location == $foods")
+                            foodItem.lat = foods.lat
+                            foodItem.lng = foods.lng
+                            foodItem.zoom = foods.zoom
                         } // end of if
                     }
                     AppCompatActivity.RESULT_CANCELED -> {}
@@ -256,7 +273,7 @@ class MyFoodDiaryFragmentPresenter (private val view: MyFoodDiaryFragmentView) {
                     foodItem.image = photoURI.toString()
                     Picasso.get()
                         .load(foodItem.image)
-                        .into(view.fragBinding.foodImage)
+                        .into(fragBinding.foodImage)
 
                     takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
                     view.startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
@@ -264,6 +281,4 @@ class MyFoodDiaryFragmentPresenter (private val view: MyFoodDiaryFragmentView) {
             }
         }
     }
-
-
 }
