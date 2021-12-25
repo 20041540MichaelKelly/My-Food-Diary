@@ -50,6 +50,15 @@ object FoodManager : FoodItemStore {
 
     override fun findCoordinatesByUid(
         userid: String,
+        lat: MutableLiveData<List<Double>>,
+        lng: MutableLiveData<List<Double>>
+    ) {
+        TODO("Not yet implemented")
+    }
+
+
+    fun findCoordinatesByUid(
+        userid: String,
         foodid: String,
         myFoodList: MutableLiveData<List<FoodModel>>
     ) {

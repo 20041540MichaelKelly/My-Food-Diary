@@ -11,9 +11,15 @@ import timber.log.Timber
 class MyFoodListViewModel : ViewModel() {
 
     private val myFoodList = MutableLiveData<List<FoodModel>>()
+    private val lat = MutableLiveData<List<Double>>()
+    private val lng = MutableLiveData<List<Double>>()
+
 
     val observableFoodItemsList: LiveData<List<FoodModel>>
         get() = myFoodList
+
+    val observableLatList: LiveData<List<Double>>
+        get() = lat
 
    var liveFirebaseUser = MutableLiveData<FirebaseUser>()
 
@@ -31,4 +37,17 @@ class MyFoodListViewModel : ViewModel() {
             Timber.i("Retrofit Error : $e.message")
         }
     }
+
+    fun getCordinates(){
+        val userid = liveFirebaseUser.value!!.uid
+        FirebaseDBManager.findCoordinatesByUid(userid, lat, lng)
+
+    }
+
+
+
+
+
+
+
 }

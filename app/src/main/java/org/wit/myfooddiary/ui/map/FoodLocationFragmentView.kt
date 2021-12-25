@@ -22,6 +22,7 @@ import org.wit.myfooddiary.R
 import org.wit.myfooddiary.databinding.FoodMapBinding
 import org.wit.myfooddiary.models.FoodModel
 import org.wit.myfooddiary.ui.auth.LoggedInViewModel
+import org.wit.myfooddiary.ui.foodlist.MyFoodListFragment
 import org.wit.myfooddiary.ui.foodlist.MyFoodListViewModel
 import org.wit.myfooddiary.ui.individualfooditem.IndividualFoodItemFragmentArgs
 import org.wit.myfooddiary.utils.createLoader
@@ -34,11 +35,12 @@ class FoodLocationFragmentView: Fragment(),
     private val fragBinding get() = _fragBinding!!
     var foodItem = FoodModel()
     lateinit var map: GoogleMap
+    private val myFoodListFragment : MyFoodListFragment ?= null
     private lateinit var foodLocationViewModel: FoodLocationViewModel
     lateinit var myFoodListViewModel: MyFoodListViewModel
     private val args by navArgs<IndividualFoodItemFragmentArgs>()
     lateinit var loader : AlertDialog
-
+    val listOfCord : List<Double>? = null
     private val loggedInViewModel: LoggedInViewModel by activityViewModels()
     private lateinit var presenter: FoodLocationFragmentPresenter
 
@@ -60,50 +62,111 @@ class FoodLocationFragmentView: Fragment(),
             map = it
             presenter.doConfigureMap(map)
         }
-        foodLocationViewModel = ViewModelProvider(this).get(FoodLocationViewModel::class.java)
+       // foodLocationViewModel = ViewModelProvider(this).get(FoodLocationViewModel::class.java)
         myFoodListViewModel = ViewModelProvider(this).get(MyFoodListViewModel::class.java)
         presenter = FoodLocationFragmentPresenter(this)
 
         loader = createLoader(requireActivity())
 //        fragBinding.title = getString(R.string.action_myfoodlist)
-        myFoodListViewModel = ViewModelProvider(this).get(MyFoodListViewModel::class.java)
-        showLoader(loader,"Downloading Food")
-        myFoodListViewModel.observableFoodItemsList.observe(viewLifecycleOwner, Observer {
-                foodItems ->
-            foodItems?.let {
-               // render(foodItems)
-                hideLoader(loader)
+//        myFoodListViewModel = ViewModelProvider(MyFoodListFragment).get(MyFoodListViewModel::class.java)
+//        showLoader(loader,"Downloading Food")
+//        myFoodListViewModel.observableFoodItemsList.observe(viewLifecycleOwner, Observer {
+//                foodItems ->
+//                foodItems?.let {
+//                    foodItems.forEach { foodItem ->
+//                        //render(foodItems)
+//                        foodLocationViewModel
+////                        hideLoader(loader)
+//                    }
+//                }
+//        })
+        loggedInViewModel.liveFirebaseUser.observe(viewLifecycleOwner, Observer { firebaseUser ->
+            if (firebaseUser != null) {
+                myFoodListViewModel.liveFirebaseUser.value = firebaseUser
+                myFoodListViewModel.load()
+                 myFoodListViewModel.getCordinates()
+                myFoodListViewModel.observableFoodItemsList.observe(
+                    viewLifecycleOwner, Observer { foodItems ->
+                        foodItems?.let {
+                            getLocations(foodItems, )
+                        }
+                    })
             }
         })
+
+
+
+            //foodLocationViewModel.load()
+//        foodLocationViewModel.getCordinates()
+//            foodLocationViewModel.observableFoodItemsLocList.observe(
+//                viewLifecycleOwner, Observer { foodItems ->
+//                    foodItems?.let {
+//                        getLocations(foodItems)
+//                    }
+//                })
 
         return root
     }
 
-    override fun onMarkerClick(p0: Marker): Boolean {
-        TODO("Not yet implemented")
+
+    private fun getLocations(foodItems: List<FoodModel>) {
+        foodItems.forEach {
+                foodItem ->
+            map.uiSettings.setZoomControlsEnabled(true)
+            val loc = LatLng(foodItem.lat, foodItem.lng)
+            val options = MarkerOptions()
+                .title(foodItem.title)
+                .position(loc)
+                .snippet("gps : $loc")
+
+            map.addMarker(options)?.tag = foodItem.fid
+            map.setOnMarkerClickListener(this)
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, foodItem.zoom))
+            fragBinding.currentTitle.setText(foodItem.title)
+            fragBinding.currentDescription.setText(foodItem.description)
+            showLocations(foodItem)
+        }
     }
 
-    fun configureMap() {
+    override fun onMarkerClick(marker: Marker): Boolean {
+        val locs = LatLng(foodItem.lat, foodItem.lng)
+       // marker.snippet = "GPS : $locs"
+        showLocations(foodItem)
+        return false
+    }
+
+    fun showLocations(foodItem: FoodModel) {
+        fragBinding.currentTitle.setText(foodItem.title)
+        fragBinding.currentDescription.setText(foodItem.description)
+//
+//        Picasso.get()
+//            .load(foodItem.image)
+//            .into(fragBinding.foodView)
+//        if (foodItem.image != "") {
+//            view.fragBinding.foodView.setText(R.string.change_food_image)
+//        }
+
+    }
+
+
+    fun configureMap(foodItem: FoodModel) {
         map.uiSettings.isZoomControlsEnabled = true
 //        myFoodListViewModel.observableFoodItemsList.observe(viewLifecycleOwner, Observer {
 //                foodItems ->
 //            foodItems?.let{
-//                getLocations(foodItems)
+//                foodItems.forEach{
+//                        foodItem ->
+//                    getLocations(foodItem)
 //                }
+//            }
 //            })
-        foodLocationViewModel.observableIndividualFoodItem.observe(viewLifecycleOwner, Observer {foodItem ->
-        getLocations(foodItem)
-        })
+
+//        foodLocationViewModel.observableIndividualFoodItem.observe(viewLifecycleOwner, Observer {foodItem ->
+//        getLocations(foodItem)
+//        })
     }
 
-    private fun getLocations(foodItem: FoodModel) {
 
-        val loc = LatLng(foodItem.lat, foodItem.lng)
-        val options = MarkerOptions().title(foodItem.title).position(loc)
-        map.addMarker(options)?.tag = foodItem.fid
-        map.setOnMarkerClickListener(this)
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, foodItem.zoom))
-    }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_myfoodlist, menu)
@@ -142,16 +205,5 @@ class FoodLocationFragmentView: Fragment(),
         fragBinding.mapView.onSaveInstanceState(outState)
     }
 
-    fun showLocations(foodItem: FoodModel) {
-        fragBinding.currentTitle.setText(foodItem.title)
-        fragBinding.currentDescription.setText(foodItem.description)
-//
-//        Picasso.get()
-//            .load(foodItem.image)
-//            .into(fragBinding.foodView)
-//        if (foodItem.image != "") {
-//            fragBinding.foodView.setText(R.string.change_food_image)
-//        }
 
-    }
 }

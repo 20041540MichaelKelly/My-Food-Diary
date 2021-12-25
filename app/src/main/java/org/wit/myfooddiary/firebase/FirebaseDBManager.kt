@@ -1,6 +1,7 @@
 package org.wit.myfooddiary.firebase
 
 import androidx.lifecycle.MutableLiveData
+import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
 import org.wit.myfooddiary.models.FoodItemStore
@@ -65,13 +66,31 @@ object FirebaseDBManager  : FoodItemStore {
 //        val foundCordinates: fooditem? = fooditem.find
     }
 
-    override fun findCoordinatesByUid(
-        userid: String,
-        foodid: String,
-        myFoodList: MutableLiveData<List<FoodModel>>
-    ) {
-        TODO("Not yet implemented")
-    }
+    override fun findCoordinatesByUid(userid: String, lat: MutableLiveData<List<Double>>, lng: MutableLiveData<List<Double>>) {
+        database.child("user-food").child(userid)
+            .addValueEventListener(object : ValueEventListener {
+                override fun onCancelled(error: DatabaseError) {
+                    Timber.i("Firebase Food error : ${error.message}")
+                }
+
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val latList = ArrayList<Double>()
+                    for (ds in snapshot.children) {
+                        val lats = ds?.child("lat")?.getValue(Double::class.java)!!
+                        latList.add(lats)
+
+
+                    }
+                    database.child("user-food").child(userid)
+                        .removeEventListener(this)
+                    lat.value = latList
+
+                }
+
+            })
+
+
+     }
 
 
     override fun delete(userid: String, foodid: String) {
@@ -79,6 +98,14 @@ object FirebaseDBManager  : FoodItemStore {
     }
 
     override fun update(userid: String, foodid: String, fooditem: FoodModel) {
+        TODO("Not yet implemented")
+    }
+
+    fun findAllCoordinatesByUid(
+        userid: String,
+        foodid: String,
+        myFoodList: MutableLiveData<List<FoodModel>>
+    ) {
         TODO("Not yet implemented")
     }
 

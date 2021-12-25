@@ -30,7 +30,6 @@ class HomeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-
         homeBinding = HomeBinding.inflate(layoutInflater)
         setContentView(homeBinding.root)
         drawerLayout = homeBinding.drawerLayout
@@ -43,27 +42,7 @@ class HomeActivity : AppCompatActivity() {
             toolbar.setTitle(R.string.app_name)
         }
         setSupportActionBar(toolbar)
-        if (intent.hasExtra("location")) {
-//            edit = true
-            val foodItem = intent.extras?.getParcelable<FoodModel>("location")!!
-//            homeBinding.foodTitle.setText(foodItem.title)
-//            binding.description.setText(foodItem.description)
-//            binding.btnAdd.setText(R.string.save_fooditem)
-//            Picasso.get()
-//                .load(foodItem.image)
-//                .into(binding.foodImage)
-//            if (foodItem.image != Uri.EMPTY) {
-//                binding.chooseImage.setText(R.string.change_food_image)
-//            }
-//        }
-        }
 
-
-//        val fab: FloatingActionButton = findViewById(R.id.fab)
-//        fab.setOnClickListener { view ->
-//            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                .setAction("Action", null).show()
-//        }
 
         val navController = findNavController(R.id.nav_host_fragment)
 
