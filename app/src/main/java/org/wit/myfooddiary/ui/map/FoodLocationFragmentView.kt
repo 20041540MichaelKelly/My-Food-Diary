@@ -18,6 +18,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import com.squareup.picasso.Picasso
 import org.wit.myfooddiary.R
 import org.wit.myfooddiary.databinding.FoodMapBinding
 import org.wit.myfooddiary.models.FoodModel
@@ -43,7 +44,8 @@ class FoodLocationFragmentView: Fragment(),
     val listOfCord : List<Double>? = null
     private val loggedInViewModel: LoggedInViewModel by activityViewModels()
     private lateinit var presenter: FoodLocationFragmentPresenter
-
+    private lateinit var listNeeded: List<FoodModel>
+    private var marker: Marker? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -110,6 +112,7 @@ class FoodLocationFragmentView: Fragment(),
 
 
     private fun getLocations(foodItems: List<FoodModel>) {
+        listNeeded = foodItems
         foodItems.forEach {
                 foodItem ->
             map.uiSettings.setZoomControlsEnabled(true)
@@ -118,32 +121,35 @@ class FoodLocationFragmentView: Fragment(),
                 .title(foodItem.title)
                 .position(loc)
                 .snippet("gps : $loc")
-
             map.addMarker(options)?.tag = foodItem.fid
             map.setOnMarkerClickListener(this)
             map.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, foodItem.zoom))
-            fragBinding.currentTitle.setText(foodItem.title)
-            fragBinding.currentDescription.setText(foodItem.description)
-            showLocations(foodItem)
         }
     }
 
-    override fun onMarkerClick(marker: Marker): Boolean {
-        val locs = LatLng(foodItem.lat, foodItem.lng)
-       // marker.snippet = "GPS : $locs"
-        showLocations(foodItem)
+     override fun onMarkerClick(marker: Marker): Boolean {
+        listNeeded.forEach { ln ->
+            val locs = LatLng(ln.lat, ln.lng)
+            if(ln.title == marker.title) {
+                marker.snippet = "GPS : $locs"
+
+                showLocations(ln)
+            }
+        }
+
         return false
     }
 
     fun showLocations(foodItem: FoodModel) {
+
         fragBinding.currentTitle.setText(foodItem.title)
         fragBinding.currentDescription.setText(foodItem.description)
-//
+
 //        Picasso.get()
 //            .load(foodItem.image)
 //            .into(fragBinding.foodView)
 //        if (foodItem.image != "") {
-//            view.fragBinding.foodView.setText(R.string.change_food_image)
+//            fragBinding.foodView.setText(R.string.change_food_image)
 //        }
 
     }
