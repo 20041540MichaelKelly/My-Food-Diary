@@ -3,22 +3,19 @@ package org.wit.myfooddiary.ui.fooddiary
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
-import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
-import android.view.*
-import android.widget.Toast
-import androidx.fragment.app.Fragment
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
-import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment.findNavController
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.NavigationUI
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
+
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
 import org.wit.myfooddiary.R
@@ -30,6 +27,8 @@ import org.wit.myfooddiary.models.Location
 import org.wit.myfooddiary.models.UserModel
 import org.wit.myfooddiary.ui.auth.LoggedInViewModel
 import org.wit.myfooddiary.ui.camera.Camera
+import org.wit.myfooddiary.ui.foodlist.MyFoodListFragmentDirections
+import org.wit.myfooddiary.ui.map.FoodLocationFragmentView
 import timber.log.Timber
 import java.io.File
 import java.io.IOException
@@ -38,16 +37,21 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
 
-class MyFoodDiaryFragment : Fragment() {
-    private var _fragBinding: FragmentMyFoodDiaryBinding? = null
+
+
+
+
+class MyFoodDiaryFragmentPresenter (private val view: MyFoodDiaryFragmentView) {
+    private var _fragBinding: FragmentMyFoodDiaryBinding = FragmentMyFoodDiaryBinding.inflate(view.layoutInflater)
     private val fragBinding get() = _fragBinding!!
     var foodItem = FoodModel()
     var user = UserModel()
+    val fragmentFoodLocation = FoodLocationFragmentView()
+
     // lateinit var app: MainApp
     private lateinit var myFoodDiaryViewModel: MyFoodDiaryViewModel
     private lateinit var imageIntentLauncher: ActivityResultLauncher<Intent>
     private lateinit var mapIntentLauncher: ActivityResultLauncher<Intent>
-    private val loggedInViewModel: LoggedInViewModel by activityViewModels()
     val camera = Camera()
     val IMAGE_REQUEST = 1
     var edit = false
@@ -55,66 +59,40 @@ class MyFoodDiaryFragment : Fragment() {
     lateinit var currentPhotoPath: String
     val REQUEST_CODE = 200
 
+    init {
 
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
+        registerImagePickerCallback()
+        registerMapCallback()
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _fragBinding = FragmentMyFoodDiaryBinding.inflate(inflater, container, false)
-        val root = fragBinding.root
-        // activity?.title = getString(R.string.action_myfooddiary)
+    fun doAddOrSave(title: String, description: String) {
+        foodItem.title = title
+        foodItem.description = description
 
-        myFoodDiaryViewModel = ViewModelProvider(this).get(MyFoodDiaryViewModel::class.java)
-        myFoodDiaryViewModel.observableStatus.observe(viewLifecycleOwner, Observer { status ->
-            status?.let { render(status) }
-        })
-        fragBinding.amountOfCals.minValue = 1
-        fragBinding.amountOfCals.maxValue = 1000
-
-        fragBinding.amountOfCals.setOnValueChangedListener { _, _, newVal ->
-            //Display the newly selected number to paymentAmount
-            // donateLayout.paymentAmount.setText("$newVal")
-            foodItem.amountOfCals = newVal
-        }
-//        if (getActivity()?.getIntent()?.getExtras()?.getString("fooditem_edit") != null) {
-//            edit = true
-//            foodItem = activity?.intent?.extras?.getParcelable("fooditem_edit")!!
-//            fragBinding.foodTitle.setText(foodItem.title)
-//            fragBinding.description.setText(foodItem.description)
-//            fragBinding.btnAdd.setText(R.string.save_fooditem)
-//            Picasso.get()
-//                .load(foodItem.image)
-//                .into(fragBinding.foodImage)
-//            if (foodItem.image != Uri.EMPTY) {
-//                fragBinding.chooseImage.setText(R.string.change_food_image)
-//            }
-//        }
-
-        setButtonListener(fragBinding, loggedInViewModel)
-
-        return root;
     }
 
-    private fun render(status: Boolean) {
-        when (status) {
-            true -> {
-                view?.let {
-                    //Uncomment this if you want to immediately return to Report
-                    findNavController().popBackStack()
-                }
-            }
-            false -> Toast.makeText(context, getString(R.string.foodItemError), Toast.LENGTH_LONG)
-                .show()
-        }
+    fun doCancel() {
+     //   view.finish()
+
     }
 
-    private fun setButtonListener(
+    fun doDelete() {
+//        app.placemarks.delete(placemark)
+    //    view.finish()
+
+    }
+
+    fun doSelectImage() {
+        showImagePicker(imageIntentLauncher)
+    }
+
+
+    fun cacheFooodLocation (title: String, description: String) {
+        foodItem.title = title;
+        foodItem.description = description
+    }
+
+     fun setButtonListener(
         layout: FragmentMyFoodDiaryBinding,
         loggedInViewModel: LoggedInViewModel
     ) {
@@ -129,7 +107,7 @@ class MyFoodDiaryFragment : Fragment() {
                     .show()
             }
 
-            myFoodDiaryViewModel.addFoodItem(
+            view.myFoodDiaryViewModel.addFoodItem(
                 loggedInViewModel.liveFirebaseUser,
                 FoodModel(
                     title = layout.foodTitle.text.toString(),
@@ -138,22 +116,13 @@ class MyFoodDiaryFragment : Fragment() {
                     timeForFood = LocalDateTime.now()
                         .format(DateTimeFormatter.ofPattern("M/d/y H:m:ss")),
                     image = foodItem.image,
-                    email = loggedInViewModel.liveFirebaseUser.value?.email!!
+                    email = loggedInViewModel.liveFirebaseUser.value?.email!!,
+                    lat = foodItem.lat,
+                    lng = foodItem.lng,
+                    zoom = 15f
                 )
             )
 
-//            } else {
-//                if (edit) {
-//                    layout.foodItems.update(foodItem.copy())
-//                } else {
-//                    foodItem.fUid = user.Uid
-//                 //   app.foodItems.create(foodItem.copy(), user)
-//                    app.foodItems.create(foodItem.copy())
-//                }
-//            }
-//            Timber.i("add Button Pressed: $foodItem")
-//            getActivity()?.setResult(AppCompatActivity.RESULT_OK);
-//            getActivity()?.finish();
         }
 
         layout.chooseImage.setOnClickListener {
@@ -171,30 +140,23 @@ class MyFoodDiaryFragment : Fragment() {
                 location.lng = foodItem.lng
                 location.zoom = foodItem.zoom
             }
-            val launcherIntent = Intent(getActivity(), MapActivity::class.java)
+            val launcherIntent = Intent(view.getActivity(), MapActivity::class.java)
                 .putExtra("location", location)
+
+
             mapIntentLauncher.launch(launcherIntent)
+
+
+
         }
         registerImagePickerCallback()
-        // registerMapCallback()
+        registerMapCallback()
 
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.menu_myfooddiary, menu)
-        super.onCreateOptionsMenu(menu, inflater)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return NavigationUI.onNavDestinationSelected(
-            item,
-            requireView().findNavController()
-        ) || super.onOptionsItemSelected(item)
     }
 
     private fun registerImagePickerCallback() {
         imageIntentLauncher =
-            registerForActivityResult(ActivityResultContracts.StartActivityForResult())
+            view.registerForActivityResult(ActivityResultContracts.StartActivityForResult())
             { result ->
                 when (result.resultCode) {
                     AppCompatActivity.RESULT_OK -> {
@@ -203,7 +165,7 @@ class MyFoodDiaryFragment : Fragment() {
                             foodItem.image = result.data!!.data!!.toString()
                             Picasso.get()
                                 .load(foodItem.image)
-                                .into(fragBinding.foodImage)
+                                .into(view.fragBinding.foodImage)
 
                             fragBinding.chooseImage.setText(R.string.change_food_image)
                         } // end of if
@@ -214,31 +176,33 @@ class MyFoodDiaryFragment : Fragment() {
             }
     }
 
-//    private fun registerMapCallback() {
-//        mapIntentLauncher =
-//            registerForActivityResult(ActivityResultContracts.StartActivityForResult())
-//            { result ->
-//                when (result.resultCode) {
-//                    AppCompatActivity.RESULT_OK -> {
-//                        if (result.data != null) {
-//                            Timber.i("Got Location ${result.data.toString()}")
-//                            val location = result.data!!.extras?.getParcelable<Location>("location")!!
-//                            Timber.i("Location == $location")
-//                            foodItem.lat = location.lat
-//                            foodItem.lng = location.lng
-//                            foodItem.zoom = location.zoom
-//                        } // end of if
-//                    }
-//                    AppCompatActivity.RESULT_CANCELED -> { } else -> { }
-//                }
-//            }
+    private fun registerMapCallback() {
+        mapIntentLauncher =
+            view.registerForActivityResult(ActivityResultContracts.StartActivityForResult())
+            { result ->
+                when (result.resultCode) {
+                    AppCompatActivity.RESULT_OK -> {
+                        if (result.data != null) {
+                            Timber.i("Got Location ${result.data.toString()}")
+                            val foods = result.data!!.extras?.getParcelable<FoodModel>("location")!!
+                            Timber.i("Location == $foods")
+                            foodItem.lat = foods.lat
+                            foodItem.lng = foods.lng
+                            foodItem.zoom = foods.zoom
+                        } // end of if
+                    }
+                    AppCompatActivity.RESULT_CANCELED -> {}
+                    else -> {}
+                }
+            }
+    }
 
     @SuppressLint("SimpleDateFormat")
     @Throws(IOException::class)
     private fun createImageFile(): File {
         // Create an image file name
         val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
-        val storageDir: File? = activity?.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        val storageDir: File? = view.activity?.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
         return File.createTempFile(
             "JPEG_${timeStamp}_", /* prefix */
             ".jpg", /* suffix */
@@ -253,7 +217,7 @@ class MyFoodDiaryFragment : Fragment() {
         Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
             // Ensure that there's a camera activity to handle the intent
 
-            takePictureIntent.resolveActivity(activity!!.packageManager)?.also {
+            takePictureIntent.resolveActivity(view.activity!!.packageManager)?.also {
                 // Create the File where the photo should go
                 val photoFile: File? = try {
                     createImageFile()
@@ -265,7 +229,7 @@ class MyFoodDiaryFragment : Fragment() {
                 // Continue only if the File was successfully created
                 photoFile?.also {
                     val photoURI: Uri = FileProvider.getUriForFile(
-                        requireActivity(),
+                        view.requireActivity(),
                         "org.wit.myfooddiary.fileprovider",
                         it
                     )
@@ -275,16 +239,9 @@ class MyFoodDiaryFragment : Fragment() {
                         .into(fragBinding.foodImage)
 
                     takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
-                    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
+                    view.startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
                 }
             }
         }
     }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _fragBinding = null
-    }
-
-
 }

@@ -13,7 +13,10 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import org.wit.myfooddiary.R
+import org.wit.myfooddiary.models.FoodModel
 import org.wit.myfooddiary.models.Location
+
+//import org.wit.myfooddiary.models.Location
 
 class MapActivity : AppCompatActivity(), OnMapReadyCallback,
     GoogleMap.OnMarkerDragListener,
@@ -21,15 +24,16 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback,
 
     private lateinit var map: GoogleMap
     var location = Location()
+    var foodItem = FoodModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_map)
-        if (intent.hasExtra("location")) {
-            location = intent.extras?.getParcelable<Location>("location")!!
-        }else{
-            location = Location(52.245696, -7.139102, 15f)
-        }
+//        if (intent.hasExtra("location")) {
+//            location = intent.extras?.getParcelable<Location>("location")!!
+//        }else{
+           // foodItem = FoodModel(lat =52.245696, lng = -7.139102, zoom = 15f)
+       // }
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
@@ -37,7 +41,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback,
 
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
-        val loc = LatLng(location.lat, location.lng)
+        val loc = LatLng(foodItem.lat, foodItem.lng)
         val options = MarkerOptions()
             .title("Food")
             .snippet("GPS : $loc")
@@ -45,33 +49,37 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback,
             .position(loc)
         map.setOnMarkerClickListener(this)
         map.addMarker(options)
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, location.zoom))
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, foodItem.zoom))
         map.setOnMarkerDragListener(this)
     }
 
     override fun onMarkerClick(marker: Marker): Boolean {
-        val loc = LatLng(location.lat, location.lng)
+        val loc = LatLng(foodItem.lat, foodItem.lng)
         marker.snippet = "GPS : $loc"
         return false
     }
 
-    override fun onMarkerDrag(p0: Marker) {
-        TODO("Not yet implemented")
+    override fun onMarkerDrag(marker: Marker) {
+        foodItem.lat += marker.position.latitude
+        foodItem.lng += marker.position.longitude
+        foodItem.zoom = map.cameraPosition.zoom
     }
 
     override fun onMarkerDragEnd(marker: Marker) {
-        location.lat = marker.position.latitude
-        location.lng = marker.position.longitude
-        location.zoom = map.cameraPosition.zoom
+        foodItem.lat = marker.position.latitude
+        foodItem.lng = marker.position.longitude
+        foodItem.zoom = map.cameraPosition.zoom
+
     }
 
-    override fun onMarkerDragStart(p0: Marker) {
-        TODO("Not yet implemented")
+    override fun onMarkerDragStart(marker: Marker) {
+
     }
 
     override fun onBackPressed() {
         val resultIntent = Intent()
-        resultIntent.putExtra("location", location)
+//        resultIntent.putExtra("location", location)
+        resultIntent.putExtra("location", foodItem)
         setResult(Activity.RESULT_OK, resultIntent)
         finish()
         super.onBackPressed()

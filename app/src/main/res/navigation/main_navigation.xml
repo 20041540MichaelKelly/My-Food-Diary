@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/myFoodDiaryFragment"
-        android:name="org.wit.myfooddiary.ui.fooddiary.MyFoodDiaryFragment"
+        android:name="org.wit.myfooddiary.ui.fooddiary.MyFoodDiaryFragmentView"
         android:label="My Food Diary"
         tools:layout="@layout/fragment_my_food_diary" >
         <action
@@ -15,6 +15,13 @@
             app:destination="@id/myFoodListFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim" />
+        <action
+            android:id="@+id/action_myFoodDiaryFragment_to_foodLocation"
+            app:destination="@id/foodLocation">
+<!--            <argument-->
+<!--                android:name="foodid"-->
+<!--                app:argType="long" />-->
+        </action>
     </fragment>
     <fragment
         android:id="@+id/myFoodListFragment"
@@ -48,7 +55,7 @@
     </fragment>
     <fragment
         android:id="@+id/foodLocation"
-        android:name="org.wit.myfooddiary.ui.map.FoodLocationFragment"
+        android:name="org.wit.myfooddiary.ui.map.FoodLocationFragmentView"
         android:label="My Food Diary"
         tools:layout="@layout/food_map" />
 </navigation>
