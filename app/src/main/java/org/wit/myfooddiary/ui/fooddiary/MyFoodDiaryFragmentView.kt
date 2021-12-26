@@ -24,6 +24,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.squareup.picasso.Picasso
 import org.wit.myfooddiary.R
 import org.wit.myfooddiary.activities.MapActivity
+import org.wit.myfooddiary.adapters.FoodItemListener
 import org.wit.myfooddiary.databinding.FragmentMyFoodDiaryBinding
 import org.wit.myfooddiary.helpers.showImagePicker
 import org.wit.myfooddiary.models.FoodModel
@@ -41,7 +42,7 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
 
-class MyFoodDiaryFragmentView : Fragment() {
+class MyFoodDiaryFragmentView : Fragment(), FoodItemListener() {
     private var _fragBinding: FragmentMyFoodDiaryBinding? = null
     val fragBinding get() = _fragBinding!!
     var foodItem = FoodModel()

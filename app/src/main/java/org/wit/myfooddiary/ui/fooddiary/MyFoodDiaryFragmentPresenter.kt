@@ -60,11 +60,6 @@ class MyFoodDiaryFragmentPresenter (private val view: MyFoodDiaryFragmentView) {
     val REQUEST_CODE = 200
 
     init {
-//        if (view.getActivity().intent.hasExtra("placemark_edit")) {
-//            edit = true
-//            placemark = view.intent.extras?.getParcelable("placemark_edit")!!
-//            view.showPlacemark(placemark)
-//        }
 
         registerImagePickerCallback()
         registerMapCallback()
@@ -73,13 +68,6 @@ class MyFoodDiaryFragmentPresenter (private val view: MyFoodDiaryFragmentView) {
     fun doAddOrSave(title: String, description: String) {
         foodItem.title = title
         foodItem.description = description
-//        if (edit) {
-//            //app.placemarks.update(foodItem)
-//        } else {
-//           // app.placemarks.create(foodItem)
-//        }
-//
- //       view.finish()
 
     }
 
@@ -98,17 +86,7 @@ class MyFoodDiaryFragmentPresenter (private val view: MyFoodDiaryFragmentView) {
         showImagePicker(imageIntentLauncher)
     }
 
-    fun doSetLocation() {
-//        val location = Location(52.245696, -7.139102, 15f)
-//        if (placemark.zoom != 0f) {
-//            location.lat =  placemark.lat
-//            location.lng = placemark.lng
-//            location.zoom = placemark.zoom
-//        }
-//        val launcherIntent = Intent(view, EditLocationView::class.java)
-//            .putExtra("location", location)
-//        mapIntentLauncher.launch(launcherIntent)
-    }
+
     fun cacheFooodLocation (title: String, description: String) {
         foodItem.title = title;
         foodItem.description = description
@@ -145,18 +123,6 @@ class MyFoodDiaryFragmentPresenter (private val view: MyFoodDiaryFragmentView) {
                 )
             )
 
-//            } else {
-//                if (edit) {
-//                    layout.foodItems.update(foodItem.copy())
-//                } else {
-//                    foodItem.fUid = user.Uid
-//                 //   app.foodItems.create(foodItem.copy(), user)
-//                    app.foodItems.create(foodItem.copy())
-//                }
-//            }
-//            Timber.i("add Button Pressed: $foodItem")
-//            getActivity()?.setResult(AppCompatActivity.RESULT_OK);
-//            getActivity()?.finish();
         }
 
         layout.chooseImage.setOnClickListener {
@@ -168,9 +134,6 @@ class MyFoodDiaryFragmentPresenter (private val view: MyFoodDiaryFragmentView) {
         }
 
         layout.foodItemLocation.setOnClickListener {
-//            val action = MyFoodDiaryFragmentViewDirections.actionMyFoodDiaryFragmentToFoodLocation()
-//            findNavController().navigate(action)
-           // view.foodItemLoc(foodItem)
             val location = Location(52.245696, -7.139102, 15f)
             if (foodItem.zoom != 0f) {
                 location.lat = foodItem.lat

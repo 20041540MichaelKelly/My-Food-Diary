@@ -39,24 +39,17 @@ class MyFoodDiaryAdapter constructor(private var foodItems: List<FoodModel>,
 
     override fun getItemCount(): Int = foodItems.size
 
-    class MainHolder (private val binding : CardFoodBinding ) :
+    inner class MainHolder ( private val binding : CardFoodBinding ) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(foodItem: FoodModel, listener: FoodItemListener) {
-            //binding.paymentamount.text = donation.amount.toString()
-            //binding.paymentmethod.text = donation.paymentmethod
-
             binding.foodItem = foodItem
             binding.imageIcon.setImageURI(Uri.parse(foodItem.image))
-//            if(foodItem.image == Uri.EMPTY){
-//                Picasso.get().load("content://com.android.providers.media.documents/document/image%3A5589").resize(200, 200).into(binding.imageIcon)
-//            }else{
             if(foodItem.image.contains("content://org.wit.myfooddiary")){
                 Picasso.get().load(foodItem.image).resize(200, 200)
                     .rotate(90F).into(binding.imageIcon)
             } else if(foodItem.image == ""){
                 Picasso.get().load("@drawable/ic_baseline_food_bank_24.xml").resize(200, 200).into(binding.imageIcon)
-
             }else{
                 Picasso.get().load(foodItem.image).resize(200, 200).rotate(90F).into(binding.imageIcon)
             }
