@@ -44,7 +44,7 @@ object FoodManager : FoodItemStore {
         TODO("Not yet implemented")
     }
 
-    override fun findById(userid: String, foodid: String, fooditem: MutableLiveData<FoodModel>) {
+    override fun findById(foodid: String, fooditem: MutableLiveData<FoodModel>) {
         TODO("Not yet implemented")
     }
 

@@ -22,7 +22,7 @@ interface FoodItemStore {
         myFoodList:
         MutableLiveData<List<FoodModel>>
     )
-    fun findById(userid:String, foodid: String,
+    fun findById(foodid: String,
                  fooditem: MutableLiveData<FoodModel>)
     fun findCoordinatesByUid(userid: String, lat: MutableLiveData<List<Double>>, lng: MutableLiveData<List<Double>>)
     fun create(firebaseUser: MutableLiveData<FirebaseUser>, fooditem: FoodModel)

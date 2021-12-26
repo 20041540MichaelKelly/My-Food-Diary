@@ -7,6 +7,9 @@ import com.google.firebase.database.*
 import org.wit.myfooddiary.models.FoodItemStore
 import org.wit.myfooddiary.models.FoodModel
 import timber.log.Timber
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 object FirebaseDBManager  : FoodItemStore {
     var database: DatabaseReference = FirebaseDatabase.getInstance().reference
@@ -36,34 +39,36 @@ object FirebaseDBManager  : FoodItemStore {
             })
     }
 
+    override fun findById(foodid: String, fooditem: MutableLiveData<FoodModel>) {
+        database.child("food").child(foodid)
+            .addValueEventListener(object : ValueEventListener {
+                override fun onCancelled(error: DatabaseError) {
+                    Timber.i("Firebase Food error : ${error.message}")
+                }
 
-
-//    override fun findCoordinatesByUid(foodid: String, fooditem: FoodModel) {
-//        database.child("food").child(foodid)
-//            .addValueEventListener(object : ValueEventListener {
-//                override fun onCancelled(error: DatabaseError) {
-//                    Timber.i("Map error : ${error.message}")
-//                }
-//
-//                override fun onDataChange(snapshot: DataSnapshot) {
-//                    val foodItemLoc = FoodModel()
-//                    val children = snapshot.children
-//                            foodItemLoc.lat = foodItem.lat
-//                            foodItemLoc.lat = foodItem.lat
-//                            foodItemLoc.zoom = foodItem.zoom
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    var fItem = FoodModel()
+//                    for (ds in snapshot.children) {
+//                        val foodItem = ds.getValue(FoodModel::class.java)
+//                        if(foodItem?.timeForFood == foodid){
+//                            fItem = foodItem
+//                            Timber.i("Firebase Food error : ${fItem}")
 //                        }
 //                    }
-//                    database.child("food").child(foodid)
-//                        .removeEventListener(this)
-//
-//                }
-//            })
-//   }
-
-
-
-    override fun findById(userid: String, foodid: String, fooditem: MutableLiveData<FoodModel>) {
-//        val foundCordinates: fooditem? = fooditem.find
+                    val children = snapshot.children
+                    children.forEach {
+                        val foodItem = it.getValue(FoodModel::class.java)
+                        if(foodItem != null) {
+                            fItem = foodItem
+                        }
+                    }
+                    database.child("food").child(foodid)
+                        .removeEventListener(this)
+                    if(fItem.fid != "") {
+                        fooditem.value = fItem
+                    }
+                }
+            })
     }
 
     override fun findCoordinatesByUid(userid: String, lat: MutableLiveData<List<Double>>, lng: MutableLiveData<List<Double>>) {

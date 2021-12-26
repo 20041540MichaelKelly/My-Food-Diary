@@ -32,35 +32,30 @@ import org.wit.myfooddiary.ui.map.FoodLocationFragmentView
 import timber.log.Timber
 import java.io.File
 import java.io.IOException
+import java.security.Timestamp
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
-
-
-
-
 
 class MyFoodDiaryFragmentPresenter (private val view: MyFoodDiaryFragmentView) {
     private var _fragBinding: FragmentMyFoodDiaryBinding = FragmentMyFoodDiaryBinding.inflate(view.layoutInflater)
     private val fragBinding get() = _fragBinding!!
     var foodItem = FoodModel()
     var user = UserModel()
-    val fragmentFoodLocation = FoodLocationFragmentView()
-
-    // lateinit var app: MainApp
-    private lateinit var myFoodDiaryViewModel: MyFoodDiaryViewModel
     private lateinit var imageIntentLauncher: ActivityResultLauncher<Intent>
     private lateinit var mapIntentLauncher: ActivityResultLauncher<Intent>
-    val camera = Camera()
-    val IMAGE_REQUEST = 1
     var edit = false
     val REQUEST_IMAGE_CAPTURE = 1
     lateinit var currentPhotoPath: String
-    val REQUEST_CODE = 200
+    var lastId = 0L
+
+
+internal fun getId(): Long {
+    return lastId++
+}
 
     init {
-
         registerImagePickerCallback()
         registerMapCallback()
     }
@@ -99,8 +94,8 @@ class MyFoodDiaryFragmentPresenter (private val view: MyFoodDiaryFragmentView) {
         layout.btnAdd.setOnClickListener() {
             foodItem.title = layout.foodTitle.text.toString()
             foodItem.description = layout.description.text.toString()
-            foodItem.timeForFood =
-                LocalDateTime.now().format(DateTimeFormatter.ofPattern("M/d/y H:m:ss"))
+            foodItem.timeForFood =LocalDateTime.now()
+                .format(DateTimeFormatter.ofPattern("M/d/y H:m:ss"))
             foodItem.amountOfCals = layout.amountOfCals.value
             if (foodItem.description.isEmpty()) {
                 Snackbar.make(it, R.string.enter_fooditem_title, Snackbar.LENGTH_LONG)
@@ -113,8 +108,9 @@ class MyFoodDiaryFragmentPresenter (private val view: MyFoodDiaryFragmentView) {
                     title = layout.foodTitle.text.toString(),
                     description = layout.description.text.toString(),
                     amountOfCals = layout.amountOfCals.value,
-                    timeForFood = LocalDateTime.now()
+                    dateLogged = LocalDateTime.now()
                         .format(DateTimeFormatter.ofPattern("M/d/y H:m:ss")),
+                    timeForFood = System.currentTimeMillis().toString(),
                     image = foodItem.image,
                     email = loggedInViewModel.liveFirebaseUser.value?.email!!,
                     lat = foodItem.lat,
@@ -143,10 +139,7 @@ class MyFoodDiaryFragmentPresenter (private val view: MyFoodDiaryFragmentView) {
             val launcherIntent = Intent(view.getActivity(), MapActivity::class.java)
                 .putExtra("location", location)
 
-
             mapIntentLauncher.launch(launcherIntent)
-
-
 
         }
         registerImagePickerCallback()

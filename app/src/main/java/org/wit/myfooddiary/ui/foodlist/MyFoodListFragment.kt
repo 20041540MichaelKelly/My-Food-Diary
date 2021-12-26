@@ -68,15 +68,6 @@ class MyFoodListFragment : Fragment(), FoodItemListener {
         return root
     }
 
-//    companion object {
-//        @JvmStatic
-//        fun newInstance() =
-//            ApiFoodListFragment().apply {
-//                arguments = Bundle().apply {
-//                }
-//            }
-//    }
-
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_myfoodlist, menu)
         super.onCreateOptionsMenu(menu, inflater)
@@ -117,7 +108,7 @@ class MyFoodListFragment : Fragment(), FoodItemListener {
 
     override fun onFoodItemClick(foodItem: FoodModel) {
         val action = MyFoodListFragmentDirections.actionMyFoodListFragmentToIndividualFoodItemFragment(
-            foodItem.fid!!.toLong())
+            foodItem.timeForFood.toLong())
         findNavController().navigate(action)
     }
 

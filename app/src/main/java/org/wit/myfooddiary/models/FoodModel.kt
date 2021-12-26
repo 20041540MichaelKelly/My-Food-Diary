@@ -6,6 +6,9 @@ import com.google.firebase.database.Exclude
 import com.google.firebase.database.IgnoreExtraProperties
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
+import java.security.Timestamp
+import java.time.LocalDateTime
+import java.util.*
 
 @IgnoreExtraProperties
 @Parcelize
@@ -15,6 +18,7 @@ import kotlinx.parcelize.Parcelize
     @SerializedName("title")
     var title: String = "",
     var description: String = "",
+    var dateLogged: String = "",
     var timeForFood: String = "",
     @SerializedName("calories")
     var amountOfCals: Int = 0,
