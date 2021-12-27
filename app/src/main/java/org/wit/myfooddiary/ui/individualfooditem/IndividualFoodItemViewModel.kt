@@ -18,9 +18,9 @@ class IndividualFoodItemViewModel : ViewModel() {
     var liveFirebaseUser = MutableLiveData<FirebaseUser>()
 
 
-    fun getFoodItem(foodid: String) {
-        FirebaseDBManager.findById(foodid, foodItem)
-        Timber.i("Retrofit Success : ${foodItem.value.toString()}")
+        fun getFoodItem(foodid: String) {
+            FirebaseDBManager.findById(foodid, foodItem)
+            Timber.i("Retrofit Success : ${foodItem.value.toString()}")
 
-    }
+        }
 }

@@ -3,6 +3,7 @@ package org.wit.myfooddiary.ui.foodlist
 import android.app.AlertDialog
 import android.os.Bundle
 import android.view.*
+import androidx.appcompat.widget.SwitchCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
@@ -16,7 +17,6 @@ import org.wit.myfooddiary.R
 import org.wit.myfooddiary.adapters.FoodItemListener
 import org.wit.myfooddiary.adapters.MyFoodDiaryAdapter
 import org.wit.myfooddiary.databinding.FragmentMyFoodListBinding
-import org.wit.myfooddiary.firebase.FirebaseDBManager
 import org.wit.myfooddiary.models.FoodModel
 import org.wit.myfooddiary.models.UserModel
 import org.wit.myfooddiary.ui.auth.LoggedInViewModel
@@ -70,6 +70,17 @@ class MyFoodListFragment : Fragment(), FoodItemListener {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_myfoodlist, menu)
+
+        val item = menu.findItem(R.id.toggleFoodItems) as MenuItem
+        item.setActionView(R.layout.togglebutton_layout)
+        val toggleFoodItems: SwitchCompat = item.actionView.findViewById(R.id.toggleButton)
+        toggleFoodItems.isChecked = false
+
+        toggleFoodItems.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked) myFoodListViewModel.loadAll()
+            else myFoodListViewModel.load()
+        }
+
         super.onCreateOptionsMenu(menu, inflater)
 
     }
@@ -80,7 +91,8 @@ class MyFoodListFragment : Fragment(), FoodItemListener {
     }
 
     private fun render(foodItems: List<FoodModel>) {
-        fragBinding.recyclerView.adapter = MyFoodDiaryAdapter(foodItems,this)
+        fragBinding.recyclerView.adapter =
+            myFoodListViewModel.readOnly.value?.let { MyFoodDiaryAdapter(foodItems,this, it) }
         if (foodItems.isEmpty()) {
             fragBinding.recyclerView.visibility = View.GONE
             fragBinding.foodItemsNotFound.visibility = View.VISIBLE

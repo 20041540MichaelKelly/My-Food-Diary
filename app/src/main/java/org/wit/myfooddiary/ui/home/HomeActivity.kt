@@ -13,12 +13,14 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.squareup.picasso.Picasso
 import org.wit.myfooddiary.R
 import org.wit.myfooddiary.databinding.HomeBinding
 import org.wit.myfooddiary.databinding.NavHeaderBinding
 import org.wit.myfooddiary.models.FoodModel
 import org.wit.myfooddiary.ui.auth.LoggedInViewModel
 import org.wit.myfooddiary.ui.auth.Login
+import org.wit.myfooddiary.utils.customTransformation
 
 class HomeActivity : AppCompatActivity() {
     private lateinit var drawerLayout: DrawerLayout
@@ -42,7 +44,6 @@ class HomeActivity : AppCompatActivity() {
             toolbar.setTitle(R.string.app_name)
         }
         setSupportActionBar(toolbar)
-
 
         val navController = findNavController(R.id.nav_host_fragment)
 
@@ -77,7 +78,15 @@ class HomeActivity : AppCompatActivity() {
     private fun updateNavHeader(currentUser: FirebaseUser) {
         val headerView = homeBinding.navView.getHeaderView(0)
         navHeaderBinding = NavHeaderBinding.bind(headerView)
-        navHeaderBinding.navHeaderEmail.text = currentUser.email
+        if(currentUser.photoUrl != null && currentUser.displayName != null) {
+            navHeaderBinding.navHeaderName.text = currentUser.displayName
+            Picasso.get().load(currentUser.photoUrl)
+                .resize(200, 200)
+                .transform(customTransformation())
+                .centerCrop()
+                .into(navHeaderBinding.navHeaderImage)
+        }
+
     }
 
     override fun onSupportNavigateUp(): Boolean {

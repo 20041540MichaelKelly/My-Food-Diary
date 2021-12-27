@@ -10,8 +10,6 @@ import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
-import org.wit.myfooddiary.R
-import org.wit.myfooddiary.databinding.FoodMapBinding
 import org.wit.myfooddiary.databinding.FragmentMyFoodDiaryBinding
 import org.wit.myfooddiary.databinding.FragmentMyFoodListBinding
 import org.wit.myfooddiary.databinding.IndividualFoodItemFragmentBinding
@@ -65,6 +63,11 @@ class IndividualFoodItemFragment : Fragment() {
                     })
             }
         })
+
+
+
+
+
         return root
     }
 

@@ -14,8 +14,27 @@ import kotlin.collections.HashMap
 object FirebaseDBManager  : FoodItemStore {
     var database: DatabaseReference = FirebaseDatabase.getInstance().reference
     override fun findAll(myFoodList: MutableLiveData<List<FoodModel>>) {
+        database.child("food")
+            .addValueEventListener(object : ValueEventListener {
+                override fun onCancelled(error: DatabaseError) {
+                    Timber.i("Firebase Food error : ${error.message}")
+                }
 
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val localList = ArrayList<FoodModel>()
+                    val children = snapshot.children
+                    children.forEach {
+                        val foodItem = it.getValue(FoodModel::class.java)
+                        localList.add(foodItem!!)
+                    }
+                    database.child("donations")
+                        .removeEventListener(this)
+
+                    myFoodList.value = localList
+                }
+            })
     }
+
 
     override fun findAllByUid(userid: String, myFoodList: MutableLiveData<List<FoodModel>>) {
         database.child("user-food").child(userid)

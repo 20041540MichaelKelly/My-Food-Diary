@@ -17,6 +17,7 @@ import org.wit.myfooddiary.adapters.FoodItemListener
 import org.wit.myfooddiary.adapters.MyFoodDiaryAdapter
 import org.wit.myfooddiary.databinding.FragmentApiMyFoodListBinding
 import org.wit.myfooddiary.models.FoodModel
+import org.wit.myfooddiary.ui.foodlist.MyFoodListViewModel
 import org.wit.myfooddiary.utils.createLoader
 import org.wit.myfooddiary.utils.hideLoader
 import org.wit.myfooddiary.utils.showLoader
@@ -29,6 +30,7 @@ class ApiFoodListFragment : Fragment(), FoodItemListener {
     lateinit var loader : AlertDialog
 
     private lateinit var apiFoodListViewModel: ApiFoodListViewModel
+    private lateinit var myFoodListViewModel: MyFoodListViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,7 +75,8 @@ class ApiFoodListFragment : Fragment(), FoodItemListener {
     }
 
     private fun render(foodItems: List<FoodModel>) {
-        fragBinding.recyclerView.adapter = MyFoodDiaryAdapter(foodItems,this)
+        fragBinding.recyclerView.adapter =
+            myFoodListViewModel.readOnly.value?.let { MyFoodDiaryAdapter(foodItems,this, it) }
         if (foodItems.isEmpty()) {
             fragBinding.recyclerView.visibility = View.GONE
             fragBinding.foodItemsNotFound.visibility = View.VISIBLE

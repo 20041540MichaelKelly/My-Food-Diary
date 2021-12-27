@@ -120,6 +120,8 @@ class FoodLocationFragmentView: Fragment(),
         if(foodItem.image != "") {
             Picasso.get()
                 .load(foodItem.image)
+                .resize(200, 200)
+                .rotate(90F)
                 .into(fragBinding.foodView)
         }
     }

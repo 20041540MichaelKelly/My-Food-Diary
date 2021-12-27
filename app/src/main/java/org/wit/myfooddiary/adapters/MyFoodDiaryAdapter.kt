@@ -20,7 +20,8 @@ interface FoodItemListener {
 }
 
 class MyFoodDiaryAdapter constructor(private var foodItems: List<FoodModel>,
-                                     private val listener: FoodItemListener) :
+                                     private val listener: FoodItemListener,
+                                     private val readOnly: Boolean) :
     RecyclerView.Adapter<MyFoodDiaryAdapter.MainHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainHolder {
@@ -41,6 +42,9 @@ class MyFoodDiaryAdapter constructor(private var foodItems: List<FoodModel>,
 
     inner class MainHolder ( private val binding : CardFoodBinding ) :
         RecyclerView.ViewHolder(binding.root) {
+
+        val readOnlyRow = readOnly
+
 
         fun bind(foodItem: FoodModel, listener: FoodItemListener) {
             binding.foodItem = foodItem

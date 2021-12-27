@@ -9,13 +9,6 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
-import androidx.navigation.fragment.NavHostFragment.findNavController
-import androidx.navigation.fragment.findNavController
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
-
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
 import org.wit.myfooddiary.R
@@ -26,13 +19,10 @@ import org.wit.myfooddiary.models.FoodModel
 import org.wit.myfooddiary.models.Location
 import org.wit.myfooddiary.models.UserModel
 import org.wit.myfooddiary.ui.auth.LoggedInViewModel
-import org.wit.myfooddiary.ui.camera.Camera
-import org.wit.myfooddiary.ui.foodlist.MyFoodListFragmentDirections
-import org.wit.myfooddiary.ui.map.FoodLocationFragmentView
 import timber.log.Timber
+import timber.log.Timber.i
 import java.io.File
 import java.io.IOException
-import java.security.Timestamp
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -51,13 +41,15 @@ class MyFoodDiaryFragmentPresenter (private val view: MyFoodDiaryFragmentView) {
     var lastId = 0L
 
 
-internal fun getId(): Long {
+    internal fun getId(): Long {
     return lastId++
 }
 
     init {
+       // doPermissionLauncher()
         registerImagePickerCallback()
         registerMapCallback()
+
     }
 
     fun doAddOrSave(title: String, description: String) {
@@ -237,4 +229,16 @@ internal fun getId(): Long {
             }
         }
     }
+
+//    private fun doPermissionLauncher() {
+//        i("permission check called")
+//            view.registerForActivityResult(ActivityResultContracts.RequestPermission())
+//            { isGranted: Boolean ->
+//                if (isGranted) {
+//                    doSetCurrentLocation()
+//                } else {
+//                    locationUpdate(52.245696, -7.139102)
+//                }
+//            }
+//    }
 }
