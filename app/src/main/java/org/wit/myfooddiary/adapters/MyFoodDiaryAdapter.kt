@@ -64,7 +64,7 @@ class MyFoodDiaryAdapter constructor(private var foodItems: List<FoodModel>,
             binding.executePendingBindings()
         }
 
-        override fun getFilter(): Filter {
+         fun getFilter(): Filter {
             return object : Filter() {
                 override fun performFiltering(constraint: CharSequence?): FilterResults {
                     val charSearch = constraint.toString()

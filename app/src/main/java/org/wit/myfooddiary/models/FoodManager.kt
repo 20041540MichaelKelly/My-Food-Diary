@@ -37,6 +37,23 @@ object FoodManager : FoodItemStore {
         })
     }
 
+    override fun findAllByFilter(numberOfItems: String, maxCals:String, myApiFoodList: MutableLiveData<List<FoodModel>>) {
+        val call = FoodClient.getApi().getallbydescription(maxCals,numberOfItems)
+
+        call?.enqueue(object : Callback<List<FoodModel>> {
+            override fun onResponse(call: Call<List<FoodModel>>, response: Response <List<FoodModel>>) {
+                myApiFoodList.value = response.body() as List<FoodModel>
+                Timber.i("Retrofit JSON = ${response.body()}"
+                )
+            }
+
+            override fun onFailure(call: Call<List<FoodModel>>, t: Throwable) {
+                Timber.i("Retrofit Error : $t.message $call.data")
+            }
+
+        })
+    }
+
     override fun findAllByUid(
         userid: String,
         myFoodList: MutableLiveData<List<FoodModel>>

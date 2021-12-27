@@ -28,5 +28,6 @@ interface FoodItemStore {
     fun create(firebaseUser: MutableLiveData<FirebaseUser>, fooditem: FoodModel)
     fun delete(userid:String, foodid: String)
     fun update(userid:String, foodid: String, fooditem: FoodModel)
+    fun findAllByFilter(numberOfItems: String, maxCals:String, myApiFoodList: MutableLiveData<List<FoodModel>>)
 
 }

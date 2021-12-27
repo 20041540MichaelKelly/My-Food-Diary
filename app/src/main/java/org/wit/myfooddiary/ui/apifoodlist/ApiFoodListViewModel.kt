@@ -29,4 +29,14 @@ class ApiFoodListViewModel : ViewModel() {
             Timber.i("Retrofit Error : $e.message")
         }
     }
+
+    fun filterApi(amtOfItems: String, seekBarAmt:String) {
+        try {
+            FoodManager.findAllByFilter(amtOfItems, seekBarAmt,myApiFoodList)
+            Timber.i("Retrofit Success : $myApiFoodList.value")
+        }
+        catch (e: Exception) {
+            Timber.i("Retrofit Error : $e.message")
+        }
+    }
 }

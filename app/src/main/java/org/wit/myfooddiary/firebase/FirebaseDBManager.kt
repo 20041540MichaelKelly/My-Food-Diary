@@ -125,6 +125,14 @@ object FirebaseDBManager  : FoodItemStore {
         TODO("Not yet implemented")
     }
 
+    override fun findAllByFilter(
+        numberOfItems: String,
+        maxCals: String,
+        myApiFoodList: MutableLiveData<List<FoodModel>>
+    ) {
+        TODO("Not yet implemented")
+    }
+
     fun findAllCoordinatesByUid(
         userid: String,
         foodid: String,

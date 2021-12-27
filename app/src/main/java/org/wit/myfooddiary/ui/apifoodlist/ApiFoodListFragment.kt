@@ -12,22 +12,27 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.snackbar.Snackbar
 import org.wit.myfooddiary.R
 import org.wit.myfooddiary.adapters.FoodItemListener
 import org.wit.myfooddiary.adapters.MyFoodDiaryAdapter
 import org.wit.myfooddiary.databinding.FragmentApiMyFoodListBinding
+import org.wit.myfooddiary.databinding.FragmentMyFoodDiaryBinding
 import org.wit.myfooddiary.models.FoodModel
+import org.wit.myfooddiary.ui.auth.LoggedInViewModel
 import org.wit.myfooddiary.ui.foodlist.MyFoodListViewModel
 import org.wit.myfooddiary.utils.createLoader
 import org.wit.myfooddiary.utils.hideLoader
 import org.wit.myfooddiary.utils.showLoader
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 
 class ApiFoodListFragment : Fragment(), FoodItemListener {
     private var _fragBinding: FragmentApiMyFoodListBinding? = null
     private val fragBinding get() = _fragBinding!!
     var foodItem = FoodModel()
-    lateinit var loader : AlertDialog
+    lateinit var loader: AlertDialog
 
     private lateinit var apiFoodListViewModel: ApiFoodListViewModel
     private lateinit var myFoodListViewModel: MyFoodListViewModel
@@ -46,20 +51,24 @@ class ApiFoodListFragment : Fragment(), FoodItemListener {
         fragBinding.recyclerView.layoutManager = LinearLayoutManager(activity)
         loader = createLoader(requireActivity())
         apiFoodListViewModel = ViewModelProvider(this).get(ApiFoodListViewModel::class.java)
-        showLoader(loader,"Downloading Food")
-        apiFoodListViewModel.observableApiFoodItemsList.observe(viewLifecycleOwner, Observer {
-                foodItems ->
+        showLoader(loader, "Downloading Food")
+        apiFoodListViewModel.observableApiFoodItemsList.observe(
+            viewLifecycleOwner,
+            Observer { foodItems ->
                 foodItems?.let {
-                render(foodItems)
-                hideLoader(loader)
-            }
-        })
+                    render(foodItems)
+                    hideLoader(loader)
+                }
+            })
+        myFoodListViewModel = ViewModelProvider(this).get(MyFoodListViewModel::class.java)
+
 
         val fab: FloatingActionButton = fragBinding.fab
         fab.setOnClickListener {
 //            val action = MyFoodListFragmentDirections.actionMyFoodListFragmentToMyFoodDiaryFragment()
 //            findNavController().navigate(action)
         }
+        setButtonListener(fragBinding)
         return root
     }
 
@@ -70,13 +79,15 @@ class ApiFoodListFragment : Fragment(), FoodItemListener {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return NavigationUI.onNavDestinationSelected(item,
-            requireView().findNavController()) || super.onOptionsItemSelected(item)
+        return NavigationUI.onNavDestinationSelected(
+            item,
+            requireView().findNavController()
+        ) || super.onOptionsItemSelected(item)
     }
 
     private fun render(foodItems: List<FoodModel>) {
         fragBinding.recyclerView.adapter =
-            myFoodListViewModel.readOnly.value?.let { MyFoodDiaryAdapter(foodItems,this, it) }
+            myFoodListViewModel.readOnly.value?.let { MyFoodDiaryAdapter(foodItems, this, it) }
         if (foodItems.isEmpty()) {
             fragBinding.recyclerView.visibility = View.GONE
             fragBinding.foodItemsNotFound.visibility = View.VISIBLE
@@ -112,17 +123,19 @@ class ApiFoodListFragment : Fragment(), FoodItemListener {
         TODO("Not yet implemented")
     }
 
-    fun setSwipeRefresh() {
-        fragBinding.swiperefresh.setOnRefreshListener {
-            fragBinding.swiperefresh.isRefreshing = true
-            showLoader(loader,"Downloading Food Items")
-            //Retrieve food List again here
+
+    fun setButtonListener(
+        layout: FragmentApiMyFoodListBinding
+    ) {
+        layout.filterBtn.setOnClickListener() {
+//            val amtOfItems = layout.amountOfItems.text.toString()
+//            val seekBarAmt= layout.seekBar.toString()
+            val amtOfItems = "1"
+            val seekBarAmt= "200"
+            apiFoodListViewModel.filterApi(amtOfItems, seekBarAmt)
+
 
         }
-    }
 
-    fun checkSwipeRefresh() {
-        if (fragBinding.swiperefresh.isRefreshing)
-            fragBinding.swiperefresh.isRefreshing = false
     }
 }

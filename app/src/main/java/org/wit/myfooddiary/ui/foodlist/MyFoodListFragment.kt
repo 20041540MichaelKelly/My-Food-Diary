@@ -128,17 +128,5 @@ class MyFoodListFragment : Fragment(), FoodItemListener {
         TODO("Not yet implemented")
     }
 
-    fun setSwipeRefresh() {
-        fragBinding.swiperefresh.setOnRefreshListener {
-            fragBinding.swiperefresh.isRefreshing = true
-            showLoader(loader,"Downloading Food Items")
-            //Retrieve food List again here
 
-        }
-    }
-
-    fun checkSwipeRefresh() {
-        if (fragBinding.swiperefresh.isRefreshing)
-            fragBinding.swiperefresh.isRefreshing = false
-    }
 }

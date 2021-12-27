@@ -78,5 +78,6 @@
     <string name="button_captureImage">Take a Photo</string>
     <string name="menu_addLocation">Map</string>
     <string name="action_myapifoodlist">API Food List</string>
+    <string name="button_filter">Filter</string>
 
 </resources>
