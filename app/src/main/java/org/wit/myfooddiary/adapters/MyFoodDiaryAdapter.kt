@@ -4,6 +4,7 @@ import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View.inflate
 import android.view.ViewGroup
+import android.widget.Filter
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
@@ -61,6 +62,33 @@ class MyFoodDiaryAdapter constructor(private var foodItems: List<FoodModel>,
             binding.root.setOnClickListener { listener.onFoodItemClick(foodItem)}
             //Include this call to force the bindings to happen immediately
             binding.executePendingBindings()
+        }
+
+        override fun getFilter(): Filter {
+            return object : Filter() {
+                override fun performFiltering(constraint: CharSequence?): FilterResults {
+                    val charSearch = constraint.toString()
+                    if (charSearch.isEmpty()) {
+                        foodItems = foodItems as ArrayList<FoodModel>
+                    } else {
+                        val resultList = ArrayList<FoodModel>()
+                        for (row in foodItems) {
+                            if (row.title.toLowerCase().contains(constraint.toString().toLowerCase())) {
+                                resultList.add(row)
+                            }
+                        }
+                        foodItems = resultList
+                    }
+                    val filterResults = FilterResults()
+                    filterResults.values = foodItems
+                    return filterResults
+                }
+
+                override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
+                    foodItems = results?.values as ArrayList<FoodModel>
+                    notifyDataSetChanged()
+                }
+            }
         }
 
 //        fun bind(foodItem: FoodModel, listener: FoodItemListener) {
