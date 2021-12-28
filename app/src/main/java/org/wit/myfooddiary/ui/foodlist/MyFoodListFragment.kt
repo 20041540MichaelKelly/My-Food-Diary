@@ -37,7 +37,6 @@ class MyFoodListFragment : Fragment(), FoodItemListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        app = activity?.application as MainApp
         setHasOptionsMenu(true)
     }
 
@@ -80,7 +79,6 @@ class MyFoodListFragment : Fragment(), FoodItemListener {
             if (isChecked) myFoodListViewModel.loadAll()
             else myFoodListViewModel.load()
         }
-
         super.onCreateOptionsMenu(menu, inflater)
 
     }

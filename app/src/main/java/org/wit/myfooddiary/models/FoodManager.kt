@@ -90,7 +90,11 @@ object FoodManager : FoodItemStore {
         TODO("Not yet implemented")
     }
 
-    override fun update(firebaseUser: MutableLiveData<FirebaseUser>, fooditem: FoodModel) {
+    override fun update(
+        firebaseUser: MutableLiveData<FirebaseUser>,
+        foodid: String,
+        fooditem: FoodModel
+    ) {
         TODO("Not yet implemented")
     }
 

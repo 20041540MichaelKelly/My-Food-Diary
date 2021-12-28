@@ -5,6 +5,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.*
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.widget.SwitchCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.LiveData
@@ -89,14 +90,16 @@ class FoodLocationFragmentView: Fragment(),
         listNeeded = foodItems
         foodItems.forEach {
                 foodItem ->
-            map.uiSettings.setZoomControlsEnabled(true)
-            val loc = LatLng(foodItem.lat, foodItem.lng)
-            val options = MarkerOptions()
-                .title(foodItem.title)
-                .position(loc)
-            map.addMarker(options)?.tag = foodItem.fid
-            map.setOnMarkerClickListener(this)
-            map.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, foodItem.zoom))
+            if(foodItem.lat != 0.0 && foodItem.lng != 0.0) {
+                map.uiSettings.setZoomControlsEnabled(true)
+                val loc = LatLng(foodItem.lat, foodItem.lng)
+                val options = MarkerOptions()
+                    .title(foodItem.title)
+                    .position(loc)
+                map.addMarker(options)?.tag = foodItem.fid
+                map.setOnMarkerClickListener(this)
+                map.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, foodItem.zoom))
+            }
         }
     }
 
@@ -128,8 +131,17 @@ class FoodLocationFragmentView: Fragment(),
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_myfoodlist, menu)
-        super.onCreateOptionsMenu(menu, inflater)
+        val item = menu.findItem(R.id.toggleFoodItems) as MenuItem
+        item.setActionView(R.layout.togglebutton_layout)
+        val toggleFoodItems: SwitchCompat = item.actionView.findViewById(R.id.toggleButton)
+        toggleFoodItems.isChecked = false
 
+        toggleFoodItems.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked) myFoodListViewModel.loadAll()
+            else myFoodListViewModel.load()
+        }
+
+        super.onCreateOptionsMenu(menu, inflater)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

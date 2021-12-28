@@ -79,5 +79,6 @@
     <string name="menu_addLocation">Map</string>
     <string name="action_myapifoodlist">API Food List</string>
     <string name="button_filter">Filter</string>
+    <string name="amount_of_requests">Amount of Requests</string>
 
 </resources>

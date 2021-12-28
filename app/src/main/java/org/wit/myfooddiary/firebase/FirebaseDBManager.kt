@@ -6,7 +6,6 @@ import com.google.firebase.database.*
 import org.wit.myfooddiary.models.FoodItemStore
 import org.wit.myfooddiary.models.FoodModel
 import timber.log.Timber
-import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
@@ -122,12 +121,12 @@ object FirebaseDBManager  : FoodItemStore {
 
     override fun update(
         firebaseUser: MutableLiveData<FirebaseUser>,
+        foodid: String,
         fooditem: FoodModel
     ) {
         Timber.i("Firebase DB Reference : $database")
 
         val uid = firebaseUser.value!!.uid
-        val foodid = fooditem.fid
         fooditem.fid = foodid
         fooditem.uid = uid
         val fooditemValues = fooditem.toMap()

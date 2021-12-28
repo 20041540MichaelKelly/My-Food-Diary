@@ -10,12 +10,13 @@ import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
-import org.wit.myfooddiary.databinding.FragmentMyFoodDiaryBinding
 import org.wit.myfooddiary.databinding.FragmentMyFoodListBinding
 import org.wit.myfooddiary.databinding.IndividualFoodItemFragmentBinding
 import org.wit.myfooddiary.models.FoodModel
 import org.wit.myfooddiary.ui.auth.LoggedInViewModel
 import org.wit.myfooddiary.ui.foodlist.MyFoodListViewModel
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class IndividualFoodItemFragment : Fragment() {
     private var _fragBinding: IndividualFoodItemFragmentBinding? = null
@@ -26,6 +27,7 @@ class IndividualFoodItemFragment : Fragment() {
     var foodItem = FoodModel()
     lateinit var myFoodListViewModel: MyFoodListViewModel
     private val loggedInViewModel: LoggedInViewModel by activityViewModels()
+    private lateinit var usedForUpdateFoodItem : FoodModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,9 +61,9 @@ class IndividualFoodItemFragment : Fragment() {
                     })
                 }
             })
+        setButtonOnClickListeners(fragBinding)
 
         return root
-
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -70,10 +72,26 @@ class IndividualFoodItemFragment : Fragment() {
     }
 
     private fun getTheFood(foodItem: FoodModel) {
+        usedForUpdateFoodItem = foodItem
         fragBinding.editTitle.setText(foodItem.title)
 
         fragBinding.editDescription.setText(foodItem.description)
     }
+
+   private fun setButtonOnClickListeners(
+       layout: IndividualFoodItemFragmentBinding
+   ){
+       layout.editFoodItemButton.setOnClickListener(){
+           val foodid = usedForUpdateFoodItem.fid
+           usedForUpdateFoodItem.title= layout.editTitle.text.toString()
+           usedForUpdateFoodItem.description = layout.editDescription.text.toString()
+
+           if (foodid != null) {
+               myFoodListViewModel.updateFoodItem(loggedInViewModel.liveFirebaseUser,
+                   foodid, usedForUpdateFoodItem)
+           }
+       }
+   }
 
 
 

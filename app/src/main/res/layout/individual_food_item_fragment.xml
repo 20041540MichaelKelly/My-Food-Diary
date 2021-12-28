@@ -62,22 +62,22 @@
         app:layout_constraintTop_toBottomOf="@+id/editTitle" />
 
     <Button
-        android:id="@+id/editDonationButton"
+        android:id="@+id/editFoodItemButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/save_fooditem"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/deleteDonationButton"
+        app:layout_constraintEnd_toStartOf="@+id/deleteFoodItemButton"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/deleteDonationButton"
+        android:id="@+id/deleteFoodItemButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/deleted_foodItem"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/editDonationButton" />
+        app:layout_constraintStart_toEndOf="@+id/editFoodItemButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

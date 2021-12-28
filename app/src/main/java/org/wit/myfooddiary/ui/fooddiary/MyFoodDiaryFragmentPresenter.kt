@@ -229,16 +229,4 @@ class MyFoodDiaryFragmentPresenter (private val view: MyFoodDiaryFragmentView) {
             }
         }
     }
-
-//    private fun doPermissionLauncher() {
-//        i("permission check called")
-//            view.registerForActivityResult(ActivityResultContracts.RequestPermission())
-//            { isGranted: Boolean ->
-//                if (isGranted) {
-//                    doSetCurrentLocation()
-//                } else {
-//                    locationUpdate(52.245696, -7.139102)
-//                }
-//            }
-//    }
 }

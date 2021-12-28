@@ -7,23 +7,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.apifoodlist.ApiFoodListFragment">
 
-
     <TextView
         android:id="@+id/amountOfItems"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="64dp"
-        android:text="Amount Requests"
+        android:text="@string/amount_of_requests"
         app:layout_constraintStart_toEndOf="@id/seekBar"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/editAmount"
-        android:layout_width="46dp"
-        android:layout_height="30dp"
+        android:layout_width="59dp"
+        android:layout_height="49dp"
         android:layout_marginTop="60dp"
-        android:ems="10"
         android:inputType="number"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -32,49 +30,45 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.048" />
 
+    <TextView
+        android:id="@+id/amountOfCals"
+        android:layout_width="61dp"
+        android:layout_height="22dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="@string/calories"
+        app:layout_constraintBottom_toTopOf="@id/seekBar"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <SeekBar
         android:id="@+id/seekBar"
         android:layout_width="151dp"
         android:layout_height="13dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="108dp"
         android:max="2000"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
+    <ImageButton
         android:id="@+id/filterBtn"
-        android:layout_width="72dp"
-        android:layout_height="35dp"
+        android:layout_width="76dp"
+        android:layout_height="32dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="@string/button_filter"
+        android:src="@drawable/ic_baseline_search_24"
         android:textColor="#455A64"
         app:layout_constraintStart_toEndOf="@+id/amountOfItems"
         app:layout_constraintTop_toBottomOf="@+id/amountOfItems" />
-
-
-
-<!--        <TextView-->
-<!--            android:id="@+id/title"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="Number of items to view"-->
-<!--            android:textStyle="bold"-->
-<!--            android:textSize="20sp"/>-->
-
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="130dp"
-
         android:scrollbars="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         app:layout_constraintTop_toBottomOf="@+id/filterBtn" />
-
-
 
     <TextView
         android:id="@+id/foodItemsNotFound"
