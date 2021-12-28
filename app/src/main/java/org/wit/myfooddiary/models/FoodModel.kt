@@ -39,6 +39,7 @@ import java.util.*
             "uid" to uid,
             "title" to title,
             "description" to description,
+            "dateLogged" to dateLogged,
             "timeForFood" to timeForFood,
             "amountOfCals" to amountOfCals,
             "image" to image,

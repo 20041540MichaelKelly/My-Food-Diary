@@ -22,6 +22,7 @@ import org.wit.myfooddiary.databinding.FragmentApiMyFoodListBinding
 import org.wit.myfooddiary.databinding.FragmentMyFoodDiaryBinding
 import org.wit.myfooddiary.models.FoodModel
 import org.wit.myfooddiary.ui.auth.LoggedInViewModel
+import org.wit.myfooddiary.ui.fooddiary.MyFoodDiaryViewModel
 import org.wit.myfooddiary.ui.foodlist.MyFoodListViewModel
 import org.wit.myfooddiary.utils.createLoader
 import org.wit.myfooddiary.utils.hideLoader
@@ -38,6 +39,10 @@ class ApiFoodListFragment : Fragment(), FoodItemListener {
 
     private lateinit var apiFoodListViewModel: ApiFoodListViewModel
     private lateinit var myFoodListViewModel: MyFoodListViewModel
+    lateinit var myFoodDiaryViewModel: MyFoodDiaryViewModel
+
+    private val loggedInViewModel: LoggedInViewModel by activityViewModels()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,6 +68,7 @@ class ApiFoodListFragment : Fragment(), FoodItemListener {
                 }
             })
         myFoodListViewModel = ViewModelProvider(this).get(MyFoodListViewModel::class.java)
+        myFoodDiaryViewModel = ViewModelProvider(this).get(MyFoodDiaryViewModel::class.java)
 
 
         val fab: FloatingActionButton = fragBinding.fab
@@ -111,9 +117,28 @@ class ApiFoodListFragment : Fragment(), FoodItemListener {
     }
 
     override fun onFoodItemClick(foodItem: FoodModel) {
-        val action = ApiFoodListFragmentDirections.actionApiMyFoodListFragmentToIndividualFoodItemFragment(
-            foodItem.fid!!.toLong())
-        findNavController().navigate(action)
+        addToFirebaseDB(foodItem)
+    }
+
+    private fun addToFirebaseDB(foodItem: FoodModel) {
+        myFoodDiaryViewModel.addFoodItem(
+            loggedInViewModel.liveFirebaseUser,
+            FoodModel(
+                title = foodItem.title,
+                description = foodItem.description,
+                amountOfCals = foodItem.amountOfCals,
+                dateLogged = LocalDateTime.now()
+                    .format(DateTimeFormatter.ofPattern("M/d/y H:m:ss")),
+                timeForFood = System.currentTimeMillis().toString(),
+                image = foodItem.image,
+                email = loggedInViewModel.liveFirebaseUser.value?.email!!,
+                lat = foodItem.lat,
+                lng = foodItem.lng,
+                zoom = 15f
+            )
+        )
+        Toast.makeText(context,"Food Item added",Toast.LENGTH_LONG).show()
+
     }
 
     override fun onFoodItemDelete(foodItem: FoodModel) {
@@ -148,8 +173,6 @@ class ApiFoodListFragment : Fragment(), FoodItemListener {
             val seekBarAmt= layout.seekBar.progress.toString()
 
             apiFoodListViewModel.filterApi(amtOfItems, seekBarAmt)
-
-
         }
 
     }

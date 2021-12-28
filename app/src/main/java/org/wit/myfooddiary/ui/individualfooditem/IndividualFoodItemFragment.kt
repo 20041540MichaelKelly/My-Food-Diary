@@ -27,12 +27,8 @@ class IndividualFoodItemFragment : Fragment() {
     lateinit var myFoodListViewModel: MyFoodListViewModel
     private val loggedInViewModel: LoggedInViewModel by activityViewModels()
 
-
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        app = activity?.application as MainApp
         setHasOptionsMenu(true)
     }
 
@@ -50,37 +46,35 @@ class IndividualFoodItemFragment : Fragment() {
             if (firebaseUser != null) {
                 myFoodListViewModel.liveFirebaseUser.value = firebaseUser
                 myFoodListViewModel.load()
-                myFoodListViewModel.getCordinates()
+               // myFoodListViewModel.getCordinates()
                 myFoodListViewModel.observableFoodItemsList.observe(
                     viewLifecycleOwner, Observer { foodItems ->
                         foodItems?.let {
-                            foodItems.forEach {foodItem ->
-                                if(foodItem.timeForFood == args.foodid.toString()) {
-                                    getTheFood(foodItem)
-                                }
+                            foodItems.forEach { foodItem ->
+                                    if (foodItem.timeForFood == args.foodid.toString()) {  //Im using timeFor Food which is a timeStamp as the id for clicking individual items
+                                        getTheFood(foodItem)
+                                    }
                             }
                         }
                     })
-            }
-        })
-
-
-
-
+                }
+            })
 
         return root
+
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         individualFoodItemViewModel = ViewModelProvider(this).get(IndividualFoodItemViewModel::class.java)
-        // TODO: Use the ViewModel
     }
 
-    fun getTheFood(foodItem: FoodModel) {
+    private fun getTheFood(foodItem: FoodModel) {
         fragBinding.editTitle.setText(foodItem.title)
 
         fragBinding.editDescription.setText(foodItem.description)
     }
+
+
 
 }
