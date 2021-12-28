@@ -21,8 +21,7 @@ interface FoodItemListener {
 }
 
 class MyFoodDiaryAdapter constructor(private var foodItems: List<FoodModel>,
-                                     private val listener: FoodItemListener,
-                                     private val readOnly: Boolean) :
+                                     private val listener: FoodItemListener) :
     RecyclerView.Adapter<MyFoodDiaryAdapter.MainHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainHolder {
@@ -44,9 +43,6 @@ class MyFoodDiaryAdapter constructor(private var foodItems: List<FoodModel>,
     inner class MainHolder ( private val binding : CardFoodBinding ) :
         RecyclerView.ViewHolder(binding.root) {
 
-        val readOnlyRow = readOnly
-
-
         fun bind(foodItem: FoodModel, listener: FoodItemListener) {
             binding.foodItem = foodItem
             binding.imageIcon.setImageURI(Uri.parse(foodItem.image))
@@ -64,32 +60,7 @@ class MyFoodDiaryAdapter constructor(private var foodItems: List<FoodModel>,
             binding.executePendingBindings()
         }
 
-         fun getFilter(): Filter {
-            return object : Filter() {
-                override fun performFiltering(constraint: CharSequence?): FilterResults {
-                    val charSearch = constraint.toString()
-                    if (charSearch.isEmpty()) {
-                        foodItems = foodItems as ArrayList<FoodModel>
-                    } else {
-                        val resultList = ArrayList<FoodModel>()
-                        for (row in foodItems) {
-                            if (row.title.toLowerCase().contains(constraint.toString().toLowerCase())) {
-                                resultList.add(row)
-                            }
-                        }
-                        foodItems = resultList
-                    }
-                    val filterResults = FilterResults()
-                    filterResults.values = foodItems
-                    return filterResults
-                }
 
-                override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
-                    foodItems = results?.values as ArrayList<FoodModel>
-                    notifyDataSetChanged()
-                }
-            }
-        }
 
 //        fun bind(foodItem: FoodModel, listener: FoodItemListener) {
 //            val aCals = foodItem.amountOfCals.toString() +"ckals"

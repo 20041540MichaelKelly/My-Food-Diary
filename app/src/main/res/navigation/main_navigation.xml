@@ -55,6 +55,12 @@
         android:name="org.wit.myfooddiary.ui.apifoodlist.ApiFoodListFragment"
         android:label="API food list"
         tools:layout="@layout/individual_food_item_fragment" >
+        <action
+            android:id="@+id/action_apiMyFoodListFragment_to_individualFoodItemFragment"
+            app:destination="@id/individualFoodItemFragment" />
+        <argument
+            android:name="apifoodid"
+            app:argType="long" />
     </fragment>
     <fragment
         android:id="@+id/foodLocation"

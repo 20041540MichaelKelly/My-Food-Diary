@@ -1,7 +1,6 @@
 package org.wit.myfooddiary.firebase
 
 import androidx.lifecycle.MutableLiveData
-import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
 import org.wit.myfooddiary.models.FoodItemStore
@@ -121,9 +120,25 @@ object FirebaseDBManager  : FoodItemStore {
         TODO("Not yet implemented")
     }
 
-    override fun update(userid: String, foodid: String, fooditem: FoodModel) {
-        TODO("Not yet implemented")
+    override fun update(
+        firebaseUser: MutableLiveData<FirebaseUser>,
+        fooditem: FoodModel
+    ) {
+        Timber.i("Firebase DB Reference : $database")
+
+        val uid = firebaseUser.value!!.uid
+        val foodid = fooditem.fid
+        fooditem.fid = foodid
+        fooditem.uid = uid
+        val fooditemValues = fooditem.toMap()
+
+        val childAdd = HashMap<String, Any>()
+        childAdd["/food/$foodid"] = fooditemValues
+        childAdd["/user-food/$uid/$foodid"] = fooditemValues
+
+        database.updateChildren(childAdd)
     }
+
 
     override fun findAllByFilter(
         numberOfItems: String,

@@ -3,6 +3,8 @@ package org.wit.myfooddiary.ui.apifoodlist
 import android.app.AlertDialog
 import android.os.Bundle
 import android.view.*
+import android.widget.SeekBar
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
@@ -86,8 +88,8 @@ class ApiFoodListFragment : Fragment(), FoodItemListener {
     }
 
     private fun render(foodItems: List<FoodModel>) {
-        fragBinding.recyclerView.adapter =
-            myFoodListViewModel.readOnly.value?.let { MyFoodDiaryAdapter(foodItems, this, it) }
+        fragBinding.recyclerView.adapter = MyFoodDiaryAdapter(foodItems,this)
+
         if (foodItems.isEmpty()) {
             fragBinding.recyclerView.visibility = View.GONE
             fragBinding.foodItemsNotFound.visibility = View.VISIBLE
@@ -100,12 +102,7 @@ class ApiFoodListFragment : Fragment(), FoodItemListener {
     override fun onResume() {
         super.onResume()
         apiFoodListViewModel.load()
-//        loggedInViewModel.liveFirebaseUser.observe(viewLifecycleOwner, Observer { firebaseUser ->
-//            if (firebaseUser != null) {
-//                apiFoodListViewModel.liveFirebaseUser.value = firebaseUser
-//                apiFoodListViewModel.load()
-//            }
-        //})
+
     }
 
     override fun onDestroyView() {
@@ -114,9 +111,9 @@ class ApiFoodListFragment : Fragment(), FoodItemListener {
     }
 
     override fun onFoodItemClick(foodItem: FoodModel) {
-//        val action = MyFoodListFragmentDirections.actionMyFoodListFragmentToIndividualFoodItemFragment(
-//            foodItem.fid!!.toLong())
-//        findNavController().navigate(action)
+        val action = ApiFoodListFragmentDirections.actionApiMyFoodListFragmentToIndividualFoodItemFragment(
+            foodItem.fid!!.toLong())
+        findNavController().navigate(action)
     }
 
     override fun onFoodItemDelete(foodItem: FoodModel) {
@@ -126,12 +123,30 @@ class ApiFoodListFragment : Fragment(), FoodItemListener {
 
     fun setButtonListener(
         layout: FragmentApiMyFoodListBinding
-    ) {
+    ){
+
+    layout.seekBar.setOnSeekBarChangeListener(object :
+        SeekBar.OnSeekBarChangeListener {
+        override fun onProgressChanged(seek: SeekBar,
+                                       progress: Int, fromUser: Boolean) {
+            // write custom code for progress is changed
+        }
+
+        override fun onStartTrackingTouch(seek: SeekBar) {
+            // write custom code for progress is started
+        }
+
+        override fun onStopTrackingTouch(seek: SeekBar) {
+            // write custom code for progress is stopped
+            Toast.makeText(context,"Food Item ID Selected : ${seek.progress}}",Toast.LENGTH_LONG).show()
+
+        }
+    })
+
         layout.filterBtn.setOnClickListener() {
-//            val amtOfItems = layout.amountOfItems.text.toString()
-//            val seekBarAmt= layout.seekBar.toString()
-            val amtOfItems = "1"
-            val seekBarAmt= "200"
+            val amtOfItems = layout.editAmount.text.toString()
+            val seekBarAmt= layout.seekBar.progress.toString()
+
             apiFoodListViewModel.filterApi(amtOfItems, seekBarAmt)
 
 

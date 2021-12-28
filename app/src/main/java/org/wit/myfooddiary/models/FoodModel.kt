@@ -13,6 +13,7 @@ import java.util.*
 @IgnoreExtraProperties
 @Parcelize
     data class FoodModel(
+    @SerializedName("id")
     var fid: String? = "",
     var uid: String? = "",
     @SerializedName("title")

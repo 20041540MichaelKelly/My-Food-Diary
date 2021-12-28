@@ -91,8 +91,7 @@ class MyFoodListFragment : Fragment(), FoodItemListener {
     }
 
     private fun render(foodItems: List<FoodModel>) {
-        fragBinding.recyclerView.adapter =
-            myFoodListViewModel.readOnly.value?.let { MyFoodDiaryAdapter(foodItems,this, it) }
+        fragBinding.recyclerView.adapter = MyFoodDiaryAdapter(foodItems,this)
         if (foodItems.isEmpty()) {
             fragBinding.recyclerView.visibility = View.GONE
             fragBinding.foodItemsNotFound.visibility = View.VISIBLE

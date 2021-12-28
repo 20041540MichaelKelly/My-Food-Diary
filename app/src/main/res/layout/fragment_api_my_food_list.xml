@@ -19,9 +19,10 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/editTextNumber"
+        android:id="@+id/editAmount"
         android:layout_width="46dp"
         android:layout_height="30dp"
+        android:layout_marginTop="60dp"
         android:ems="10"
         android:inputType="number"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -36,7 +37,7 @@
         android:layout_width="151dp"
         android:layout_height="13dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="100dp"
         android:max="2000"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -67,10 +68,11 @@
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="130dp"
+
         android:scrollbars="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-
-        app:layout_constraintBottom_toBottomOf="@id/seekBar" />
+        app:layout_constraintTop_toBottomOf="@+id/filterBtn" />
 
 
 

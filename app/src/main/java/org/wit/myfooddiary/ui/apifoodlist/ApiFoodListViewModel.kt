@@ -39,4 +39,14 @@ class ApiFoodListViewModel : ViewModel() {
             Timber.i("Retrofit Error : $e.message")
         }
     }
+
+    fun update(firebaseUser: MutableLiveData<FirebaseUser>,
+                    foodItem: FoodModel) {
+        try {
+            FirebaseDBManager.create(firebaseUser,foodItem)
+
+        } catch (e: IllegalArgumentException) {
+
+        }
+    }
 }
