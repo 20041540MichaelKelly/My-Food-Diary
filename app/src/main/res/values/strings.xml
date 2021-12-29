@@ -80,5 +80,7 @@
     <string name="action_myapifoodlist">API Food List</string>
     <string name="button_filter">Filter</string>
     <string name="amount_of_requests">Amount of Requests</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
