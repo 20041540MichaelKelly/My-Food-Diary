@@ -1,66 +1,35 @@
 package org.wit.myfooddiary.ui.fooddiary
 
-import android.annotation.SuppressLint
-import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.os.Environment
-import android.provider.MediaStore
 import android.view.*
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.FileProvider
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
-import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.auth.FirebaseAuth
 import com.squareup.picasso.Picasso
 import org.wit.myfooddiary.R
-import org.wit.myfooddiary.activities.MapActivity
 import org.wit.myfooddiary.adapters.FoodItemListener
 import org.wit.myfooddiary.databinding.FragmentMyFoodDiaryBinding
-import org.wit.myfooddiary.helpers.showImagePicker
 import org.wit.myfooddiary.models.FoodModel
-import org.wit.myfooddiary.models.Location
 import org.wit.myfooddiary.models.UserModel
 import org.wit.myfooddiary.ui.auth.LoggedInViewModel
-import org.wit.myfooddiary.ui.camera.Camera
 import org.wit.myfooddiary.ui.foodlist.MyFoodListFragmentDirections
-import timber.log.Timber
 import timber.log.Timber.i
-import java.io.File
-import java.io.IOException
-import java.text.SimpleDateFormat
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
-import java.util.*
 
-class MyFoodDiaryFragmentView : Fragment(), FoodItemListener() {
+class MyFoodDiaryFragmentView : Fragment(), FoodItemListener {
     private var _fragBinding: FragmentMyFoodDiaryBinding? = null
     val fragBinding get() = _fragBinding!!
     var foodItem = FoodModel()
     var user = UserModel()
     lateinit var myFoodDiaryViewModel: MyFoodDiaryViewModel
-    private lateinit var imageIntentLauncher: ActivityResultLauncher<Intent>
-    private lateinit var mapIntentLauncher: ActivityResultLauncher<Intent>
     private val loggedInViewModel: LoggedInViewModel by activityViewModels()
-    val camera = Camera()
-    val IMAGE_REQUEST = 1
     var edit = false
-    val REQUEST_IMAGE_CAPTURE = 1
-    lateinit var currentPhotoPath: String
-    val REQUEST_CODE = 200
     private lateinit var presenter: MyFoodDiaryFragmentPresenter
-
-
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -96,7 +65,7 @@ class MyFoodDiaryFragmentView : Fragment(), FoodItemListener() {
 
         presenter.setButtonListener(fragBinding, loggedInViewModel)
 
-        return root;
+        return root
     }
 
     private fun render(status: Boolean) {
@@ -142,6 +111,15 @@ class MyFoodDiaryFragmentView : Fragment(), FoodItemListener() {
         val action = MyFoodDiaryFragmentViewDirections.actionMyFoodDiaryFragmentToFoodLocation()
            //foodItem.fid!!.toLong())
         findNavController().navigate(action)
+    }
+
+    override fun onFoodItemClick(foodItem: FoodModel) {
+        val action = MyFoodListFragmentDirections.actionMyFoodListFragmentToIndividualFoodItemFragment(foodItem.fid!!.toLong())
+        findNavController().navigate(action)
+    }
+
+    override fun onFoodItemDelete(foodItem: FoodModel) {
+        TODO("Not yet implemented")
     }
 
 

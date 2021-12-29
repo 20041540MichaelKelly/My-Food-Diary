@@ -37,6 +37,23 @@ object FoodManager : FoodItemStore {
         })
     }
 
+    override fun findAllByFilter(numberOfItems: String, maxCals:String, myApiFoodList: MutableLiveData<List<FoodModel>>) {
+        val call = FoodClient.getApi().getallbydescription(maxCals,numberOfItems)
+
+        call?.enqueue(object : Callback<List<FoodModel>> {
+            override fun onResponse(call: Call<List<FoodModel>>, response: Response <List<FoodModel>>) {
+                myApiFoodList.value = response.body() as List<FoodModel>
+                Timber.i("Retrofit JSON = ${response.body()}"
+                )
+            }
+
+            override fun onFailure(call: Call<List<FoodModel>>, t: Throwable) {
+                Timber.i("Retrofit Error : $t.message $call.data")
+            }
+
+        })
+    }
+
     override fun findAllByUid(
         userid: String,
         myFoodList: MutableLiveData<List<FoodModel>>
@@ -44,7 +61,7 @@ object FoodManager : FoodItemStore {
         TODO("Not yet implemented")
     }
 
-    override fun findById(userid: String, foodid: String, fooditem: MutableLiveData<FoodModel>) {
+    override fun findById(foodid: String, fooditem: MutableLiveData<FoodModel>) {
         TODO("Not yet implemented")
     }
 
@@ -73,9 +90,14 @@ object FoodManager : FoodItemStore {
         TODO("Not yet implemented")
     }
 
-    override fun update(userid: String, foodid: String, fooditem: FoodModel) {
+    override fun update(
+        firebaseUser: MutableLiveData<FirebaseUser>,
+        foodid: String,
+        fooditem: FoodModel
+    ) {
         TODO("Not yet implemented")
     }
+
 
 //    override fun create(foodItem: FoodModel) {
 //

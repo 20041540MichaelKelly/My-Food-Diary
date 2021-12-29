@@ -13,8 +13,8 @@ interface FoodService {
     @GET("recipes/findByNutrients?maxCalories=800&number=10")
     fun getall(): Call<List<FoodModel>>
 
-    @GET("recipes/findByNutrients/")
-    fun getallbydescription(@Path(value = "filter") filter: String?): Call<FoodModel?>?
+    @GET("recipes/findByNutrients")
+    fun getallbydescription(@Query(value = "maxCalories") maxCals: String?, @Query(value = "number") numberOfItems: String? ): Call<List<FoodModel>>?
 
     @GET("items/list/filter/{filter}")
     fun getItems(@Path(value = "filter") filter: String?): Call<FoodModel?>?

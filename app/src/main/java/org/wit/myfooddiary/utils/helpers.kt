@@ -1,8 +1,11 @@
 package org.wit.myfooddiary.utils
 
 import android.app.AlertDialog
+import android.graphics.Color
 import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
+import com.makeramen.roundedimageview.RoundedTransformationBuilder
+import com.squareup.picasso.Transformation
 import org.wit.myfooddiary.R
 
 fun createLoader(activity: FragmentActivity) : AlertDialog {
@@ -31,7 +34,7 @@ fun hideLoader(loader: AlertDialog) {
 fun serviceUnavailableMessage(activity: FragmentActivity) {
     Toast.makeText(
         activity,
-        "Donation Service Unavailable. Try again later",
+        "My Food Diary Service Unavailable. Try again later",
         Toast.LENGTH_LONG
     ).show()
 }
@@ -39,7 +42,15 @@ fun serviceUnavailableMessage(activity: FragmentActivity) {
 fun serviceAvailableMessage(activity: FragmentActivity) {
     Toast.makeText(
         activity,
-        "Donation Contacted Successfully",
+        "My Food Diary Contacted Successfully",
         Toast.LENGTH_LONG
     ).show()
 }
+
+fun customTransformation() : Transformation =
+    RoundedTransformationBuilder()
+        .borderColor(Color.WHITE)
+        .borderWidthDp(2F)
+        .cornerRadiusDp(35F)
+        .oval(false)
+        .build()

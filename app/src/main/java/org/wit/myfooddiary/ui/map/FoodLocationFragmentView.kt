@@ -5,6 +5,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.*
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.widget.SwitchCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.LiveData
@@ -39,13 +40,10 @@ class FoodLocationFragmentView: Fragment(),
     private val myFoodListFragment : MyFoodListFragment ?= null
     private lateinit var foodLocationViewModel: FoodLocationViewModel
     lateinit var myFoodListViewModel: MyFoodListViewModel
-    private val args by navArgs<IndividualFoodItemFragmentArgs>()
     lateinit var loader : AlertDialog
-    val listOfCord : List<Double>? = null
     private val loggedInViewModel: LoggedInViewModel by activityViewModels()
     private lateinit var presenter: FoodLocationFragmentPresenter
     private lateinit var listNeeded: List<FoodModel>
-    private var marker: Marker? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -74,11 +72,11 @@ class FoodLocationFragmentView: Fragment(),
             if (firebaseUser != null) {
                 myFoodListViewModel.liveFirebaseUser.value = firebaseUser
                 myFoodListViewModel.load()
-                 myFoodListViewModel.getCordinates()
+                myFoodListViewModel.getCordinates()
                 myFoodListViewModel.observableFoodItemsList.observe(
                     viewLifecycleOwner, Observer { foodItems ->
                         foodItems?.let {
-                            getLocations(foodItems, )
+                            getLocations(foodItems)
                         }
                     })
             }
@@ -92,14 +90,16 @@ class FoodLocationFragmentView: Fragment(),
         listNeeded = foodItems
         foodItems.forEach {
                 foodItem ->
-            map.uiSettings.setZoomControlsEnabled(true)
-            val loc = LatLng(foodItem.lat, foodItem.lng)
-            val options = MarkerOptions()
-                .title(foodItem.title)
-                .position(loc)
-            map.addMarker(options)?.tag = foodItem.fid
-            map.setOnMarkerClickListener(this)
-            map.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, foodItem.zoom))
+            if(foodItem.lat != 0.0 && foodItem.lng != 0.0) {
+                map.uiSettings.setZoomControlsEnabled(true)
+                val loc = LatLng(foodItem.lat, foodItem.lng)
+                val options = MarkerOptions()
+                    .title(foodItem.title)
+                    .position(loc)
+                map.addMarker(options)?.tag = foodItem.fid
+                map.setOnMarkerClickListener(this)
+                map.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, foodItem.zoom))
+            }
         }
     }
 
@@ -123,14 +123,25 @@ class FoodLocationFragmentView: Fragment(),
         if(foodItem.image != "") {
             Picasso.get()
                 .load(foodItem.image)
+                .resize(200, 200)
+                .rotate(90F)
                 .into(fragBinding.foodView)
         }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_myfoodlist, menu)
-        super.onCreateOptionsMenu(menu, inflater)
+        val item = menu.findItem(R.id.toggleFoodItems) as MenuItem
+        item.setActionView(R.layout.togglebutton_layout)
+        val toggleFoodItems: SwitchCompat = item.actionView.findViewById(R.id.toggleButton)
+        toggleFoodItems.isChecked = false
 
+        toggleFoodItems.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked) myFoodListViewModel.loadAll()
+            else myFoodListViewModel.load()
+        }
+
+        super.onCreateOptionsMenu(menu, inflater)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

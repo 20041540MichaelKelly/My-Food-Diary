@@ -4,6 +4,7 @@ import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View.inflate
 import android.view.ViewGroup
+import android.widget.Filter
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
@@ -58,6 +59,8 @@ class MyFoodDiaryAdapter constructor(private var foodItems: List<FoodModel>,
             //Include this call to force the bindings to happen immediately
             binding.executePendingBindings()
         }
+
+
 
 //        fun bind(foodItem: FoodModel, listener: FoodItemListener) {
 //            val aCals = foodItem.amountOfCals.toString() +"ckals"

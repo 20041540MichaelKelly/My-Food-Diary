@@ -3,6 +3,7 @@ package org.wit.myfooddiary.ui.foodlist
 import android.app.AlertDialog
 import android.os.Bundle
 import android.view.*
+import androidx.appcompat.widget.SwitchCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
@@ -16,7 +17,6 @@ import org.wit.myfooddiary.R
 import org.wit.myfooddiary.adapters.FoodItemListener
 import org.wit.myfooddiary.adapters.MyFoodDiaryAdapter
 import org.wit.myfooddiary.databinding.FragmentMyFoodListBinding
-import org.wit.myfooddiary.firebase.FirebaseDBManager
 import org.wit.myfooddiary.models.FoodModel
 import org.wit.myfooddiary.models.UserModel
 import org.wit.myfooddiary.ui.auth.LoggedInViewModel
@@ -37,7 +37,6 @@ class MyFoodListFragment : Fragment(), FoodItemListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        app = activity?.application as MainApp
         setHasOptionsMenu(true)
     }
 
@@ -68,17 +67,18 @@ class MyFoodListFragment : Fragment(), FoodItemListener {
         return root
     }
 
-//    companion object {
-//        @JvmStatic
-//        fun newInstance() =
-//            ApiFoodListFragment().apply {
-//                arguments = Bundle().apply {
-//                }
-//            }
-//    }
-
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_myfoodlist, menu)
+
+        val item = menu.findItem(R.id.toggleFoodItems) as MenuItem
+        item.setActionView(R.layout.togglebutton_layout)
+        val toggleFoodItems: SwitchCompat = item.actionView.findViewById(R.id.toggleButton)
+        toggleFoodItems.isChecked = false
+
+        toggleFoodItems.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked) myFoodListViewModel.loadAll()
+            else myFoodListViewModel.load()
+        }
         super.onCreateOptionsMenu(menu, inflater)
 
     }
@@ -117,7 +117,7 @@ class MyFoodListFragment : Fragment(), FoodItemListener {
 
     override fun onFoodItemClick(foodItem: FoodModel) {
         val action = MyFoodListFragmentDirections.actionMyFoodListFragmentToIndividualFoodItemFragment(
-            foodItem.fid!!.toLong())
+            foodItem.timeForFood.toLong())
         findNavController().navigate(action)
     }
 
@@ -125,17 +125,5 @@ class MyFoodListFragment : Fragment(), FoodItemListener {
         TODO("Not yet implemented")
     }
 
-    fun setSwipeRefresh() {
-        fragBinding.swiperefresh.setOnRefreshListener {
-            fragBinding.swiperefresh.isRefreshing = true
-            showLoader(loader,"Downloading Food Items")
-            //Retrieve food List again here
 
-        }
-    }
-
-    fun checkSwipeRefresh() {
-        if (fragBinding.swiperefresh.isRefreshing)
-            fragBinding.swiperefresh.isRefreshing = false
-    }
 }
