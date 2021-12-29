@@ -52,7 +52,7 @@ class HomeActivity : AppCompatActivity() {
 
         appBarConfiguration = AppBarConfiguration(setOf(
             R.id.myFoodDiaryFragment, R.id.myFoodListFragment, R.id.apiMyFoodListFragment
-        ,R.id.foodLocation), drawerLayout)
+        ,R.id.barcodeScanner), drawerLayout)
         setupActionBarWithNavController(navController, appBarConfiguration)
 
         val navView = homeBinding.navView
