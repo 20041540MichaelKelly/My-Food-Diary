@@ -23,17 +23,17 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback,
     GoogleMap.OnMarkerClickListener {
 
     private lateinit var map: GoogleMap
-    var location = Location()
+    var location = FoodModel()
     var foodItem = FoodModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_map)
-//        if (intent.hasExtra("location")) {
-//            location = intent.extras?.getParcelable<Location>("location")!!
-//        }else{
-           // foodItem = FoodModel(lat =52.245696, lng = -7.139102, zoom = 15f)
-       // }
+        if (intent.hasExtra("location")) {
+            location = intent.extras?.getParcelable<FoodModel>("location")!!
+        }else{
+            foodItem = FoodModel(lat =52.245696, lng = -7.139102, zoom = 15f)
+        }
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
@@ -41,7 +41,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback,
 
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
-        val loc = LatLng(foodItem.lat, foodItem.lng)
+        val loc = LatLng(location.lat, location.lng)
         val options = MarkerOptions()
             .title("Food")
             .snippet("GPS : $loc")
@@ -49,12 +49,12 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback,
             .position(loc)
         map.setOnMarkerClickListener(this)
         map.addMarker(options)
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, foodItem.zoom))
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, location.zoom))
         map.setOnMarkerDragListener(this)
     }
 
     override fun onMarkerClick(marker: Marker): Boolean {
-        val loc = LatLng(foodItem.lat, foodItem.lng)
+        val loc = LatLng(location.lat, location.lng)
         marker.snippet = "GPS : $loc"
         return false
     }
