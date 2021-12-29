@@ -23,7 +23,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyFoodDiary" >
         <activity
-            android:name=".ui.barcodescanner.BarcodeScannerActivity"
+            android:name=".ui.barcodescanner.BarcodeScannerFragment"
             android:exported="false" />
 
         <provider

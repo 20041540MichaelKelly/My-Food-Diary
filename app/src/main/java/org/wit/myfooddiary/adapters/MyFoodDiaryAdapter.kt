@@ -52,7 +52,7 @@ class MyFoodDiaryAdapter constructor(private var foodItems: List<FoodModel>,
             } else if(foodItem.image == ""){
                 Picasso.get().load("@drawable/ic_baseline_food_bank_24.xml").resize(200, 200).into(binding.imageIcon)
             }else{
-                Picasso.get().load(foodItem.image).resize(200, 200).rotate(90F).into(binding.imageIcon)
+                Picasso.get().load(foodItem.image).resize(200, 200).into(binding.imageIcon)
             }
 
             binding.root.setOnClickListener { listener.onFoodItemClick(foodItem)}

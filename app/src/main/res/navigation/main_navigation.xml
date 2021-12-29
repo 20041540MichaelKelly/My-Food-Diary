@@ -67,4 +67,9 @@
         android:name="org.wit.myfooddiary.ui.map.FoodLocationFragmentView"
         android:label="My Food Diary"
         tools:layout="@layout/food_map" />
+    <fragment
+        android:id="@+id/barcodeScanner"
+        android:name="org.wit.myfooddiary.ui.barcodescanner.BarcodeScannerFragment"
+        android:label="Scan QR"
+        tools:layout="@layout/fragment_barcode_scanner" />
 </navigation>
