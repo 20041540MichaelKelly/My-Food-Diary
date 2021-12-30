@@ -31,12 +31,16 @@
         <action
             android:id="@+id/action_myFoodListFragment_to_myFoodDiaryFragment"
             app:destination="@id/myFoodDiaryFragment" />
+
         <action
             android:id="@+id/action_myFoodListFragment_to_individualFoodItemFragment"
             app:destination="@id/individualFoodItemFragment" />
         <argument
             android:name="foodid"
             app:argType="long" />
+        <action
+        android:id="@+id/action_myFoodListFragment_to_myFoodListFragment"
+        app:destination="@id/myFoodListFragment" />
     </fragment>
     <fragment
         android:id="@+id/individualFoodItemFragment"

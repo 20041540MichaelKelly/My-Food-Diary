@@ -48,7 +48,7 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="foodItemsNotFound">No Food Logged Yet…\nGo Go Enjoy Some!</string>
     <string name="foodItemError">Error : Couldn\'t Make a Donation…</string>
-    <string name="donationDetails">Donation Details</string>
+
     <string name="title">Title :</string>
     <string name="description">Description :</string>
     <string name="calories">Calories :</string>
@@ -91,6 +91,8 @@
     <string name="scan_a_code">Scan a QR Code</string>
     <string name="result_not_found">Result Not Found</string>
     <string name="show_scanner_from_fragment">Show Scanner From Fragment</string>
+    <string name="lat">Lat</string>
+    <string name="lng">Lng</string>
 
 
 </resources>

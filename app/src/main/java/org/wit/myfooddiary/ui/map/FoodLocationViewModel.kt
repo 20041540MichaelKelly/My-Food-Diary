@@ -41,17 +41,4 @@ class FoodLocationViewModel: ViewModel() {
             }
         }
 
-        fun getCordinates() {
-            try {
-                val userid = liveFirebaseUser.value!!.uid
-                FirebaseDBManager.findCoordinatesByUid(userid, lat, lng)
-                Timber.i("Retrofit Success : ${lat.value.toString()}")
-            }catch (e: Exception) {
-                Timber.i("Retrofit Error : $e.message")
-            }
-        }
-
-
-
-
 }

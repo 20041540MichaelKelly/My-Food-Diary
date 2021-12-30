@@ -66,3 +66,39 @@ This is used twice in the project, as it is used to choose the location of where
   activity from first project but is re wrote so a fragment can receive the parcelble of location.
   You have the option of capturing an image or choose an image which is convienet, it is created by
   using fragments as this is more modular.
+
+
+Fragments<br>
+The first version of this project was created using activities as the framework but in the second part being this project I have created It on Fragments. Fragments are a convenient way of having multiple activities being controlled from the 1 activity. It makes the application more modular. The process in which these were implemented was by following the labs but then turning to my already implemented activities and then converting them freestyle. The Fragments that I use are for MyFoodDiary page, MyFoodList page, Map page, QR Scanner and Food Ideas page.
+
+Nav Bar<br>
+The Nav Bar contains multiple options for the user and it has its own style in the xml layout but also its own menu layout. This in turn is called from the mothership being the Home Activity. All fragments are referenced in the main_navigation menu layout and from here they reference their own individual xml layout files. So no matter where you are you can bring up the navigation drawer from any of the fragments mentioned above.
+
+My Food List<br>
+This is the landing page for the app after the splash screen, This will display a list of food items that can be edited or deleted and/or the list can be added to. On this page you can navigate to anywhere else in the application, you have quick access to My Food Diary from the Floating action Button. From the Nav Drawer you have access to the MyFoodDiary page, MyFoodList page, Map page, QR Scanner and world foods page. Also there is the option to sign out on the nav drawer. My food List Can have items manually created and added to it or the user can filter through world foods and add a food Item from that page.
+
+My Food Diary<br>
+On this page the user can create a food Item, they enter title and description through edit texts. Simple enough and then users have the choice of selecting an existing picture in the gallery or a new feature that I included is to take their own picture of choice and this then will be stored in firebase DB. Then the user can add location through the Map Activity. This indeed is the activity, I didn't do too much additional work on this page as I wanted to implement other features as to updating stuff that worked well. So on this map Activity, your location is automatically tracked on the map but the user can also change the location if they wish, if they remember a location of importance to the foodItem i.e a shop that it was purchased from. So then add the food and it is stored in the Firebase Real Time DB.
+
+Food Ideas<br>
+This page is using the Spoonacular API. It allows a certain amount of requests a day on the free plan. I found this api had so many options that were of use for this project. I went with Retrofit for my own application, there was some tweaking on my part though to implement this with spoonacular. I had to research in how to implement headers through Retrofit, I applied it in the client the api key and header name, So then when I'm creating api calls I didn't have to apply these over every query to the api. I have a filter option on this page, but I had asked a few people in my circle what they think, a filter with many options or just the die hard stuff of use like what food ideas under a certain amount of calories and how many options you want returned from the api.
+
+Testing<br>
+A way That I tested my app and got user feedback was to hand my phone around to my family and friends and really use it and test it for me and to give me their feedback. Any feedback I got that was constructive that would make this app function or be more intuitive or user friendly then I implemented it. A clear example of this would be implemented the new feature of taking a photo, This allows the user to take a photo through the app and logging without having to go to camera take a picture and then go back to my food diary and then choose the image, the effort and time consumption of this process,
+
+QR Scanner<br>
+This feature I wanted to create something a little different that can be of use, especially in these covid vaccination certs times. It was actually from this that I came up with this idea. I have four QR examples I created that the user can test that are attached to the README.md. So the user chooses the Scanner from the nav Drawer and then the user scans a QR Code that feeds back the information it contains into a user friendly format for the user. Once it has been loaded then the user can add it to their food list. This is a nifty little feature that I really enjoyed implementing, the implementation in the gradle was the ZXing library.
+
+MVVM<br>
+I used this model in the framework as I thought it would be beneficial to the purpose of being able to click on the individual food item and pass the TIMESTAMP (because firebase uses a String as its id that starts with like -MS121hdj) The time stamp is a long that can be used as ID as it is unique. This is definitely best practice when dealing in real time with firebase db. I created multiple viewModels with different purposes. The most used viewModel is MyFoodListViewModel, I re-used this method to gather the list of food items as to be DRY(don't repeat yourself) I would reference this in what ever fragment I am using and loop through the observable list to withdraw the items or specific item required. every fragment I am using and loop through the observable list to withdraw the items or specific item required. I would create fun methods then that would communicate ith with the FirebaseManager(where it directly collected data requested) <- only returning Unit form, which is the equivalent of void in java so it returns nothing just does its computation.
+
+References <br>
+reader.tutors.dev. (n.d.). Tutors. [online] Available at: https://reader.tutors.dev/#/course/wit-hdip-comp-sci-2020-mobile-app-dev.netlify.app [Accessed 30 Dec. 2021].
+
+Google Developers. (n.d.). Scan Barcodes with ML Kit on Android. [online] Available at: https://developers.google.com/ml-kit/vision/barcode-scanning/android [Accessed 30 Dec. 2021].
+
+GitHub. (n.d.). location-samples/BasicLocationKotlin at main · android/location-samples. [online] Available at: https://github.com/android/location-samples/tree/main/BasicLocationKotlin [Accessed 30 Dec. 2021].
+
+www.programcreek.com. (n.d.). Java Code Examples for com.google.zxing.client.android.Intents. [online] Available at: https://www.programcreek.com/java-api-examples/?api=com.google.zxing.client.android.Intents [Accessed 30 Dec. 2021].
+
+Android Developers. (n.d.). Kotlin and Android. [online] Available at: https://developer.android.com/kotlin?hl=en [Accessed 30 Dec. 2021].

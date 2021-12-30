@@ -91,6 +91,12 @@ class IndividualFoodItemFragment : Fragment() {
                    foodid, usedForUpdateFoodItem)
            }
        }
+
+       layout.deleteFoodItemButton.setOnClickListener(){
+           myFoodListViewModel.deleteItem(loggedInViewModel.liveFirebaseUser,
+               foodItem)
+
+       }
    }
 
 

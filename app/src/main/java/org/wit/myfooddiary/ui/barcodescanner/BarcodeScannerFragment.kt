@@ -42,7 +42,7 @@ class BarcodeScannerFragment : Fragment() {
     ): View {
         fragBinding = FragmentBarcodeScannerBinding.inflate(layoutInflater)
         myFoodDiaryViewModel = ViewModelProvider(this).get(MyFoodDiaryViewModel::class.java)
-        fragBinding.addBtn.setVisibility(View.GONE);
+        fragBinding.addBtn.setVisibility(View.GONE)
 
         return fragBinding.root
     }
@@ -62,11 +62,6 @@ class BarcodeScannerFragment : Fragment() {
     private fun setOnClickListener() {
         fragBinding.btnScan.setOnClickListener {
             performAction()
-        }
-
-        fragBinding.showQRScanner.setOnClickListener {
-            // Add code to show QR Scanner Code in Fragment.
-            startActivity(Intent(context, HelperActivity::class.java))
         }
 
         fragBinding.addBtn.setOnClickListener{
@@ -99,6 +94,8 @@ class BarcodeScannerFragment : Fragment() {
                     fragBinding.title.text = obj.getString("title")
                     fragBinding.description.text = obj.getString("description")
                     fragBinding.amountOfCals.text = obj.getString("amountOfCals")
+                    fragBinding.lat.text = obj.getString("lat")
+                    fragBinding.lng.text = obj.getString("lng")
                     val imageString = obj.getString("image")
                     Picasso.get()
                         .load(imageString)
@@ -108,7 +105,11 @@ class BarcodeScannerFragment : Fragment() {
                     foodItem.description= obj.getString("description")
                     val calIntVal = obj.getString("amountOfCals")      //Gathering the data to be added to my list
                     foodItem.amountOfCals = calIntVal.toInt()
+                    val latInString = obj.getString("lat")
+                    foodItem.lat = latInString.toDouble()
+                    foodItem.lng = obj.getString("lng").toDouble()
                     foodItem.image = obj.getString("image")
+
                     fragBinding.addBtn.setVisibility(View.VISIBLE);
                 } catch (e: JSONException) {
                     e.printStackTrace()

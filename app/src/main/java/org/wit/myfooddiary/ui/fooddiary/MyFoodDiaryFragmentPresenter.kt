@@ -9,11 +9,17 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
 import org.wit.myfooddiary.R
 import org.wit.myfooddiary.activities.MapActivity
 import org.wit.myfooddiary.databinding.FragmentMyFoodDiaryBinding
+import org.wit.myfooddiary.helpers.checkLocationPermissions
 import org.wit.myfooddiary.helpers.showImagePicker
 import org.wit.myfooddiary.models.FoodModel
 import org.wit.myfooddiary.models.Location
@@ -39,7 +45,9 @@ class MyFoodDiaryFragmentPresenter (private val view: MyFoodDiaryFragmentView) {
     val REQUEST_IMAGE_CAPTURE = 1
     lateinit var currentPhotoPath: String
     var lastId = 0L
-
+    private var locationService: FusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(view.requireActivity())
+    private lateinit var requestPermissionLauncher: ActivityResultLauncher<String>
+    var buttonPressed = false
 
     internal fun getId(): Long {
     return lastId++
@@ -49,6 +57,8 @@ class MyFoodDiaryFragmentPresenter (private val view: MyFoodDiaryFragmentView) {
        // doPermissionLauncher()
         registerImagePickerCallback()
         registerMapCallback()
+
+
 
     }
 
@@ -122,16 +132,11 @@ class MyFoodDiaryFragmentPresenter (private val view: MyFoodDiaryFragmentView) {
         }
 
         layout.foodItemLocation.setOnClickListener {
-            val location = Location(52.245696, -7.139102, 15f)
-            if (foodItem.zoom != 0f) {
-                location.lat = foodItem.lat
-                location.lng = foodItem.lng
-                location.zoom = foodItem.zoom
-            }
-            val launcherIntent = Intent(view.getActivity(), MapActivity::class.java)
-                .putExtra("location", location)
+            if (checkLocationPermissions(view.requireActivity())) {
 
-            mapIntentLauncher.launch(launcherIntent)
+                doSetCurrentLocation()
+
+            }
 
         }
         registerImagePickerCallback()
@@ -168,9 +173,9 @@ class MyFoodDiaryFragmentPresenter (private val view: MyFoodDiaryFragmentView) {
                 when (result.resultCode) {
                     AppCompatActivity.RESULT_OK -> {
                         if (result.data != null) {
-                            Timber.i("Got Location ${result.data.toString()}")
+                            i("Got Location ${result.data.toString()}")
                             val foods = result.data!!.extras?.getParcelable<FoodModel>("location")!!
-                            Timber.i("Location == $foods")
+                            i("Location == $foods")
                             foodItem.lat = foods.lat
                             foodItem.lng = foods.lng
                             foodItem.zoom = foods.zoom
@@ -229,4 +234,39 @@ class MyFoodDiaryFragmentPresenter (private val view: MyFoodDiaryFragmentView) {
             }
         }
     }
+
+    private fun doPermissionLauncher() {
+        i("permission check called")
+        requestPermissionLauncher =
+            view.registerForActivityResult(ActivityResultContracts.RequestPermission())
+            { isGranted: Boolean ->
+                if (isGranted) {
+                    doSetCurrentLocation()
+                } else {
+                    locationUpdate(52.4484, 6.8642)
+                }
+            }
+    }
+
+    fun locationUpdate(lat: Double, lng: Double) {
+        val foodLoc = FoodModel(lat = lat,lng =  lng, zoom = 15f)
+
+
+
+        val launcherIntent = Intent(view.getActivity(), MapActivity::class.java)
+            .putExtra("location", foodLoc)
+
+        mapIntentLauncher.launch(launcherIntent)
+
+    }
+
+    @SuppressLint("MissingPermission")
+    fun doSetCurrentLocation() {
+        i("setting location from doSetLocation")
+        locationService.lastLocation.addOnSuccessListener {
+            locationUpdate(it.latitude, it.longitude)
+        }
+    }
+
+
 }

@@ -54,6 +54,14 @@ object FoodManager : FoodItemStore {
         })
     }
 
+    override fun delete(
+        firebaseUser: MutableLiveData<FirebaseUser>,
+        fooditem: FoodModel,
+        myFoodList: MutableLiveData<List<FoodModel>>
+    ) {
+        TODO("Not yet implemented")
+    }
+
     override fun findAllByUid(
         userid: String,
         myFoodList: MutableLiveData<List<FoodModel>>
@@ -83,10 +91,6 @@ object FoodManager : FoodItemStore {
     }
 
     override fun create(firebaseUser: MutableLiveData<FirebaseUser>, fooditem: FoodModel) {
-        TODO("Not yet implemented")
-    }
-
-    override fun delete(userid: String, foodid: String) {
         TODO("Not yet implemented")
     }
 

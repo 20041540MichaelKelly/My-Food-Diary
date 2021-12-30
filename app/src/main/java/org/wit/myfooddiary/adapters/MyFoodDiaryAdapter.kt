@@ -28,14 +28,12 @@ class MyFoodDiaryAdapter constructor(private var foodItems: List<FoodModel>,
         val binding = CardFoodBinding
             .inflate(LayoutInflater.from(parent.context), parent, false)
 
-
         return MainHolder(binding)
     }
 
     override fun onBindViewHolder(holder: MainHolder, position: Int) {
         val foodItem = foodItems[holder.adapterPosition]
         holder.bind(foodItem, listener)
-        //holder.bind(foodItem)
     }
 
     override fun getItemCount(): Int = foodItems.size
@@ -54,8 +52,15 @@ class MyFoodDiaryAdapter constructor(private var foodItems: List<FoodModel>,
             }else{
                 Picasso.get().load(foodItem.image).resize(200, 200).into(binding.imageIcon)
             }
+            binding.actionRemove.setOnClickListener {
+                listener.onFoodItemDelete(foodItem)
 
-            binding.root.setOnClickListener { listener.onFoodItemClick(foodItem)}
+                Snackbar.make(it, R.string.deleted_foodItem, Snackbar.LENGTH_LONG)
+                    .show()
+            }
+            binding.root.setOnClickListener { listener.onFoodItemClick(foodItem)
+                listener.onFoodItemDelete(foodItem)
+            }
             //Include this call to force the bindings to happen immediately
             binding.executePendingBindings()
         }

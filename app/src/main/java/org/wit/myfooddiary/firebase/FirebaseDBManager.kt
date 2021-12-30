@@ -25,7 +25,7 @@ object FirebaseDBManager  : FoodItemStore {
                         val foodItem = it.getValue(FoodModel::class.java)
                         localList.add(foodItem!!)
                     }
-                    database.child("donations")
+                    database.child("food")
                         .removeEventListener(this)
 
                     myFoodList.value = localList
@@ -65,13 +65,7 @@ object FirebaseDBManager  : FoodItemStore {
 
                 override fun onDataChange(snapshot: DataSnapshot) {
                     var fItem = FoodModel()
-//                    for (ds in snapshot.children) {
-//                        val foodItem = ds.getValue(FoodModel::class.java)
-//                        if(foodItem?.timeForFood == foodid){
-//                            fItem = foodItem
-//                            Timber.i("Firebase Food error : ${fItem}")
-//                        }
-//                    }
+//
                     val children = snapshot.children
                     children.forEach {
                         val foodItem = it.getValue(FoodModel::class.java)
@@ -96,16 +90,9 @@ object FirebaseDBManager  : FoodItemStore {
                 }
 
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    val latList = ArrayList<Double>()
-                    for (ds in snapshot.children) {
-                        val lats = ds?.child("lat")?.getValue(Double::class.java)!!
-                        latList.add(lats)
+                    val children = snapshot.children
 
 
-                    }
-                    database.child("user-food").child(userid)
-                        .removeEventListener(this)
-                    lat.value = latList
 
                 }
 
@@ -115,8 +102,44 @@ object FirebaseDBManager  : FoodItemStore {
      }
 
 
-    override fun delete(userid: String, foodid: String) {
-        TODO("Not yet implemented")
+    override fun delete(
+        firebaseUser: MutableLiveData<FirebaseUser>,
+        fooditem: FoodModel,
+        myFoodList: MutableLiveData<List<FoodModel>>
+    ) {
+        database.child("user-food").child(firebaseUser.value!!.uid)
+            .addValueEventListener(object : ValueEventListener {
+                override fun onCancelled(error: DatabaseError) {
+                    Timber.i("Firebase Food error : ${error.message}")
+                }
+
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val children = snapshot.children
+                    var fItem : String? = null
+                    val uid = firebaseUser.value!!.uid
+                    val localList = ArrayList<FoodModel>()
+
+                    children.forEach {
+                        val foodItem = it.getValue(FoodModel::class.java)
+                        if (foodItem?.fid == fooditem.fid) {
+                            if (foodItem != null) {
+                                fItem = foodItem.fid.toString()
+                            }
+
+                        }
+                        database.child("user-food/$uid/$fItem").removeValue()
+                        database.child("food/$fItem").removeValue()
+                        if (foodItem != null) {
+                            localList.add(foodItem)
+                        }
+                    }
+                    database.child("user-food").child(firebaseUser.value!!.uid)
+                        .removeEventListener(this)
+
+                    myFoodList.value = localList
+                }
+
+            })
     }
 
     override fun update(
@@ -138,19 +161,10 @@ object FirebaseDBManager  : FoodItemStore {
         database.updateChildren(childAdd)
     }
 
-
     override fun findAllByFilter(
         numberOfItems: String,
         maxCals: String,
         myApiFoodList: MutableLiveData<List<FoodModel>>
-    ) {
-        TODO("Not yet implemented")
-    }
-
-    fun findAllCoordinatesByUid(
-        userid: String,
-        foodid: String,
-        myFoodList: MutableLiveData<List<FoodModel>>
     ) {
         TODO("Not yet implemented")
     }
