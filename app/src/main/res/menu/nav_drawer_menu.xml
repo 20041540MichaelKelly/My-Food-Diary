@@ -23,6 +23,12 @@
             android:icon="@android:drawable/ic_menu_mapmode"
             android:title="@string/menu_addLocation"
             />
+
+        <item
+            android:id="@+id/barcodeScanner"
+            android:icon="@android:drawable/ic_menu_mapmode"
+            android:title="@string/menu_barcode"
+            />
     </group>
 
     <item android:title="@string/group_communicate">

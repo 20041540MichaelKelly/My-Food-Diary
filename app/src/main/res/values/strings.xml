@@ -48,7 +48,7 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="foodItemsNotFound">No Food Logged Yet…\nGo Go Enjoy Some!</string>
     <string name="foodItemError">Error : Couldn\'t Make a Donation…</string>
-    <string name="donationDetails">Donation Details</string>
+
     <string name="title">Title :</string>
     <string name="description">Description :</string>
     <string name="calories">Calories :</string>
@@ -80,7 +80,19 @@
     <string name="action_myapifoodlist">API Food List</string>
     <string name="button_filter">Filter</string>
     <string name="amount_of_requests">Amount of Requests</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="menu_barcode">Barcode Scanner</string>
+    <string name="scan_qr_code">Scan QR Code</string>
+
+    <string name="helper_activity">HelperActivity</string>
+    <string name="showing_code_in_fragment">Showing Code in Fragment</string>
+    <string name="name">Name</string>
+    <string name="empty">---</string>
+    <string name="site_name">Site Name</string>
+    <string name="scan_a_code">Scan a QR Code</string>
+    <string name="result_not_found">Result Not Found</string>
+    <string name="show_scanner_from_fragment">Show Scanner From Fragment</string>
+    <string name="lat">Lat</string>
+    <string name="lng">Lng</string>
+
 
 </resources>

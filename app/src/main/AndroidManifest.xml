@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="org.wit.myfooddiary">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="org.wit.myfooddiary" >
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-feature android:name="android.hardware.camera"
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <uses-feature
+        android:name="android.hardware.camera"
         android:required="true" />
+
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="18" />
 
     <application
@@ -16,19 +21,28 @@
         android:label="@string/app_name"
         android:roundIcon="@drawable/splashscreenimage"
         android:supportsRtl="true"
-        android:theme="@style/Theme.MyFoodDiary">
+        android:theme="@style/Theme.MyFoodDiary" >
+        <activity
+            android:name=".ui.barcodescanner.BarcodeScannerFragment"
+            android:exported="false" />
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="org.wit.myfooddiary.fileprovider"
             android:exported="false"
-            android:grantUriPermissions="true">
+            android:grantUriPermissions="true" >
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths"></meta-data>
-        </provider>
+                android:resource="@xml/file_paths" />
+        </provider> <!-- Override the library screenorientation of the Activity (only required if you want Vertical/Portrait orientation -->
+        <activity
+            android:name="com.journeyapps.barcodescanner.CaptureActivity"
+            android:screenOrientation="fullSensor"
+            android:stateNotNeeded="true"
+            tools:replace="android:screenOrientation" />
         <activity
             android:name=".ui.auth.Login"
-            android:exported="true">
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -58,12 +72,15 @@
             android:exported="true" />
         <activity
             android:name=".activities.SplashScreen"
-            android:exported="true">
-            <!--<intent-filter>
+            android:exported="true" >
+
+            <!--
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>-->
+            </intent-filter>
+            -->
         </activity>
         <activity
             android:name=".activities.FoodListActivity"
