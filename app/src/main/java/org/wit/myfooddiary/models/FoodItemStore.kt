@@ -26,7 +26,6 @@ interface FoodItemStore {
                  fooditem: MutableLiveData<FoodModel>)
     fun findCoordinatesByUid(userid: String, lat: MutableLiveData<List<Double>>, lng: MutableLiveData<List<Double>>)
     fun create(firebaseUser: MutableLiveData<FirebaseUser>, fooditem: FoodModel)
-    fun delete(userid:String, foodid: String)
     fun update(
         firebaseUser: MutableLiveData<FirebaseUser>,
         foodid: String,
@@ -34,4 +33,9 @@ interface FoodItemStore {
     )
     fun findAllByFilter(numberOfItems: String, maxCals:String, myApiFoodList: MutableLiveData<List<FoodModel>>)
 
+    fun delete(
+        firebaseUser: MutableLiveData<FirebaseUser>,
+        fooditem: FoodModel,
+        myFoodList: MutableLiveData<List<FoodModel>>
+    )
 }

@@ -64,11 +64,6 @@ class BarcodeScannerFragment : Fragment() {
             performAction()
         }
 
-        fragBinding.showQRScanner.setOnClickListener {
-            // Add code to show QR Scanner Code in Fragment.
-            startActivity(Intent(context, HelperActivity::class.java))
-        }
-
         fragBinding.addBtn.setOnClickListener{
             addToFirebaseDB(foodItem)
 

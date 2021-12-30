@@ -13,18 +13,9 @@ class MyFoodListViewModel : ViewModel() {
     private val myFoodList = MutableLiveData<List<FoodModel>>()
     private val lat = MutableLiveData<List<Double>>()
     private val lng = MutableLiveData<List<Double>>()
-    private val foodItem = MutableLiveData<FoodModel>()
-
-
 
     val observableFoodItemsList: LiveData<List<FoodModel>>
         get() = myFoodList
-
-    val observableIndividualFoodItem: LiveData<FoodModel>
-        get() = foodItem
-
-    val observableLatList: LiveData<List<Double>>
-        get() = lat
 
    var liveFirebaseUser = MutableLiveData<FirebaseUser>()
 
@@ -63,15 +54,20 @@ class MyFoodListViewModel : ViewModel() {
 
     }
 
-    fun getFoodItem(foodid: String) {
-        FirebaseDBManager.findById(foodid, foodItem)
-        Timber.i("Retrofit Success : ${foodItem.value.toString()}")
-
-    }
-
     fun updateFoodItem(firebaseUser: MutableLiveData<FirebaseUser>, foodid: String, foodItem: FoodModel) {
         try {
             FirebaseDBManager.update(firebaseUser, foodid, foodItem)
+
+        } catch (e: IllegalArgumentException) {
+            Timber.i("Retrofit Error : $e.message")
+        }
+    }
+
+    fun deleteItem(firebaseUser: MutableLiveData<FirebaseUser>,foodItem: FoodModel){
+        try
+        {
+            FirebaseDBManager.delete(firebaseUser, foodItem, myFoodList)
+            Timber.i("deleted : ${foodItem.fid}")
 
         } catch (e: IllegalArgumentException) {
             Timber.i("Retrofit Error : $e.message")

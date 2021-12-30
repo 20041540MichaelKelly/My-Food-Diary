@@ -10,6 +10,7 @@ import androidx.appcompat.widget.SwitchCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
@@ -75,17 +76,17 @@ class MyFoodListFragment : Fragment(), FoodItemListener {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_myfoodlist, menu)
-        var searchItem=menu.findItem(R.id.action_search)
-        var searchView=searchItem?.actionView as SearchView;
+        val searchItem=menu.findItem(R.id.action_search)
+        val searchView=searchItem?.actionView as SearchView;
         searchView.setImeOptions(EditorInfo.IME_ACTION_DONE)
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                var localLi = ArrayList<FoodModel>()
+                val localLi = ArrayList<FoodModel>()
                 myFoodListViewModel.observableFoodItemsList.observe(
                     viewLifecycleOwner,
                     Observer<List<FoodModel>> { foodItems ->
                         foodItems.forEach { foodItem ->
-                            if (query.equals(foodItem.title)) {
+                            if (query!!.lowercase() == foodItem.title.lowercase()) {
                                 localLi.add(foodItem)
                             }
 
@@ -94,8 +95,6 @@ class MyFoodListFragment : Fragment(), FoodItemListener {
                     })
                 return false
             }
-
-
 
             override fun onQueryTextChange(newText: String?): Boolean {
 
@@ -135,7 +134,6 @@ class MyFoodListFragment : Fragment(), FoodItemListener {
 
     override fun onResume() {
         super.onResume()
-//        myFoodListViewModel.load()
         loggedInViewModel.liveFirebaseUser.observe(viewLifecycleOwner, Observer { firebaseUser ->
             if (firebaseUser != null) {
                 myFoodListViewModel.liveFirebaseUser.value = firebaseUser
@@ -158,12 +156,37 @@ class MyFoodListFragment : Fragment(), FoodItemListener {
     }
 
     override fun onFoodItemDelete(foodItem: FoodModel) {
-        TODO("Not yet implemented")
+
+        myFoodListViewModel.deleteItem(loggedInViewModel.liveFirebaseUser,
+            foodItem)
+        loadFoodItems()
+
+    }
+
+    private fun loadFoodItems() {
+        val ans = myFoodListViewModel.observableFoodItemsList.value
+
+        if (ans != null) {
+            render(ans)
+        }
+
     }
 
     fun showFoodItems (foodItems: List<FoodModel>) {
         fragBinding.recyclerView.adapter = MyFoodDiaryAdapter(foodItems, this)
         fragBinding.recyclerView.adapter?.notifyDataSetChanged()
+    }
+
+    fun listOfFoodItems() {
+        showLoader(loader, "Downloading Food")
+        myFoodListViewModel.observableFoodItemsList.observe(
+            viewLifecycleOwner,
+            Observer<List<FoodModel>> { foodItems ->
+                foodItems?.let {
+                    render(foodItems)
+                    hideLoader(loader)
+                }
+            })
     }
 
 //    fun onSearchItem(searchValue: String){

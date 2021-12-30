@@ -22,9 +22,6 @@
         android:roundIcon="@drawable/splashscreenimage"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyFoodDiary" >
-        <activity
-            android:name=".ui.barcodescanner.BarcodeScannerFragment"
-            android:exported="false" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -50,9 +47,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.GalleryActivity"
-            android:exported="false" />
-        <activity
             android:name=".ui.home.HomeActivity"
             android:exported="true" />
 
@@ -64,28 +58,14 @@
             android:name=".activities.MapActivity"
             android:exported="true"
             android:label="@string/title_activity_map" />
-        <activity
-            android:name=".activities.SignupActivity"
-            android:exported="true" />
-        <activity
-            android:name=".activities.LoginsActivity"
-            android:exported="true" />
+
         <activity
             android:name=".activities.SplashScreen"
             android:exported="true" >
-
-            <!--
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-            -->
         </activity>
         <activity
-            android:name=".activities.FoodListActivity"
+            android:name=".helpers.HelperActivity"
             android:exported="true" />
-        <activity android:name=".activities.MyFoodDiaryActivity" />
     </application>
 
 </manifest>
