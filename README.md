@@ -89,6 +89,13 @@ A way That I tested my app and got user feedback was to hand my phone around to 
 QR Scanner<br>
 This feature I wanted to create something a little different that can be of use, especially in these covid vaccination certs times. It was actually from this that I came up with this idea. I have four QR examples I created that the user can test that are attached to the README.md. So the user chooses the Scanner from the nav Drawer and then the user scans a QR Code that feeds back the information it contains into a user friendly format for the user. Once it has been loaded then the user can add it to their food list. This is a nifty little feature that I really enjoyed implementing, the implementation in the gradle was the ZXing library.
 
+![image](https://user-images.githubusercontent.com/50295964/147794163-1ae55476-c840-4d16-b56d-78ab84268088.png)
+<br><br>
+![image](https://user-images.githubusercontent.com/50295964/147794191-2ff01a68-3838-4c3c-836b-4282fd25ba07.png)
+<br><br>
+![image](https://user-images.githubusercontent.com/50295964/147794221-d28e51b8-2d4f-4f6a-b85b-a9605ce4ac0a.png)
+
+
 MVVM<br>
 I used this model in the framework as I thought it would be beneficial to the purpose of being able to click on the individual food item and pass the TIMESTAMP (because firebase uses a String as its id that starts with like -MS121hdj) The time stamp is a long that can be used as ID as it is unique. This is definitely best practice when dealing in real time with firebase db. I created multiple viewModels with different purposes. The most used viewModel is MyFoodListViewModel, I re-used this method to gather the list of food items as to be DRY(don't repeat yourself) I would reference this in what ever fragment I am using and loop through the observable list to withdraw the items or specific item required. every fragment I am using and loop through the observable list to withdraw the items or specific item required. I would create fun methods then that would communicate ith with the FirebaseManager(where it directly collected data requested) <- only returning Unit form, which is the equivalent of void in java so it returns nothing just does its computation.
 
