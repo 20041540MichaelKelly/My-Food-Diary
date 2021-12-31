@@ -62,9 +62,10 @@ class MyFoodListFragment : Fragment(), FoodItemListener {
                 foodItems?.let {
                 render(foodItems)
                 hideLoader(loader)
+                checkSwipeRefresh()
             }
         })
-
+        setSwipeRefresh()
         val fab: FloatingActionButton = fragBinding.fab
         fab.setOnClickListener {
             val action = MyFoodListFragmentDirections.actionMyFoodListFragmentToMyFoodDiaryFragment()
@@ -88,6 +89,7 @@ class MyFoodListFragment : Fragment(), FoodItemListener {
                         foodItems.forEach { foodItem ->
                             if (query!!.lowercase() == foodItem.title.lowercase()) {
                                 localLi.add(foodItem)
+                                checkSwipeRefresh()
                             }
 
                         }
@@ -160,7 +162,6 @@ class MyFoodListFragment : Fragment(), FoodItemListener {
         myFoodListViewModel.deleteItem(loggedInViewModel.liveFirebaseUser,
             foodItem)
         loadFoodItems()
-
     }
 
     private fun loadFoodItems() {
@@ -185,16 +186,32 @@ class MyFoodListFragment : Fragment(), FoodItemListener {
                 foodItems?.let {
                     render(foodItems)
                     hideLoader(loader)
+                    checkSwipeRefresh()
+
                 }
             })
     }
 
-//    fun onSearchItem(searchValue: String){
-//        val iSearchVal = app.foodItems.findAllBySearchValue(searchValue)
-//        if (iSearchVal == null){
-//            Toast.makeText(context, "No result for search value", Toast.LENGTH_LONG).show()
-//        }else{
-//            showFoodItems(iSearchVal)
-//        }
-//    }
+    fun setSwipeRefresh() {
+        fragBinding.swiperefresh.setOnRefreshListener {
+            fragBinding.swiperefresh.isRefreshing = true
+            showLoader(loader, "Downloading Food")
+            myFoodListViewModel.observableFoodItemsList.observe(
+                viewLifecycleOwner,
+                Observer<List<FoodModel>> { foodItems ->
+                    foodItems?.let {
+                        render(foodItems)
+                        hideLoader(loader)
+                        checkSwipeRefresh()
+
+                    }
+                })
+        }
+    }
+
+    fun checkSwipeRefresh() {
+        if (fragBinding.swiperefresh.isRefreshing)
+            fragBinding.swiperefresh.isRefreshing = false
+    }
+
 }

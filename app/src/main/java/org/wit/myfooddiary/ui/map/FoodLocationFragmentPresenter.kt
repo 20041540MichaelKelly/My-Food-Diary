@@ -24,7 +24,6 @@ class FoodLocationFragmentPresenter(val view: FoodLocationFragmentView) {
     private val fragBinding get() = _fragBinding
     private var map: GoogleMap? = null
     var foodItem = FoodModel()
-    private lateinit var foodLocationViewModel: FoodLocationViewModel
     private lateinit var refreshIntentLauncher: ActivityResultLauncher<Intent>
     private lateinit var mapIntentLauncher: ActivityResultLauncher<Intent>
 
@@ -38,26 +37,6 @@ init {
         //view.configureMap()
     }
 
-    fun locationUpdate(foodItems:  List<FoodModel>) {
-        foodItems.forEach { foodItem ->
-            foodItem.zoom = 15f
-            map?.clear()
-            map?.uiSettings?.setZoomControlsEnabled(true)
-            val options =
-                MarkerOptions().title(foodItem.title).position(LatLng(foodItem.lat, foodItem.lng))
-            map?.addMarker(options)
-            map?.moveCamera(
-                CameraUpdateFactory.newLatLngZoom(
-                    LatLng(foodItem.lat, foodItem.lng),
-                    foodItem.zoom
-                )
-            )
-            view.showLocations(foodItem)
-        }
-    }
-
-
-
     private fun registerRefreshCallback() {
         refreshIntentLauncher =
             view.registerForActivityResult(ActivityResultContracts.StartActivityForResult())
@@ -70,23 +49,5 @@ init {
             view.registerForActivityResult(ActivityResultContracts.StartActivityForResult())
             {  }
     }
-
-
-
-//    override fun onMapReady(googleMap: GoogleMap) {
-//        map = googleMap
-//        val loc = LatLng(location.lat, location.lng)
-//        val options = MarkerOptions()
-//            .title("Food")
-//            .snippet("GPS : $loc")
-//            .draggable(true)
-//            .position(loc)
-//        map.setOnMarkerClickListener(this)
-//        map.addMarker(options)
-//        map.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, location.zoom))
-//        map.setOnMarkerDragListener(this)
-//    }
-//
-
 
 }

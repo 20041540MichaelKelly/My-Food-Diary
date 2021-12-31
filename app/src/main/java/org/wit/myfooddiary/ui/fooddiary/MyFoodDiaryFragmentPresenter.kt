@@ -48,6 +48,7 @@ class MyFoodDiaryFragmentPresenter (private val view: MyFoodDiaryFragmentView) {
     private var locationService: FusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(view.requireActivity())
     private lateinit var requestPermissionLauncher: ActivityResultLauncher<String>
     var buttonPressed = false
+    var foodLoc = FoodModel()
 
     internal fun getId(): Long {
     return lastId++
@@ -175,10 +176,14 @@ class MyFoodDiaryFragmentPresenter (private val view: MyFoodDiaryFragmentView) {
                         if (result.data != null) {
                             i("Got Location ${result.data.toString()}")
                             val foods = result.data!!.extras?.getParcelable<FoodModel>("location")!!
-                            i("Location == $foods")
-                            foodItem.lat = foods.lat
-                            foodItem.lng = foods.lng
-                            foodItem.zoom = foods.zoom
+                            if(foods.lat == 0.0){
+                                getSetCurrentLocation()
+                            }else {
+                                i("Location == $foods")
+                                foodItem.lat = foods.lat
+                                foodItem.lng = foods.lng
+                                foodItem.zoom = foods.zoom
+                            }
                         } // end of if
                     }
                     AppCompatActivity.RESULT_CANCELED -> {}
@@ -249,7 +254,7 @@ class MyFoodDiaryFragmentPresenter (private val view: MyFoodDiaryFragmentView) {
     }
 
     fun locationUpdate(lat: Double, lng: Double) {
-        val foodLoc = FoodModel(lat = lat,lng =  lng, zoom = 15f)
+        foodLoc = FoodModel(lat = lat,lng =  lng, zoom = 15f)
 
 
 
@@ -266,6 +271,21 @@ class MyFoodDiaryFragmentPresenter (private val view: MyFoodDiaryFragmentView) {
         locationService.lastLocation.addOnSuccessListener {
             locationUpdate(it.latitude, it.longitude)
         }
+    }
+
+    @SuppressLint("MissingPermission")
+    fun getSetCurrentLocation() {
+        i("setting location from doSetLocation")
+        locationService.lastLocation.addOnSuccessListener {
+            locUpdate(it.latitude, it.longitude)
+        }
+    }
+
+    fun locUpdate(lat: Double, lng: Double) {
+       foodItem.lat = lat
+        foodItem.lng = lng
+        foodItem.zoom = 15f
+
     }
 
 

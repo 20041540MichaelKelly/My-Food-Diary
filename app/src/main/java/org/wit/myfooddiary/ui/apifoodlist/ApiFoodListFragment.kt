@@ -154,16 +154,16 @@ class ApiFoodListFragment : Fragment(), FoodItemListener {
         SeekBar.OnSeekBarChangeListener {
         override fun onProgressChanged(seek: SeekBar,
                                        progress: Int, fromUser: Boolean) {
-            // write custom code for progress is changed
+            //dont need these just had to implement them, to solve error
         }
 
         override fun onStartTrackingTouch(seek: SeekBar) {
-            // write custom code for progress is started
+            //same as above
         }
 
         override fun onStopTrackingTouch(seek: SeekBar) {
             // write custom code for progress is stopped
-            Toast.makeText(context,"Food Item ID Selected : ${seek.progress}}",Toast.LENGTH_LONG).show()
+            Toast.makeText(context,"Amount of calories : ${seek.progress}",Toast.LENGTH_LONG).show()
 
         }
     })
@@ -173,6 +173,9 @@ class ApiFoodListFragment : Fragment(), FoodItemListener {
             val seekBarAmt= layout.seekBar.progress.toString()
 
             apiFoodListViewModel.filterApi(amtOfItems, seekBarAmt)
+            Toast.makeText(context,"Food ideas returned : ${amtOfItems} with a max cal of " +
+                    "${seekBarAmt}",Toast.LENGTH_LONG).show()
+
         }
 
     }

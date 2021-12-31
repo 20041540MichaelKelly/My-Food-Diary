@@ -85,6 +85,8 @@ class HomeActivity : AppCompatActivity() {
                 .transform(customTransformation())
                 .centerCrop()
                 .into(navHeaderBinding.navHeaderImage)
+        }else{
+            navHeaderBinding.navHeaderName.text = currentUser.email
         }
 
     }
