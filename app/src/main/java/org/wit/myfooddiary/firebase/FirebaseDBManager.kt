@@ -115,7 +115,7 @@ object FirebaseDBManager  : FoodItemStore {
 
                 override fun onDataChange(snapshot: DataSnapshot) {
                     val children = snapshot.children
-                    var fItem : String? = null
+                    var fItem: String? = null
                     val uid = firebaseUser.value!!.uid
                     val localList = ArrayList<FoodModel>()
 
@@ -129,14 +129,16 @@ object FirebaseDBManager  : FoodItemStore {
                         }
                         database.child("user-food/$uid/$fItem").removeValue()
                         database.child("food/$fItem").removeValue()
-                        if (foodItem != null) {
-                            localList.add(foodItem)
-                        }
+//                        if (foodItem != null) {
+//                            localList.add(foodItem)
+//                        }
+//                    }
+//                    database.child("user-food").child(firebaseUser.value!!.uid)
+//                        .removeEventListener(this)
+//
+//                    myFoodList.value = localList
+                        //}
                     }
-                    database.child("user-food").child(firebaseUser.value!!.uid)
-                        .removeEventListener(this)
-
-                    myFoodList.value = localList
                 }
 
             })

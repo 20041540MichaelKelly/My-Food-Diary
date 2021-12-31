@@ -100,27 +100,27 @@ class MyFoodDiaryFragmentPresenter (private val view: MyFoodDiaryFragmentView) {
             foodItem.timeForFood =LocalDateTime.now()
                 .format(DateTimeFormatter.ofPattern("M/d/y H:m:ss"))
             foodItem.amountOfCals = layout.amountOfCals.value
-            if (foodItem.description.isEmpty()) {
+            if (foodItem.description.isEmpty() || foodItem.title.isEmpty()) {
                 Snackbar.make(it, R.string.enter_fooditem_title, Snackbar.LENGTH_LONG)
                     .show()
-            }
-
-            view.myFoodDiaryViewModel.addFoodItem(
-                loggedInViewModel.liveFirebaseUser,
-                FoodModel(
-                    title = layout.foodTitle.text.toString(),
-                    description = layout.description.text.toString(),
-                    amountOfCals = layout.amountOfCals.value,
-                    dateLogged = LocalDateTime.now()
-                        .format(DateTimeFormatter.ofPattern("M/d/y H:m:ss")),
-                    timeForFood = System.currentTimeMillis().toString(),
-                    image = foodItem.image,
-                    email = loggedInViewModel.liveFirebaseUser.value?.email!!,
-                    lat = foodItem.lat,
-                    lng = foodItem.lng,
-                    zoom = 15f
+            }else {
+                view.myFoodDiaryViewModel.addFoodItem(
+                    loggedInViewModel.liveFirebaseUser,
+                    FoodModel(
+                        title = layout.foodTitle.text.toString(),
+                        description = layout.description.text.toString(),
+                        amountOfCals = layout.amountOfCals.value,
+                        dateLogged = LocalDateTime.now()
+                            .format(DateTimeFormatter.ofPattern("M/d/y H:m:ss")),
+                        timeForFood = System.currentTimeMillis().toString(),
+                        image = foodItem.image,
+                        email = loggedInViewModel.liveFirebaseUser.value?.email!!,
+                        lat = foodItem.lat,
+                        lng = foodItem.lng,
+                        zoom = 15f
+                    )
                 )
-            )
+            }
 
         }
 

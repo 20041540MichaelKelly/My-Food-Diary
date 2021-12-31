@@ -150,11 +150,13 @@ class MyFoodListFragment : Fragment(), FoodItemListener {
     }
 
     override fun onFoodItemClick(foodItem: FoodModel) {
-        val action =
-            MyFoodListFragmentDirections.actionMyFoodListFragmentToIndividualFoodItemFragment(
-                foodItem.timeForFood.toLong()
-            )
-        findNavController().navigate(action)
+        if(loggedInViewModel.liveFirebaseUser.value!!.uid == foodItem.uid) {
+            val action =
+                MyFoodListFragmentDirections.actionMyFoodListFragmentToIndividualFoodItemFragment(
+                    foodItem.timeForFood.toLong()
+                )
+            findNavController().navigate(action)
+        }
     }
 
     override fun onFoodItemDelete(foodItem: FoodModel) {

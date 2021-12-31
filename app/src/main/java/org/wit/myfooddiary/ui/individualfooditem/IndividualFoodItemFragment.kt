@@ -18,6 +18,7 @@ import org.wit.myfooddiary.ui.auth.LoggedInViewModel
 import org.wit.myfooddiary.ui.foodlist.MyFoodListViewModel
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import kotlin.system.exitProcess
 
 class IndividualFoodItemFragment : Fragment() {
     private var _fragBinding: IndividualFoodItemFragmentBinding? = null
@@ -56,6 +57,8 @@ class IndividualFoodItemFragment : Fragment() {
                             foodItems.forEach { foodItem ->
                                     if (foodItem.timeForFood == args.foodid.toString()) {  //Im using timeFor Food which is a timeStamp as the id for clicking individual items
                                         getTheFood(foodItem)
+                                    }else{
+
                                     }
                             }
                         }
@@ -74,8 +77,8 @@ class IndividualFoodItemFragment : Fragment() {
 
     private fun getTheFood(foodItem: FoodModel) {
         usedForUpdateFoodItem = foodItem
-        fragBinding.editTitle.setText(foodItem.title)
 
+        fragBinding.editTitle.setText(foodItem.title)
         fragBinding.editDescription.setText(foodItem.description)
         fragBinding.editAmountOfCals.setText(foodItem.amountOfCals.toString())
         fragBinding.image.setImageURI(Uri.parse(foodItem.image))
@@ -97,13 +100,11 @@ class IndividualFoodItemFragment : Fragment() {
        }
 
        layout.deleteFoodItemButton.setOnClickListener(){
+           usedForUpdateFoodItem
            myFoodListViewModel.deleteItem(loggedInViewModel.liveFirebaseUser,
-               foodItem)
+               usedForUpdateFoodItem)
             Toast.makeText(context, "Food Item Deleted", Toast.LENGTH_LONG).show()
 
        }
    }
-
-
-
 }
