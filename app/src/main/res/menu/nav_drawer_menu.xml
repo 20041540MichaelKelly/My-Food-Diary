@@ -15,8 +15,8 @@
             android:title="@string/action_myfoodlist" />
         <item
             android:id="@+id/apiMyFoodListFragment"
-            android:icon="@drawable/ic_baseline_list_24"
-            android:title="@string/action_myapifoodlist" />
+            android:icon="@drawable/ic_baseline_emoji_objects_24"
+            android:title="@string/action_foodideas" />
 
         <item
             android:id="@+id/foodLocation"
@@ -26,23 +26,9 @@
 
         <item
             android:id="@+id/barcodeScanner"
-            android:icon="@android:drawable/ic_menu_mapmode"
-            android:title="@string/menu_barcode"
-            />
+            android:icon="@drawable/ic_baseline_qr_code_scanner_24"
+            android:title="@string/menu_barcode" />
     </group>
-
-    <item android:title="@string/group_communicate">
-        <menu>
-            <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_baseline_share_24"
-                android:title="@string/action_share" />
-            <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_baseline_send_24"
-                android:title="@string/action_send" />
-        </menu>
-    </item>
     <item android:title="@string/access_control">
         <menu>
             <item

@@ -48,7 +48,7 @@ class MyFoodDiaryAdapter constructor(private var foodItems: List<FoodModel>,
                 Picasso.get().load(foodItem.image).resize(200, 200)
                     .rotate(90F).into(binding.imageIcon)
             } else if(foodItem.image == ""){
-                Picasso.get().load("@drawable/ic_baseline_food_bank_24.xml").resize(200, 200).into(binding.imageIcon)
+                Picasso.get().load("content://com.android.providers.media.documents/document/image%3A11631").resize(200, 200).into(binding.imageIcon)
             }else{
                 Picasso.get().load(foodItem.image).resize(200, 200).into(binding.imageIcon)
             }
@@ -58,36 +58,13 @@ class MyFoodDiaryAdapter constructor(private var foodItems: List<FoodModel>,
                 Snackbar.make(it, R.string.deleted_foodItem, Snackbar.LENGTH_LONG)
                     .show()
             }
-            binding.root.setOnClickListener { listener.onFoodItemClick(foodItem)
-                listener.onFoodItemDelete(foodItem)
+            binding.root.setOnClickListener {
+                listener.onFoodItemClick(foodItem)
             }
             //Include this call to force the bindings to happen immediately
             binding.executePendingBindings()
         }
 
-
-
-//        fun bind(foodItem: FoodModel, listener: FoodItemListener) {
-//            val aCals = foodItem.amountOfCals.toString() +"ckals"
-//            binding.foodTitle.text = foodItem.title
-//            binding.description.text = foodItem.description
-//            if(foodItem.image == Uri.EMPTY){
-//                Picasso.get().load("content://com.android.providers.media.documents/document/image%3A5589").resize(200, 200).into(binding.imageIcon)
-//            }else{
-//                Picasso.get().load(foodItem.image).resize(200, 200).into(binding.imageIcon)
-//            }
-//            binding.displayCals.text = aCals
-//            binding.dateTime.text = foodItem.timeForFood
-//            binding.actionRemove.setOnClickListener {
-//                Snackbar.make(it, R.string.deleted_foodItem, Snackbar.LENGTH_LONG)
-//                    .show()
-//                listener.onFoodItemDelete(foodItem)
-//                true
-//            }
-//            binding.root.setOnClickListener {
-//                listener.onFoodItemClick(foodItem)
-//            }
-//        }
     }
 
 

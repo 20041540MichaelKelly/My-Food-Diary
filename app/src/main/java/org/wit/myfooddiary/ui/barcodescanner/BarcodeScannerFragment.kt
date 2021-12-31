@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.google.zxing.integration.android.IntentIntegrator
 import com.squareup.picasso.Picasso
@@ -21,6 +22,7 @@ import org.wit.myfooddiary.ui.apifoodlist.ApiFoodListViewModel
 import org.wit.myfooddiary.ui.auth.LoggedInViewModel
 import org.wit.myfooddiary.ui.fooddiary.MyFoodDiaryViewModel
 import org.wit.myfooddiary.ui.foodlist.MyFoodListViewModel
+import org.wit.myfooddiary.utils.hideLoader
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -29,11 +31,9 @@ class BarcodeScannerFragment : Fragment() {
     private lateinit var fragBinding: FragmentBarcodeScannerBinding
     private lateinit var qrScanIntegrator: IntentIntegrator
      var foodItem = FoodModel()
-
     lateinit var myFoodDiaryViewModel: MyFoodDiaryViewModel
 
     private val loggedInViewModel: LoggedInViewModel by activityViewModels()
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -41,10 +41,11 @@ class BarcodeScannerFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         fragBinding = FragmentBarcodeScannerBinding.inflate(layoutInflater)
+        val root = fragBinding.root
         myFoodDiaryViewModel = ViewModelProvider(this).get(MyFoodDiaryViewModel::class.java)
-        fragBinding.addBtn.setVisibility(View.GONE)
+        fragBinding.addBtn.setVisibility(View.GONE)  //this is set like this so it wont be in the way
 
-        return fragBinding.root
+        return root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -75,9 +76,6 @@ class BarcodeScannerFragment : Fragment() {
         qrScanIntegrator.initiateScan()
     }
 
-
-
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         val result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
         if (result != null) {
@@ -89,7 +87,6 @@ class BarcodeScannerFragment : Fragment() {
                 try {
                     // Converting the data to json format
                     val obj = JSONObject(result.contents)
-
                     // Show values in UI.
                     fragBinding.title.text = obj.getString("title")
                     fragBinding.description.text = obj.getString("description")

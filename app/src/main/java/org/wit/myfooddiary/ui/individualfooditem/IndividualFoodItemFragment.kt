@@ -1,5 +1,6 @@
 package org.wit.myfooddiary.ui.individualfooditem
 
+import android.net.Uri
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -76,6 +77,8 @@ class IndividualFoodItemFragment : Fragment() {
         fragBinding.editTitle.setText(foodItem.title)
 
         fragBinding.editDescription.setText(foodItem.description)
+        fragBinding.editAmountOfCals.setText(foodItem.amountOfCals.toString())
+        fragBinding.image.setImageURI(Uri.parse(foodItem.image))
     }
 
    private fun setButtonOnClickListeners(
@@ -85,6 +88,7 @@ class IndividualFoodItemFragment : Fragment() {
            val foodid = usedForUpdateFoodItem.fid
            usedForUpdateFoodItem.title= layout.editTitle.text.toString()
            usedForUpdateFoodItem.description = layout.editDescription.text.toString()
+           usedForUpdateFoodItem.amountOfCals = layout.editAmountOfCals.text.toString().toInt()
 
            if (foodid != null) {
                myFoodListViewModel.updateFoodItem(loggedInViewModel.liveFirebaseUser,
@@ -95,6 +99,7 @@ class IndividualFoodItemFragment : Fragment() {
        layout.deleteFoodItemButton.setOnClickListener(){
            myFoodListViewModel.deleteItem(loggedInViewModel.liveFirebaseUser,
                foodItem)
+            Toast.makeText(context, "Food Item Deleted", Toast.LENGTH_LONG).show()
 
        }
    }

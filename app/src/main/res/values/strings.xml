@@ -93,6 +93,8 @@
     <string name="show_scanner_from_fragment">Show Scanner From Fragment</string>
     <string name="lat">Lat</string>
     <string name="lng">Lng</string>
+    <string name="action_foodideas">Food Ideas</string>
+    <string name="delete">Delete</string>
 
 
 </resources>

@@ -120,12 +120,13 @@ class FoodLocationFragmentView: Fragment(),
 
         fragBinding.currentTitle.setText(foodItem.title)
         fragBinding.currentDescription.setText(foodItem.description)
-        if(foodItem.image != "") {
-            Picasso.get()
-                .load(foodItem.image)
-                .resize(200, 200)
-                .rotate(90F)
-                .into(fragBinding.foodView)
+        if(foodItem.image.contains("content://org.wit.myfooddiary")){
+            Picasso.get().load(foodItem.image).resize(200, 200)
+                .rotate(90F).into(fragBinding.foodView)
+        } else if(foodItem.image == ""){
+            Picasso.get().load("content://com.android.providers.media.documents/document/image%3A11631").resize(200, 200).into(fragBinding.foodView)
+        }else{
+            Picasso.get().load(foodItem.image).resize(200, 200).into(fragBinding.foodView)
         }
     }
 
