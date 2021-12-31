@@ -11,6 +11,12 @@ and knowledge on food. Also there is additional links in the navigation that wil
 vast array of food items from all over the world. The other link is
 the map fragment that will display all locations added with food details.
 
+UML Diagram<br>
+![image](https://user-images.githubusercontent.com/50295964/147831301-3b92fe84-9a7c-424d-996a-6b4b16a4c816.png)
+
+Class Diagram<br>
+![image (1)](https://user-images.githubusercontent.com/50295964/147831312-e8e3ef3a-26c4-4a30-a460-89891f02a95b.png)
+
 The 3rd party applications that I have implemented in my project are <br>
 1.firebase <br>
 2. (Spoonacular) <br>
@@ -94,6 +100,9 @@ This feature I wanted to create something a little different that can be of use,
 ![image](https://user-images.githubusercontent.com/50295964/147794191-2ff01a68-3838-4c3c-836b-4282fd25ba07.png)
 <br><br>
 ![image](https://user-images.githubusercontent.com/50295964/147794221-d28e51b8-2d4f-4f6a-b85b-a9605ce4ac0a.png)
+<br>
+![image](https://user-images.githubusercontent.com/50295964/147831331-bdb25b8a-6e6e-45e7-8778-213c0b08ddb1.png)
+
 
 Flow of project<br>
 A splash screen shows and The user creates or sign up and then is brought automatically after credentials are checked to the my food list. The user then can click the FAB button and be brought automatically to the my food diary creation of the food object. Other options include hitting the Nav bar and navigating anywhere like the food idea fragment, where the user can set the max amount of calories they want to find and how many items they want returned, here they can click on the food item and it will be added to their own private my food list. Then they can go back to their list and edit or delete. The user can click on maps and see their locations where the food was logged, and toggle the switch to see everyones. This feature also exists in my food list. Another cool feature is the barcode/QR code scanner that allows the user to scan codes and add to their food list. It is all built around the food list. You can also sign out from the navbar that will bring you back to the create/login page.
