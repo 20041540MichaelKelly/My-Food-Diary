@@ -54,7 +54,6 @@ class MyFoodDiaryAdapter constructor(private var foodItems: List<FoodModel>,
             }
             binding.actionRemove.setOnClickListener {
                 listener.onFoodItemDelete(foodItem)
-
                 Snackbar.make(it, R.string.deleted_foodItem, Snackbar.LENGTH_LONG)
                     .show()
             }

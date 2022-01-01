@@ -124,20 +124,17 @@ object FirebaseDBManager  : FoodItemStore {
                         if (foodItem?.fid == fooditem.fid) {
                             if (foodItem != null) {
                                 fItem = foodItem.fid.toString()
+                                database.child("user-food/$uid/$fItem").removeValue()
+                                database.child("food/$fItem").removeValue()
+                                localList.add(foodItem)
                             }
 
                         }
-                        database.child("user-food/$uid/$fItem").removeValue()
-                        database.child("food/$fItem").removeValue()
-//                        if (foodItem != null) {
-//                            localList.add(foodItem)
-//                        }
-//                    }
-//                    database.child("user-food").child(firebaseUser.value!!.uid)
-//                        .removeEventListener(this)
-//
-//                    myFoodList.value = localList
-                        //}
+                    database.child("user-food").child(firebaseUser.value!!.uid)
+                        .removeEventListener(this)
+
+                   myFoodList.value = localList
+
                     }
                 }
 

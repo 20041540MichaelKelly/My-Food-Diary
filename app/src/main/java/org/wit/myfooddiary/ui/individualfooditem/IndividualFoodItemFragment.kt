@@ -3,6 +3,7 @@ package org.wit.myfooddiary.ui.individualfooditem
 import android.net.Uri
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.os.Handler
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -10,15 +11,15 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import org.wit.myfooddiary.databinding.FragmentMyFoodListBinding
+import com.google.android.material.snackbar.Snackbar
+import org.wit.myfooddiary.R
 import org.wit.myfooddiary.databinding.IndividualFoodItemFragmentBinding
 import org.wit.myfooddiary.models.FoodModel
 import org.wit.myfooddiary.ui.auth.LoggedInViewModel
 import org.wit.myfooddiary.ui.foodlist.MyFoodListViewModel
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
-import kotlin.system.exitProcess
+
 
 class IndividualFoodItemFragment : Fragment() {
     private var _fragBinding: IndividualFoodItemFragmentBinding? = null
@@ -57,8 +58,6 @@ class IndividualFoodItemFragment : Fragment() {
                             foodItems.forEach { foodItem ->
                                     if (foodItem.timeForFood == args.foodid.toString()) {  //Im using timeFor Food which is a timeStamp as the id for clicking individual items
                                         getTheFood(foodItem)
-                                    }else{
-
                                     }
                             }
                         }
@@ -96,15 +95,27 @@ class IndividualFoodItemFragment : Fragment() {
            if (foodid != null) {
                myFoodListViewModel.updateFoodItem(loggedInViewModel.liveFirebaseUser,
                    foodid, usedForUpdateFoodItem)
+               Toast.makeText(context, "Food Item Updated", Toast.LENGTH_LONG).show()
+
            }
        }
 
        layout.deleteFoodItemButton.setOnClickListener(){
-           usedForUpdateFoodItem
-           myFoodListViewModel.deleteItem(loggedInViewModel.liveFirebaseUser,
-               usedForUpdateFoodItem)
-            Toast.makeText(context, "Food Item Deleted", Toast.LENGTH_LONG).show()
-
+           if(usedForUpdateFoodItem.fid != "") {
+               myFoodListViewModel.deleteItem(
+                   loggedInViewModel.liveFirebaseUser,
+                   usedForUpdateFoodItem
+               )
+               Snackbar.make(it, R.string.deleted_foodItem_wait, Snackbar.LENGTH_LONG)
+                   .show()
+               Handler().postDelayed({
+                   val action =
+                       IndividualFoodItemFragmentDirections.actionIndividualFoodItemFragmentToMyFoodListFragment(
+                           usedForUpdateFoodItem.timeForFood.toLong()
+                       )
+                   findNavController().navigate(action)
+               }, 1500)
+           }
        }
    }
 }

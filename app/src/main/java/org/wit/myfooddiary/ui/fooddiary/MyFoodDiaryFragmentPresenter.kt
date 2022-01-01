@@ -117,8 +117,8 @@ class MyFoodDiaryFragmentPresenter (private val view: MyFoodDiaryFragmentView) {
                         email = loggedInViewModel.liveFirebaseUser.value?.email!!,
                         lat = foodItem.lat,
                         lng = foodItem.lng,
-                        zoom = 15f
-                    )
+                        zoom = 15f)
+
                 )
             }
 
@@ -255,8 +255,6 @@ class MyFoodDiaryFragmentPresenter (private val view: MyFoodDiaryFragmentView) {
 
     fun locationUpdate(lat: Double, lng: Double) {
         foodLoc = FoodModel(lat = lat,lng =  lng, zoom = 15f)
-
-
 
         val launcherIntent = Intent(view.getActivity(), MapActivity::class.java)
             .putExtra("location", foodLoc)

@@ -150,8 +150,8 @@ object FoodManager : FoodItemStore {
 ////        foodItem.zoom = 0f
 //    }
 //
-//    override fun deleteItem(foodItem: FoodModel) {
-////        foodItems.remove(foodItem)
+//   override fun deleteItem(foodItem: FoodModel) {
+//     foodItems.remove(foodItem)
 //    }
 //
 ////    override fun update(foodItem: FoodModel) {

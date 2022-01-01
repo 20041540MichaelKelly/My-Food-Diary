@@ -107,6 +107,26 @@ This feature I wanted to create something a little different that can be of use,
 Flow of project<br>
 A splash screen shows and The user creates or sign up and then is brought automatically after credentials are checked to the my food list. The user then can click the FAB button and be brought automatically to the my food diary creation of the food object. Other options include hitting the Nav bar and navigating anywhere like the food idea fragment, where the user can set the max amount of calories they want to find and how many items they want returned, here they can click on the food item and it will be added to their own private my food list. Then they can go back to their list and edit or delete. The user can click on maps and see their locations where the food was logged, and toggle the switch to see everyones. This feature also exists in my food list. Another cool feature is the barcode/QR code scanner that allows the user to scan codes and add to their food list. It is all built around the food list. You can also sign out from the navbar that will bring you back to the create/login page.
 
+My process<br>
+The process that I undertook to complete this project was to follow the labs as the first step and gain knowledge by completing them. My next step  do a few tutorials on the camera and the QR code scanner. I did a few more tutorials but it was late and I didn't have the time to implement, it was the send and share part. So I created the app and have constantly tested and checked all possible paths and bugs keep coming up so I am fixing bug by bug. I like to code in my own style, a flow that I can follow and wrap my head around, you might implement something in the labs one way. I take that onboard but I will try to implement it in my own style.
+
+GitHub Process<br>
+The style I used for GitHub, is a feature, develop, release and hotfix. I have used the hot fix technique a bit more than I would like from
+testing this app. I would create a branch and name it after the feature I was implementing and then pull into the develop branch in this pro_2_stage_one branch
+some feature examples would be feature_camera or featur_firebase etc. Some stages I would be working on multiple branches depending on which I had
+an answer come to me, sometimes when training. I would pull them into the branch then pull down and merge conflicts if I needed. I learned this process at
+work, Github is a big part of what I do. The release branch will be the master branch as this is the final product. I have also used tags, would have liked
+to have used them more appropriately in the first part of the project but they were used correctly for this second part.
+
+My own Personal Experience<br>
+This was the one class I saw on the curriculum I couldn't wait for, As The app I created in 2017 in WIT set me on a path that I have now accomplished
+a great job from and still enjoy creating apps as a hobby. I have a really good idea for an app, it is something I have not seen before. I did research and
+did not find one like it. When I have my final project finished, I will start working on it in the evenings and weekends. I really enjoyed this
+class both times I have taken it. This was definitely more advanced though than the previous class I undertook in third year in Information Technology. I have never used Kotlin
+before and I really like it. I am actually going to have a chat with one of the bosses over the developers at the company and see if these skills
+I have gained can be used to develop an app from a part of the company, maybe as part of a final project and beyond that. The course was a credit to you both.
+Excellent support to the students when needed so well done.
+
 MVVM<br>
 I used this model in the framework as I thought it would be beneficial to the purpose of being able to click on the individual food item and pass the TIMESTAMP (because firebase uses a String as its id that starts with like -MS121hdj) The time stamp is a long that can be used as ID as it is unique. This is definitely best practice when dealing in real time with firebase db. I created multiple viewModels with different purposes. The most used viewModel is MyFoodListViewModel, I re-used this method to gather the list of food items as to be DRY(don't repeat yourself) I would reference this in what ever fragment I am using and loop through the observable list to withdraw the items or specific item required. every fragment I am using and loop through the observable list to withdraw the items or specific item required. I would create fun methods then that would communicate ith with the FirebaseManager(where it directly collected data requested) <- only returning Unit form, which is the equivalent of void in java so it returns nothing just does its computation.
 

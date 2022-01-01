@@ -49,6 +49,7 @@ class Login : AppCompatActivity() {
         loginBinding.googleSignInButton.setOnClickListener {
             googleSignIn()
         }
+
     }
 
     public override fun onStart() {

@@ -2,6 +2,7 @@ package org.wit.myfooddiary.ui.foodlist
 
 import android.app.AlertDialog
 import android.os.Bundle
+import android.os.Handler
 import android.view.*
 import android.view.inputmethod.EditorInfo
 import android.widget.SearchView
@@ -87,7 +88,7 @@ class MyFoodListFragment : Fragment(), FoodItemListener {
                     viewLifecycleOwner,
                     Observer<List<FoodModel>> { foodItems ->
                         foodItems.forEach { foodItem ->
-                            if (query!!.lowercase() == foodItem.title.lowercase()) {
+                            if (query!!.lowercase() in foodItem.title.lowercase()) {
                                 localLi.add(foodItem)
                                 checkSwipeRefresh()
                             }
@@ -163,7 +164,13 @@ class MyFoodListFragment : Fragment(), FoodItemListener {
 
         myFoodListViewModel.deleteItem(loggedInViewModel.liveFirebaseUser,
             foodItem)
-        loadFoodItems()
+        val ans = myFoodListViewModel.observableFoodItemsList.value
+
+        Handler().postDelayed({
+            if (ans != null) {
+                showFoodItems(ans)
+            }
+        }, 1500)
     }
 
     private fun loadFoodItems() {
