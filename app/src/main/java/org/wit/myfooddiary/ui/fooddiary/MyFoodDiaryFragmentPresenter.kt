@@ -11,9 +11,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
 import org.wit.myfooddiary.R
@@ -22,8 +19,6 @@ import org.wit.myfooddiary.databinding.FragmentMyFoodDiaryBinding
 import org.wit.myfooddiary.helpers.checkLocationPermissions
 import org.wit.myfooddiary.helpers.showImagePicker
 import org.wit.myfooddiary.models.FoodModel
-import org.wit.myfooddiary.models.Location
-import org.wit.myfooddiary.models.UserModel
 import org.wit.myfooddiary.ui.auth.LoggedInViewModel
 import timber.log.Timber
 import timber.log.Timber.i
@@ -38,7 +33,6 @@ class MyFoodDiaryFragmentPresenter (private val view: MyFoodDiaryFragmentView) {
     private var _fragBinding: FragmentMyFoodDiaryBinding = FragmentMyFoodDiaryBinding.inflate(view.layoutInflater)
     private val fragBinding get() = _fragBinding!!
     var foodItem = FoodModel()
-    var user = UserModel()
     private lateinit var imageIntentLauncher: ActivityResultLauncher<Intent>
     private lateinit var mapIntentLauncher: ActivityResultLauncher<Intent>
     var edit = false

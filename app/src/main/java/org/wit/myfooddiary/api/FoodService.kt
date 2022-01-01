@@ -16,21 +16,7 @@ interface FoodService {
     @GET("recipes/findByNutrients")
     fun getallbydescription(@Query(value = "maxCalories") maxCals: String?, @Query(value = "number") numberOfItems: String? ): Call<List<FoodModel>>?
 
-    @GET("items/list/filter/{filter}")
-    fun getItems(@Path(value = "filter") filter: String?): Call<FoodModel?>?
-
-    @GET("/food/{id}")
-    fun get(@Path("id") id: String): Call<FoodModel>
-
-    @DELETE("/food/{id}")
-    fun delete(@Path("id") id: String): Call<FoodWraper>
-
     @POST("/recipes/Nutrients")
     fun create(@Body foodItem: FoodModel): Call<FoodWraper>
-
-    @PUT("/food/{id}")
-    fun put(@Path("id") id: String,
-            @Body foodItem: FoodModel
-    ): Call<FoodWraper>
 
 }

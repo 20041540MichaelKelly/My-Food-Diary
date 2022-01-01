@@ -83,20 +83,6 @@
             app:layout_constraintTop_toBottomOf="@id/display_cals"
             android:text="@{foodItem.dateLogged}" />
 
-        <ImageView
-            android:id="@+id/actionRemove"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_marginTop="4dp"
-            android:textAlignment="viewStart"
-            android:title="@string/remove"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.81"
-            app:layout_constraintStart_toEndOf="@+id/foodTitle"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@android:drawable/ic_delete" />
-
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>
 </layout>

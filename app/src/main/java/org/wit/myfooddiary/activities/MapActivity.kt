@@ -14,7 +14,6 @@ import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import org.wit.myfooddiary.R
 import org.wit.myfooddiary.models.FoodModel
-import org.wit.myfooddiary.models.Location
 
 //import org.wit.myfooddiary.models.Location
 

@@ -6,12 +6,9 @@ import android.os.Handler
 import android.view.*
 import android.view.inputmethod.EditorInfo
 import android.widget.SearchView
-import android.widget.Toast
 import androidx.appcompat.widget.SwitchCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
@@ -24,7 +21,6 @@ import org.wit.myfooddiary.adapters.FoodItemListener
 import org.wit.myfooddiary.adapters.MyFoodDiaryAdapter
 import org.wit.myfooddiary.databinding.FragmentMyFoodListBinding
 import org.wit.myfooddiary.models.FoodModel
-import org.wit.myfooddiary.models.UserModel
 import org.wit.myfooddiary.ui.auth.LoggedInViewModel
 import org.wit.myfooddiary.utils.createLoader
 import org.wit.myfooddiary.utils.hideLoader
@@ -35,7 +31,6 @@ class MyFoodListFragment : Fragment(), FoodItemListener {
     private var _fragBinding: FragmentMyFoodListBinding? = null
     private val fragBinding get() = _fragBinding!!
     var foodItem = FoodModel()
-    var user = UserModel()
     lateinit var loader : AlertDialog
     private val loggedInViewModel : LoggedInViewModel by activityViewModels()
     private lateinit var myFoodListViewModel: MyFoodListViewModel
@@ -100,7 +95,6 @@ class MyFoodListFragment : Fragment(), FoodItemListener {
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-
                 return false
             }
 
@@ -162,15 +156,15 @@ class MyFoodListFragment : Fragment(), FoodItemListener {
 
     override fun onFoodItemDelete(foodItem: FoodModel) {
 
-        myFoodListViewModel.deleteItem(loggedInViewModel.liveFirebaseUser,
-            foodItem)
-        val ans = myFoodListViewModel.observableFoodItemsList.value
-
-        Handler().postDelayed({
-            if (ans != null) {
-                showFoodItems(ans)
-            }
-        }, 1500)
+//        myFoodListViewModel.deleteItem(loggedInViewModel.liveFirebaseUser,
+//            foodItem)
+//        val ans = myFoodListViewModel.observableFoodItemsList.value
+//
+//        Handler().postDelayed({
+//            if (ans != null) {
+//                showFoodItems(ans)
+//            }
+//        }, 1500)
     }
 
     private fun loadFoodItems() {

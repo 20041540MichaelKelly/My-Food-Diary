@@ -13,7 +13,6 @@ class MainApp : Application() {
    // val foodItems = ArrayList<FoodModel>()
    // val foodItems = FoodMemStore()
    lateinit var foodItems: FoodItemStore
-   lateinit var users: UserStore
   // lateinit var users: UserStore
 
     //val foodItems = FoodItemJSONStore()
@@ -27,7 +26,7 @@ class MainApp : Application() {
 //        users = UserJSONStore(applicationContext)
 
         // users = UserJSONStore(applicationContext)
-        i("Placemark started")
+        i("Food Diary started")
 
     }
 

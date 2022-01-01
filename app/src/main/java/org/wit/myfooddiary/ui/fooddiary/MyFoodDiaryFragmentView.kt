@@ -16,7 +16,6 @@ import org.wit.myfooddiary.R
 import org.wit.myfooddiary.adapters.FoodItemListener
 import org.wit.myfooddiary.databinding.FragmentMyFoodDiaryBinding
 import org.wit.myfooddiary.models.FoodModel
-import org.wit.myfooddiary.models.UserModel
 import org.wit.myfooddiary.ui.auth.LoggedInViewModel
 import org.wit.myfooddiary.ui.foodlist.MyFoodListFragmentDirections
 import timber.log.Timber.i
@@ -25,7 +24,6 @@ class MyFoodDiaryFragmentView : Fragment(), FoodItemListener {
     private var _fragBinding: FragmentMyFoodDiaryBinding? = null
     val fragBinding get() = _fragBinding!!
     var foodItem = FoodModel()
-    var user = UserModel()
     lateinit var myFoodDiaryViewModel: MyFoodDiaryViewModel
     private val loggedInViewModel: LoggedInViewModel by activityViewModels()
     var edit = false

@@ -4,16 +4,10 @@ import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View.inflate
 import android.view.ViewGroup
-import android.widget.Filter
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
-import org.wit.myfooddiary.R
-import org.wit.myfooddiary.databinding.ActivityFoodListBinding.inflate
 import org.wit.myfooddiary.databinding.CardFoodBinding
 import org.wit.myfooddiary.models.FoodModel
-import org.wit.myfooddiary.ui.map.FoodLocationViewModel
 
 interface FoodItemListener {
     fun onFoodItemClick(foodItem: FoodModel)
@@ -52,11 +46,7 @@ class MyFoodDiaryAdapter constructor(private var foodItems: List<FoodModel>,
             }else{
                 Picasso.get().load(foodItem.image).resize(200, 200).into(binding.imageIcon)
             }
-            binding.actionRemove.setOnClickListener {
-                listener.onFoodItemDelete(foodItem)
-                Snackbar.make(it, R.string.deleted_foodItem, Snackbar.LENGTH_LONG)
-                    .show()
-            }
+
             binding.root.setOnClickListener {
                 listener.onFoodItemClick(foodItem)
             }
