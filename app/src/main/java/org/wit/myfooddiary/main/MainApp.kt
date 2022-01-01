@@ -13,7 +13,6 @@ class MainApp : Application() {
    // val foodItems = ArrayList<FoodModel>()
    // val foodItems = FoodMemStore()
    lateinit var foodItems: FoodItemStore
-   lateinit var users: UserStore
   // lateinit var users: UserStore
 
     //val foodItems = FoodItemJSONStore()
@@ -22,11 +21,12 @@ class MainApp : Application() {
     override fun onCreate() {
         super.onCreate()
         Timber.plant(Timber.DebugTree())
-        foodItems = FoodItemJSONStore(applicationContext)
-        users = UserJSONStore(applicationContext)
+        //foodItems = FoodItemJSONStore(applicationContext)
+        //foodItems = FoodManager()
+//        users = UserJSONStore(applicationContext)
 
         // users = UserJSONStore(applicationContext)
-        i("Placemark started")
+        i("Food Diary started")
 
     }
 

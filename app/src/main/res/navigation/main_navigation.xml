@@ -2,17 +2,78 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main_navigation"
-    app:startDestination="@id/myFoodDiaryFragment">
+    android:id="@+id/navigation"
+    app:startDestination="@id/myFoodListFragment">
 
     <fragment
         android:id="@+id/myFoodDiaryFragment"
-        android:name="org.wit.myfooddiary.MyFoodDiaryFragment"
-        android:label="fragment_my_food_diary"
-        tools:layout="@layout/fragment_my_food_diary" />
+        android:name="org.wit.myfooddiary.ui.fooddiary.MyFoodDiaryFragmentView"
+        android:label="My Food Diary"
+        tools:layout="@layout/fragment_my_food_diary" >
+        <action
+            android:id="@+id/action_myFoodDiaryFragment_to_myFoodListFragment"
+            app:destination="@id/myFoodListFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
+        <action
+            android:id="@+id/action_myFoodDiaryFragment_to_foodLocation"
+            app:destination="@id/foodLocation">
+<!--            <argument-->
+<!--                android:name="foodid"-->
+<!--                app:argType="long" />-->
+        </action>
+    </fragment>
     <fragment
-        android:id="@+id/foodListFragment"
-        android:name="org.wit.myfooddiary.FoodListFragment"
-        android:label="fragment_food_list"
-        tools:layout="@layout/fragment_food_list" />
+        android:id="@+id/myFoodListFragment"
+        android:name="org.wit.myfooddiary.ui.foodlist.MyFoodListFragment"
+        android:label="My Food List"
+        tools:layout="@layout/fragment_my_food_list" >
+        <action
+            android:id="@+id/action_myFoodListFragment_to_myFoodDiaryFragment"
+            app:destination="@id/myFoodDiaryFragment" />
+
+        <action
+            android:id="@+id/action_myFoodListFragment_to_individualFoodItemFragment"
+            app:destination="@id/individualFoodItemFragment" />
+        <argument
+            android:name="foodid"
+            app:argType="long" />
+        <action
+        android:id="@+id/action_myFoodListFragment_to_myFoodListFragment"
+        app:destination="@id/myFoodListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/individualFoodItemFragment"
+        android:name="org.wit.myfooddiary.ui.individualfooditem.IndividualFoodItemFragment"
+        android:label="individual_food_item_fragment"
+        tools:layout="@layout/individual_food_item_fragment" >
+        <action
+            android:id="@+id/action_individualFoodItemFragment_to_myFoodListFragment"
+            app:destination="@id/myFoodListFragment" />
+        <argument
+            android:name="foodid"
+            app:argType="long" />
+    </fragment>
+    <fragment
+        android:id="@+id/apiMyFoodListFragment"
+        android:name="org.wit.myfooddiary.ui.apifoodlist.ApiFoodListFragment"
+        android:label="API food list"
+        tools:layout="@layout/individual_food_item_fragment" >
+        <action
+            android:id="@+id/action_apiMyFoodListFragment_to_individualFoodItemFragment"
+            app:destination="@id/individualFoodItemFragment" />
+        <argument
+            android:name="apifoodid"
+            app:argType="long" />
+    </fragment>
+    <fragment
+        android:id="@+id/foodLocation"
+        android:name="org.wit.myfooddiary.ui.map.FoodLocationFragmentView"
+        android:label="My Food Diary"
+        tools:layout="@layout/food_map" />
+    <fragment
+        android:id="@+id/barcodeScanner"
+        android:name="org.wit.myfooddiary.ui.barcodescanner.BarcodeScannerFragment"
+        android:label="Scan QR"
+        tools:layout="@layout/fragment_barcode_scanner" />
 </navigation>

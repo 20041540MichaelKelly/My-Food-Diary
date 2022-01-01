@@ -38,4 +38,64 @@
     <string name="food_image">Image of food</string>
     <string name="email_exists">This email exists</string>
     <string name="user_updated">User Updated</string>
+    <string name="action_myfooddiary">My Food Diary</string>
+    <string name="action_myfoodlist">Food List</string>
+    <string name="action_share">Share</string>
+    <string name="action_send">Send</string>
+    <string name="group_communicate">Communicate</string>
+    <string name="nav_header_title">My Food Diary</string>
+    <string name="nav_header_subtitle">mikelly1988@gmail.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="foodItemsNotFound">No Food Logged Yet…\nGo Go Enjoy Some!</string>
+    <string name="foodItemError">Error : Couldn\'t Make a Donation…</string>
+
+    <string name="title">Title :</string>
+    <string name="description">Description :</string>
+    <string name="calories">Calories :</string>
+    <string name="time_date">Time &amp; Date :</string>
+    <string name="messageLoading">Please Wait while the FoodItems are Loading…</string>
+    <string name="label_emailpassword">Email/Password Authentication</string>
+    <string name="desc_emailpassword">Use an email and password to authenticate with Firebase.</string>
+    <string name="sign_in">Sign In</string>
+    <string name="create_account">Create Account</string>
+    <string name="send_link">Send Link</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="verify_email">Verify Email</string>
+    <string name="disconnect">Disconnect</string>
+    <string name="loading">Loading…</string>
+    <string name="signed_in">Signed In</string>
+    <string name="signed_out">Signed Out</string>
+    <string name="token_null">Token: null</string>
+    <string name="hint_email">Email</string>
+    <string name="hint_password">Password</string>
+    <string name="desc_firebase_lockup">Firebase logo and name</string>
+    <string name="auth_failed">Authentication failed</string>
+    <string name="firebase_status_fmt">Firebase User: %s</string>
+    <string name="firebase_user_management">Firebase User Management</string>
+    <string name="emailpassword_status_fmt">Email User: %1$s (verified: %2$b)</string>
+    <string name="emailpassword_title_text">Please Login Below</string>
+    <string name="access_control">Access Control</string>
+    <string name="button_captureImage">Take a Photo</string>
+    <string name="menu_addLocation">Map</string>
+    <string name="action_myapifoodlist">API Food List</string>
+    <string name="button_filter">Filter</string>
+    <string name="amount_of_requests">Amount of Requests</string>
+    <string name="menu_barcode">Barcode Scanner</string>
+    <string name="scan_qr_code">Scan QR Code</string>
+
+    <string name="helper_activity">HelperActivity</string>
+    <string name="showing_code_in_fragment">Showing Code in Fragment</string>
+    <string name="name">Name</string>
+    <string name="empty">---</string>
+    <string name="site_name">Site Name</string>
+    <string name="scan_a_code">Scan a QR Code</string>
+    <string name="result_not_found">Result Not Found</string>
+    <string name="show_scanner_from_fragment">Show Scanner From Fragment</string>
+    <string name="lat">Lat</string>
+    <string name="lng">Lng</string>
+    <string name="action_foodideas">Food Ideas</string>
+    <string name="delete">Delete</string>
+    <string name="deleted_foodItem_wait">deleteing food item...</string>
+
+
 </resources>
